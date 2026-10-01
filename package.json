@@ -1,0 +1,14 @@
+{
+    "name": "flex",
+    "private": true,
+    "scripts": {
+        "dev": "pnpm -r --parallel --if-present run dev",
+        "dev:api": "pnpm --filter @flex/api run dev",
+        "dev:web": "pnpm --filter @flex/web run dev",
+        "dev:catalog": "pnpm --filter @flex/catalog run dev",
+        "build": "pnpm -r --if-present run build",
+        "build:api": "pnpm --filter @flex/api run build",
+        "build:web": "pnpm --filter @flex/web run build",
+        "build:catalog": "pnpm --filter @flex/catalog run build"
+    }
+}
