@@ -8,6 +8,7 @@ import { errorHandler } from './plugins/error-handler.js'
 import { rateLimitPlugin } from './plugins/rate-limit.js'
 
 import { loginRouter } from './routes/login.js'
+import { profileRouter } from './routes/profile.js'
 
 const app = express()
 const port = Number(process.env.PORT) || 3333
@@ -23,6 +24,7 @@ app.use(cookies)
 app.use(rateLimitPlugin)
 
 app.use(loginRouter)
+app.use('/profile', profileRouter)
 
 app.get('/health', (_request, response) => {
     response.json({ status: 'ok' })

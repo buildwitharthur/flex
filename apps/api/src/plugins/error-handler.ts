@@ -7,6 +7,6 @@ export const errorHandler: ErrorRequestHandler = (
     _next,
 ) => {
     response.status(500).json({
-        message: 'Internal server error',
+        message: 'Erro interno do servidor',
     })
 }

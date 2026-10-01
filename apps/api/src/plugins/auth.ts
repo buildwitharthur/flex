@@ -1,4 +1,4 @@
-import { verify } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import type { NextFunction, Request, Response } from 'express'
 
 import type { UserRole } from '../generated/prisma/client.js'
@@ -34,7 +34,7 @@ export function auth(request: Request, response: Response, next: NextFunction) {
     }
 
     try {
-        const { sub, username, role } = verify(
+        const { sub, username, role } = jwt.verify(
             token,
             process.env.JWT_SECRET as string,
         ) as Payload

@@ -5,4 +5,7 @@ export const rateLimitPlugin = rateLimit({
     limit: 100,
     standardHeaders: 'draft-8',
     legacyHeaders: false,
+    message: {
+        message: 'Muitas requisições feitas. Tente novamente mais tarde.',
+    },
 })
