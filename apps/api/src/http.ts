@@ -4,7 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 
-import { cookies } from './lib/cookies.js'
+import { cookies } from './lib/cookies/index.js'
 import { errorHandler } from './plugins/error-handler.js'
 import { rateLimitPlugin } from './plugins/rate-limit.js'
 

@@ -1,23 +1,29 @@
 {
     "name": "@flex/api",
     "private": true,
+    "type": "module",
     "scripts": {
         "dev": "tsx watch src/http.ts",
         "build": "tsc",
         "start": "node dist/http.js"
     },
     "dependencies": {
-        "cors": "^2.8.5",
+        "@prisma/adapter-pg": "^7.10.0",
+        "@prisma/client": "^7.10.0",
         "cookie-parser": "^1.4.7",
+        "cors": "^2.8.5",
         "dotenv": "^17.2.2",
         "express": "^5.1.0",
-        "express-rate-limit": "^8.2.1"
+        "express-rate-limit": "^8.2.1",
+        "pg": "^8.23.1"
     },
     "devDependencies": {
-        "@types/cors": "^2.8.19",
         "@types/cookie-parser": "^1.4.9",
+        "@types/cors": "^2.8.19",
         "@types/express": "^5.0.3",
         "@types/node": "^24.5.2",
+        "@types/pg": "^8.23.1",
+        "prisma": "^7.10.0",
         "tsx": "^4.20.5",
         "typescript": "^5.9.2"
     }
