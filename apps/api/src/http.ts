@@ -1,21 +1,24 @@
+import 'dotenv/config'
+
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 
+import { cookies } from './lib/cookies.js'
 import { errorHandler } from './plugins/error-handler.js'
 import { rateLimitPlugin } from './plugins/rate-limit.js'
-
-dotenv.config()
 
 const app = express()
 const port = Number(process.env.PORT) || 3333
 
 app.use(
     cors({
-        origin: ['http://localhost:3000', 'http://localhost:5173'],
+        origin: process.env.WEB_URL ?? 'http://localhost:5173',
+        credentials: true,
     }),
 )
 app.use(express.json())
+app.use(cookies)
 app.use(rateLimitPlugin)
 
 app.get('/health', (_request, response) => {
