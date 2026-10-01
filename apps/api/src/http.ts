@@ -1,12 +1,13 @@
 import 'dotenv/config'
 
 import cors from 'cors'
-import dotenv from 'dotenv'
 import express from 'express'
 
 import { cookies } from './lib/cookies/index.js'
 import { errorHandler } from './plugins/error-handler.js'
 import { rateLimitPlugin } from './plugins/rate-limit.js'
+
+import { loginRouter } from './routes/login.js'
 
 const app = express()
 const port = Number(process.env.PORT) || 3333
@@ -20,6 +21,8 @@ app.use(
 app.use(express.json())
 app.use(cookies)
 app.use(rateLimitPlugin)
+
+app.use(loginRouter)
 
 app.get('/health', (_request, response) => {
     response.json({ status: 'ok' })
