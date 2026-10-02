@@ -119,6 +119,9 @@
 }
 
 @theme inline {
+    --spacing-control-sm: var(--control-sm);
+    --spacing-control-md: var(--control-md);
+    --spacing-control-lg: var(--control-lg);
     --spacing-0_5: var(--space-0-5);
     --spacing-1: var(--space-1);
     --spacing-1_5: var(--space-1-5);
@@ -131,6 +134,8 @@
     --spacing-10: var(--space-10);
     --spacing-12: var(--space-12);
     --spacing-16: var(--space-16);
+    --transition-duration-fast: var(--duration-fast);
+    --transition-duration-base: var(--duration-base);
 }
 
 @layer base {
@@ -279,6 +284,16 @@
 @keyframes spin {
     to {
         transform: rotate(360deg);
+    }
+}
+
+@keyframes shimmer {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: -100% 0;
     }
 }
 
