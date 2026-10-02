@@ -3,21 +3,12 @@ import { useEffect, useId, useState } from 'react'
 import { Link, useMatchRoute } from '@tanstack/react-router'
 
 import { cn } from '../../../lib/cn'
-
-export type SidebarNavChild = {
-    label: string
-    to:
-        | '/app/partners/overview'
-        | '/app/partners'
-        | '/app/partners/categories'
-        | '/app/contacts/pipeline'
-        | '/app/contacts'
-}
+import type { AppNavigationChild } from './app-navigation'
 
 type SidebarNavItemProps = {
     label: string
     icon: LucideIcon
-    children: SidebarNavChild[]
+    children: AppNavigationChild[]
 }
 
 export function SidebarNavItem({

@@ -1,35 +1,5 @@
-import { Contact, Store, type LucideIcon } from 'lucide-react'
-
-import {
-    SidebarNavItem,
-    type SidebarNavChild,
-} from './sidebar-nav-item'
-
-type SidebarModule = {
-    label: string
-    icon: LucideIcon
-    children: SidebarNavChild[]
-}
-
-const sidebarModules: SidebarModule[] = [
-    {
-        label: 'Parceiros',
-        icon: Store,
-        children: [
-            { label: 'Visão geral', to: '/app/partners/overview' },
-            { label: 'Parceiros', to: '/app/partners' },
-            { label: 'Categorias', to: '/app/partners/categories' },
-        ],
-    },
-    {
-        label: 'Contatos',
-        icon: Contact,
-        children: [
-            { label: 'Pipeline', to: '/app/contacts/pipeline' },
-            { label: 'Todos os contatos', to: '/app/contacts' },
-        ],
-    },
-]
+import { appNavigation } from './app-navigation'
+import { SidebarNavItem } from './sidebar-nav-item'
 
 export function SidebarNav() {
     return (
@@ -39,7 +9,7 @@ export function SidebarNav() {
             </span>
 
             <div className="grid gap-0.5">
-                {sidebarModules.map((item) => (
+                {appNavigation.map((item) => (
                     <SidebarNavItem
                         key={item.label}
                         icon={item.icon}
