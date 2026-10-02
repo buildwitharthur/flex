@@ -4,7 +4,7 @@ import { auth } from '../plugins/auth.js'
 
 export const profileRouter = Router()
 
-profileRouter.get('/', auth, (request, response) => {
+profileRouter.get('/profile', auth, (request, response) => {
     return response.status(200).json({
         user: request.auth,
     })
