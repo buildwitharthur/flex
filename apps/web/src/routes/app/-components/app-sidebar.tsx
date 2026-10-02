@@ -1,4 +1,5 @@
 import { SidebarNav } from './sidebar-nav'
+import { ProfileDropdown } from './profile-dropdown'
 
 export function AppSidebar() {
     return (
@@ -24,6 +25,10 @@ export function AppSidebar() {
 
             <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
                 <SidebarNav />
+            </div>
+
+            <div className="mt-auto border-t border-sidebar-border p-3">
+                <ProfileDropdown />
             </div>
         </aside>
     )
