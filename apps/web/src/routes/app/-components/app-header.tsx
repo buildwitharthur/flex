@@ -10,7 +10,15 @@ import {
 import { appNavigation } from './app-navigation'
 import { SidebarToggle } from './sidebar-toggle'
 
-export function AppHeader() {
+type AppHeaderProps = {
+    collapsed: boolean
+    onToggleSidebar: () => void
+}
+
+export function AppHeader({
+    collapsed,
+    onToggleSidebar,
+}: AppHeaderProps) {
     const pathname = useLocation({
         select: (location) => location.pathname,
     })
@@ -31,7 +39,10 @@ export function AppHeader() {
 
     return (
         <header className="sticky top-0 z-[20] flex h-[var(--header-height)] min-h-[var(--header-height)] items-center gap-2 border-b border-border bg-background pl-3 pr-8">
-            <SidebarToggle />
+            <SidebarToggle
+                collapsed={collapsed}
+                onToggle={onToggleSidebar}
+            />
 
             <div
                 aria-hidden="true"

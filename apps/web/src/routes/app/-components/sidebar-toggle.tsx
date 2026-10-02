@@ -2,14 +2,20 @@ import { PanelLeft } from 'lucide-react'
 
 import { Button } from '../../../components/ui/button'
 
-export function SidebarToggle() {
+type SidebarToggleProps = {
+    collapsed: boolean
+    onToggle: () => void
+}
+
+export function SidebarToggle({ collapsed, onToggle }: SidebarToggleProps) {
     return (
         <Button
-            aria-label="Recolher menu"
-            className="size-8 min-w-6 p-0"
+            aria-label={collapsed ? 'Expandir menu' : 'Recolher menu'}
+            className="size-8 min-w-8 p-0"
             size="icon"
-            title="Recolher menu"
+            title={collapsed ? 'Expandir menu' : 'Recolher menu'}
             variant="ghost"
+            onClick={onToggle}
         >
             <PanelLeft
                 aria-hidden="true"

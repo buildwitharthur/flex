@@ -9,7 +9,13 @@ import {
     DropdownMenuTrigger,
 } from '../../../components/ui/dropdown-menu'
 import { Avatar } from '../../../components/ui/avatar'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from '../../../components/ui/tooltip'
 import { getProfile, type UserRole } from '../../../http/get-profile'
+import { cn } from '../../../lib/cn'
 
 const roleLabels: Record<UserRole, string> = {
     ADMIN: 'Administrador',
@@ -30,7 +36,11 @@ function getInitials(username: string) {
     return username.slice(0, 2).toUpperCase()
 }
 
-export function ProfileDropdown() {
+type ProfileDropdownProps = {
+    collapsed: boolean
+}
+
+export function ProfileDropdown({ collapsed }: ProfileDropdownProps) {
     const { data } = useQuery({
         queryKey: ['profile'],
         queryFn: getProfile,
@@ -44,34 +54,53 @@ export function ProfileDropdown() {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <button
-                    aria-label="Abrir menu do usuário"
-                    className="flex h-11 w-full items-center gap-2 rounded-md border-0 bg-transparent px-2 text-left outline-none transition-colors duration-fast hover:bg-sidebar-hover data-[state=open]:bg-sidebar-hover focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus"
-                    type="button"
-                >
-                    <Avatar variant="user">{getInitials(username)}</Avatar>
+            <Tooltip>
+                <DropdownMenuTrigger asChild>
+                    <TooltipTrigger asChild>
+                        <button
+                            aria-label="Abrir menu do usuário"
+                            className={cn(
+                                'flex h-11 w-full items-center gap-2 rounded-md border-0 bg-transparent px-2 text-left outline-none transition-colors duration-fast hover:bg-sidebar-hover data-[state=open]:bg-sidebar-hover focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus',
+                                collapsed && 'size-8 justify-center px-0',
+                            )}
+                            type="button"
+                        >
+                            <Avatar variant="user">{getInitials(username)}</Avatar>
 
-                    <span className="min-w-0 flex-1">
-                        <span className="block truncate font-body text-[13px] leading-4 font-semibold text-sidebar-foreground">
-                            {username}
-                        </span>
-                        <span className="block truncate font-body text-xs leading-4 text-sidebar-muted">
-                            {roleLabels[role]}
-                        </span>
-                    </span>
+                            {!collapsed ? (
+                                <span className="min-w-0 flex-1">
+                                    <span className="block truncate font-body text-[13px] leading-4 font-semibold text-sidebar-foreground">
+                                        {username}
+                                    </span>
+                                    <span className="block truncate font-body text-xs leading-4 text-sidebar-muted">
+                                        {roleLabels[role]}
+                                    </span>
+                                </span>
+                            ) : null}
 
-                    <ChevronsUpDown
-                        aria-hidden="true"
-                        className="size-4 shrink-0 text-sidebar-muted"
-                        strokeWidth={1.8}
-                    />
-                </button>
-            </DropdownMenuTrigger>
+                            {!collapsed ? (
+                                <ChevronsUpDown
+                                    aria-hidden="true"
+                                    className="size-4 shrink-0 text-sidebar-muted"
+                                    strokeWidth={1.8}
+                                />
+                            ) : null}
+                        </button>
+                    </TooltipTrigger>
+                </DropdownMenuTrigger>
+                {collapsed ? (
+                    <TooltipContent side="right">{username}</TooltipContent>
+                ) : null}
+            </Tooltip>
 
             <DropdownMenuContent
                 align="start"
-                className="w-[var(--radix-dropdown-menu-trigger-width)] min-w-0"
+                className={cn(
+                    'min-w-0',
+                    collapsed
+                        ? 'w-[216px]'
+                        : 'w-[var(--radix-dropdown-menu-trigger-width)]',
+                )}
                 side="top"
                 sideOffset={6}
             >
