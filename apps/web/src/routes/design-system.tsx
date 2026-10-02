@@ -1,5 +1,6 @@
 import { Plus, Star } from 'lucide-react'
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
+import type { CheckedState } from '@radix-ui/react-checkbox'
 import { createFileRoute } from '@tanstack/react-router'
 
 import {
@@ -12,7 +13,11 @@ import { Badge } from '../components/ui/badge'
 import { Button } from '../components/ui/button'
 import { FieldError, FieldHelper, Label } from '../components/ui/label'
 import { Input } from '../components/ui/input'
+import { Checkbox } from '../components/ui/checkbox'
+import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group'
+import { Select } from '../components/ui/select'
 import { Skeleton } from '../components/ui/skeleton'
+import { Switch } from '../components/ui/switch'
 import { Textarea } from '../components/ui/textarea'
 
 export const Route = createFileRoute('/design-system')({
@@ -35,6 +40,11 @@ function ShowcaseSection({
 }
 
 function DesignSystemShowcase() {
+  const [checkboxState, setCheckboxState] = useState<CheckedState>('indeterminate')
+  const [role, setRole] = useState('staff')
+  const [active, setActive] = useState(false)
+  const [featured, setFeatured] = useState(true)
+
   return (
     <main className="min-h-screen bg-background px-6 py-10 text-foreground">
       <div className="mx-auto grid max-w-[960px] gap-10">
@@ -90,6 +100,97 @@ function DesignSystemShowcase() {
             <Textarea size="compact" placeholder="Observação compacta" />
             <Textarea placeholder="Desabilitado" disabled />
             <Textarea defaultValue="Inválido" aria-invalid="true" />
+          </div>
+        </ShowcaseSection>
+
+        <ShowcaseSection title="Select">
+          <div className="grid w-full max-w-[420px] gap-3">
+            <Select defaultValue="">
+              <option value="">Selecione uma categoria</option>
+              <option value="health">Saúde</option>
+              <option value="food">Alimentação</option>
+            </Select>
+            <Select defaultValue="health">
+              <option value="health">Saúde</option>
+              <option value="food">Alimentação</option>
+            </Select>
+            <Select size="sm" defaultValue="food" aria-label="Categoria compacta">
+              <option value="health">Saúde</option>
+              <option value="food">Alimentação</option>
+            </Select>
+            <Select disabled defaultValue="">
+              <option value="">Desabilitado</option>
+            </Select>
+            <Select aria-invalid="true" defaultValue="">
+              <option value="">Selecione uma categoria</option>
+            </Select>
+          </div>
+        </ShowcaseSection>
+
+        <ShowcaseSection title="Checkbox">
+          <div className="grid w-full gap-4">
+            <div className="flex min-h-6 items-center gap-2 py-0.5">
+              <Checkbox
+                checked={checkboxState}
+                onCheckedChange={setCheckboxState}
+                aria-label="Checkbox interativo"
+              />
+              <Label>Ativo</Label>
+              <FieldHelper>Permite exibir este item no catálogo.</FieldHelper>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Checkbox aria-label="Não marcado" />
+              <Checkbox defaultChecked aria-label="Marcado" />
+              <Checkbox checked="indeterminate" aria-label="Indeterminado" />
+              <Checkbox disabled aria-label="Desabilitado não marcado" />
+              <Checkbox disabled defaultChecked aria-label="Desabilitado marcado" />
+              <Checkbox aria-invalid="true" aria-label="Inválido" />
+            </div>
+          </div>
+        </ShowcaseSection>
+
+        <ShowcaseSection title="Radio">
+          <RadioGroup
+            value={role}
+            onValueChange={setRole}
+            aria-label="Função"
+            className="grid gap-2"
+          >
+            <div className="flex min-h-6 items-center gap-2 py-0.5">
+              <RadioGroupItem value="admin" id="showcase-admin" />
+              <Label htmlFor="showcase-admin">Administrador</Label>
+            </div>
+            <div className="flex min-h-6 items-center gap-2 py-0.5">
+              <RadioGroupItem value="staff" id="showcase-staff" />
+              <Label htmlFor="showcase-staff">Colaborador</Label>
+            </div>
+            <div className="flex min-h-6 items-center gap-2 py-0.5">
+              <RadioGroupItem disabled value="disabled" id="showcase-disabled" />
+              <Label htmlFor="showcase-disabled">Desabilitado</Label>
+            </div>
+          </RadioGroup>
+        </ShowcaseSection>
+
+        <ShowcaseSection title="Switch">
+          <div className="grid w-full max-w-[520px] gap-3">
+            <div className="flex items-start gap-3">
+              <Switch id="showcase-active" checked={active} onCheckedChange={setActive} aria-label="Ativo" />
+              <div className="grid gap-0.5">
+                <Label htmlFor="showcase-active">Ativo</Label>
+                <p className="t-small muted">Quando ativo, o parceiro pode aparecer no catálogo público.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Switch id="showcase-featured" checked={featured} onCheckedChange={setFeatured} aria-label="Em destaque" />
+              <div className="grid gap-0.5">
+                <Label htmlFor="showcase-featured">Em destaque</Label>
+                <p className="t-small muted">Exibe o parceiro em áreas de destaque do catálogo.</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Switch disabled aria-label="Desabilitado desligado" />
+              <Switch disabled defaultChecked aria-label="Desabilitado ligado" />
+            </div>
           </div>
         </ShowcaseSection>
 
