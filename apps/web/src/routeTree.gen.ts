@@ -9,9 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AppLayoutRouteImport } from './routes/app/layout'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 
+const AppLayoutRoute = AppLayoutRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DesignSystemRoute = DesignSystemRouteImport.update({
   id: '/design-system',
   path: '/design-system',
@@ -24,33 +30,44 @@ const LoginIndexRoute = LoginIndexRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/app': typeof AppLayoutRoute
   '/design-system': typeof DesignSystemRoute
   '/login/': typeof LoginIndexRoute
 }
 export interface FileRoutesByTo {
+  '/app': typeof AppLayoutRoute
   '/design-system': typeof DesignSystemRoute
   '/login': typeof LoginIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/app': typeof AppLayoutRoute
   '/design-system': typeof DesignSystemRoute
   '/login/': typeof LoginIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/design-system' | '/login/'
+  fullPaths: '/app' | '/design-system' | '/login/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/design-system' | '/login'
-  id: '__root__' | '/design-system' | '/login/'
+  to: '/app' | '/design-system' | '/login'
+  id: '__root__' | '/app' | '/design-system' | '/login/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  AppLayoutRoute: typeof AppLayoutRoute
   DesignSystemRoute: typeof DesignSystemRoute
   LoginIndexRoute: typeof LoginIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppLayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/design-system': {
       id: '/design-system'
       path: '/design-system'
@@ -69,6 +86,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  AppLayoutRoute: AppLayoutRoute,
   DesignSystemRoute: DesignSystemRoute,
   LoginIndexRoute: LoginIndexRoute,
 }
