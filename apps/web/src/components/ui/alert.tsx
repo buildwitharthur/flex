@@ -39,16 +39,17 @@ type AlertProps = HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVari
 
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
   function Alert({ className, variant = 'info', role, children, ...props }, ref) {
-    const Icon = alertIcon[variant]
+    const alertVariant = variant ?? 'info'
+    const Icon = alertIcon[alertVariant]
 
     return (
       <div
         ref={ref}
-        role={role ?? (variant === 'danger' ? 'alert' : 'status')}
-        className={cn(alertVariants({ variant }), className)}
+        role={role ?? (alertVariant === 'danger' ? 'alert' : 'status')}
+        className={cn(alertVariants({ variant: alertVariant }), className)}
         {...props}
       >
-        <Icon aria-hidden="true" className={cn('mt-0.5 size-[18px]', alertIconColors[variant])} />
+        <Icon aria-hidden="true" className={cn('mt-0.5 size-[18px]', alertIconColors[alertVariant])} />
         <div className="min-w-0">{children}</div>
       </div>
     )
