@@ -4,7 +4,7 @@ export const Route = createFileRoute('/')({ component: Home })
 
 function Home() {
   return (
-    <main>
+    <main className="p-6">
       <h1>Flex Admin</h1>
     </main>
   )
