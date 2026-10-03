@@ -13,6 +13,8 @@ type CreatePartnerRequest = {
     couponCode?: string
     redemptionInstructions?: string
     categoryId: string
+    isActive?: boolean
+    isFeatured?: boolean
 }
 
 type CreatePartnerResponse = {

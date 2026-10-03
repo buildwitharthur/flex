@@ -91,7 +91,7 @@ export function PartnerForm({
         <form
             noValidate
             onSubmit={handleSubmit(onSubmit)}
-            className="grid max-w-[960px] gap-8"
+            className="grid gap-8"
         >
             <section className="grid gap-5">
                 <div className="grid gap-1">
@@ -140,7 +140,7 @@ export function PartnerForm({
                                 </Label>
                                 <Suspense
                                     fallback={
-                                        <Skeleton className="h-control-md w-full rounded-md" />
+                                        <div>Carregando categorias...</div>
                                     }
                                 >
                                     <ListCategoriesSelect
@@ -340,7 +340,7 @@ export function PartnerForm({
                     control={control}
                     name="couponCode"
                     render={({ field }) => (
-                        <div className="grid gap-1.5 sm:w-1/2 sm:pr-2.5">
+                        <div className="grid gap-1.5  sm:pr-2.5">
                             <Label htmlFor="partner-coupon">
                                 Código do cupom
                             </Label>

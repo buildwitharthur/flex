@@ -17,6 +17,7 @@ import { Route as AppContactsPipelineRouteImport } from './routes/app/contacts/p
 import { Route as AppPartnersIndexRouteImport } from './routes/app/partners/index'
 import { Route as AppPartnersOverviewRouteImport } from './routes/app/partners/overview'
 import { Route as AppPartnersCategoriesIndexRouteImport } from './routes/app/partners/categories/index'
+import { Route as AppPartnersNewIndexRouteImport } from './routes/app/partners/new/index'
 
 const AppLayoutRoute = AppLayoutRouteImport.update({
   id: '/app',
@@ -59,6 +60,11 @@ const AppPartnersCategoriesIndexRoute =
     path: '/partners/categories/',
     getParentRoute: () => AppLayoutRoute,
   } as any)
+const AppPartnersNewIndexRoute = AppPartnersNewIndexRouteImport.update({
+  id: '/partners/new/',
+  path: '/partners/new/',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/app': typeof AppLayoutRouteWithChildren
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/app/contacts/': typeof AppContactsIndexRoute
   '/app/partners/': typeof AppPartnersIndexRoute
   '/app/partners/categories/': typeof AppPartnersCategoriesIndexRoute
+  '/app/partners/new/': typeof AppPartnersNewIndexRoute
 }
 export interface FileRoutesByTo {
   '/app': typeof AppLayoutRouteWithChildren
@@ -79,6 +86,7 @@ export interface FileRoutesByTo {
   '/app/contacts': typeof AppContactsIndexRoute
   '/app/partners': typeof AppPartnersIndexRoute
   '/app/partners/categories': typeof AppPartnersCategoriesIndexRoute
+  '/app/partners/new': typeof AppPartnersNewIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -90,6 +98,7 @@ export interface FileRoutesById {
   '/app/contacts/': typeof AppContactsIndexRoute
   '/app/partners/': typeof AppPartnersIndexRoute
   '/app/partners/categories/': typeof AppPartnersCategoriesIndexRoute
+  '/app/partners/new/': typeof AppPartnersNewIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -102,6 +111,7 @@ export interface FileRouteTypes {
     | '/app/contacts/'
     | '/app/partners/'
     | '/app/partners/categories/'
+    | '/app/partners/new/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/app'
@@ -112,6 +122,7 @@ export interface FileRouteTypes {
     | '/app/contacts'
     | '/app/partners'
     | '/app/partners/categories'
+    | '/app/partners/new'
   id:
     | '__root__'
     | '/app'
@@ -122,6 +133,7 @@ export interface FileRouteTypes {
     | '/app/contacts/'
     | '/app/partners/'
     | '/app/partners/categories/'
+    | '/app/partners/new/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -188,6 +200,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPartnersCategoriesIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
+    '/app/partners/new/': {
+      id: '/app/partners/new/'
+      path: '/partners/new'
+      fullPath: '/app/partners/new/'
+      preLoaderRoute: typeof AppPartnersNewIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
   }
 }
 
@@ -197,6 +216,7 @@ interface AppLayoutRouteChildren {
   AppContactsIndexRoute: typeof AppContactsIndexRoute
   AppPartnersIndexRoute: typeof AppPartnersIndexRoute
   AppPartnersCategoriesIndexRoute: typeof AppPartnersCategoriesIndexRoute
+  AppPartnersNewIndexRoute: typeof AppPartnersNewIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
@@ -205,6 +225,7 @@ const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppContactsIndexRoute: AppContactsIndexRoute,
   AppPartnersIndexRoute: AppPartnersIndexRoute,
   AppPartnersCategoriesIndexRoute: AppPartnersCategoriesIndexRoute,
+  AppPartnersNewIndexRoute: AppPartnersNewIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(

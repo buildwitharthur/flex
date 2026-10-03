@@ -22,6 +22,8 @@ const createPartnerSchema = z.strictObject({
     couponCode: optionalTextSchema,
     redemptionInstructions: optionalTextSchema,
     categoryId: categoryIdSchema,
+    isActive: z.boolean().optional(),
+    isFeatured: z.boolean().optional(),
 })
 
 export const createPartner: RequestHandler = async (request, response) => {
@@ -46,6 +48,8 @@ export const createPartner: RequestHandler = async (request, response) => {
         couponCode,
         redemptionInstructions,
         categoryId,
+        isActive,
+        isFeatured,
     } = result.data
     const slug = slugify(name, {
         lower: true,
@@ -88,6 +92,8 @@ export const createPartner: RequestHandler = async (request, response) => {
             couponCode,
             redemptionInstructions,
             categoryId,
+            isActive,
+            isFeatured,
         },
         include: {
             category: {
