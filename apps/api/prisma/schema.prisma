@@ -27,12 +27,39 @@ model User {
 }
 
 model Category {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  slug      String   @unique
+  id        String    @id @default(cuid())
+  name      String    @unique
+  slug      String    @unique
   icon      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  partners  Partner[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@map("categories")
+}
+
+model Partner {
+  id                     String   @id @default(cuid())
+  name                   String
+  slug                   String   @unique
+  description            String   @db.Text
+  shortDescription       String?
+  discount               String
+  address                String?
+  phone                  String?
+  whatsapp               String?
+  logoUrl                String?
+  websiteUrl             String?
+  couponCode             String?
+  redemptionInstructions String?  @db.Text
+  isActive               Boolean  @default(true)
+  isFeatured             Boolean  @default(false)
+  categoryId             String
+  category               Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([isActive])
+  @@map("partners")
 }
