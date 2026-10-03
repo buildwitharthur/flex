@@ -1,8 +1,13 @@
-import { Ellipsis, Star } from 'lucide-react'
+import { Star } from 'lucide-react'
 
 import { Avatar } from '#/components/ui/avatar'
 import { Badge } from '#/components/ui/badge'
-import { Button } from '#/components/ui/button'
+import {
+    Pagination,
+    PaginationButton,
+    PaginationContent,
+    PaginationInfo,
+} from '#/components/ui/pagination'
 import {
     Table,
     TableBody,
@@ -13,9 +18,15 @@ import {
     TableRow,
     TableScroll,
 } from '#/components/ui/table'
+import { PartnerAction } from './partner-action'
 
 type PartnersDataProps = {
     partners: Partner[]
+    page: number
+    pageSize: number
+    totalItems: number
+    totalPages: number
+    onPageChange: (page: number) => void
 }
 
 const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
@@ -55,7 +66,17 @@ function getInitials(name: string) {
     return letters.slice(0, 2).join('').toLocaleUpperCase('pt-BR')
 }
 
-export function PartnersData({ partners }: PartnersDataProps) {
+export function PartnersData({
+    partners,
+    page,
+    pageSize,
+    totalItems,
+    totalPages,
+    onPageChange,
+}: PartnersDataProps) {
+    const from = (page - 1) * pageSize + 1
+    const to = Math.min(page * pageSize, totalItems)
+
     return (
         <TableContainer className="min-w-0 rounded-xl">
             <TableScroll>
@@ -128,17 +149,7 @@ export function PartnersData({ partners }: PartnersDataProps) {
                                         {formatDate(partner.updatedAt)}
                                     </TableCell>
                                     <TableCell className="text-right">
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="h-8 w-8 min-w-8"
-                                            aria-label="Ações do parceiro"
-                                        >
-                                            <Ellipsis
-                                                aria-hidden="true"
-                                                className="size-4"
-                                            />
-                                        </Button>
+                                        <PartnerAction partner={partner} />
                                     </TableCell>
                                 </TableRow>
                             ))
@@ -146,6 +157,43 @@ export function PartnersData({ partners }: PartnersDataProps) {
                     </TableBody>
                 </Table>
             </TableScroll>
+
+            {totalItems > pageSize ? (
+                <Pagination>
+                    <PaginationInfo>
+                        {from}–{to} de {totalItems}
+                    </PaginationInfo>
+
+                    <PaginationContent>
+                        <PaginationButton
+                            disabled={page <= 1}
+                            onClick={() => onPageChange(page - 1)}
+                        >
+                            Anterior
+                        </PaginationButton>
+                        {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                            (pageNumber) => (
+                                <PaginationButton
+                                    key={pageNumber}
+                                    active={pageNumber === page}
+                                    aria-current={
+                                        pageNumber === page ? 'page' : undefined
+                                    }
+                                    onClick={() => onPageChange(pageNumber)}
+                                >
+                                    {pageNumber}
+                                </PaginationButton>
+                            ),
+                        )}
+                        <PaginationButton
+                            disabled={page >= totalPages}
+                            onClick={() => onPageChange(page + 1)}
+                        >
+                            Próxima
+                        </PaginationButton>
+                    </PaginationContent>
+                </Pagination>
+            ) : null}
         </TableContainer>
     )
 }

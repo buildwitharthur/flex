@@ -1,9 +1,11 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { parseAsInteger, useQueryState } from 'nuqs'
+import { useEffect, useMemo } from 'react'
 
 import { getPartners } from '#/http/get-partners'
 import { PartnersData } from './partners-data'
-import { useQueryState } from 'nuqs'
-import { useMemo } from 'react'
+
+const PAGE_SIZE = 20
 
 export function PartnersList() {
     const { data } = useSuspenseQuery({
@@ -15,7 +17,15 @@ export function PartnersList() {
         defaultValue: '',
     })
 
-    const partners = useMemo(() => {
+    const [page, setPage] = useQueryState(
+        'page',
+        parseAsInteger.withDefault(1).withOptions({
+            clearOnDefault: true,
+            history: 'push',
+        }),
+    )
+
+    const filteredPartners = useMemo(() => {
         const normalizedSearch = search.trim().toLocaleLowerCase('pt-BR')
 
         if (!normalizedSearch) {
@@ -27,5 +37,31 @@ export function PartnersList() {
         )
     }, [data.partners, search])
 
-    return <PartnersData partners={partners} />
+    const totalItems = filteredPartners.length
+    const totalPages = Math.ceil(totalItems / PAGE_SIZE)
+    const lastPage = Math.max(1, totalPages)
+    const currentPage = Math.min(Math.max(page, 1), lastPage)
+    const startIndex = (currentPage - 1) * PAGE_SIZE
+    const partners = filteredPartners.slice(startIndex, startIndex + PAGE_SIZE)
+
+    useEffect(() => {
+        if (page !== currentPage) {
+            void setPage(currentPage, { history: 'replace' })
+        }
+    }, [page, currentPage, setPage])
+
+    function handlePageChange(nextPage: number) {
+        void setPage(nextPage)
+    }
+
+    return (
+        <PartnersData
+            partners={partners}
+            page={currentPage}
+            pageSize={PAGE_SIZE}
+            totalItems={totalItems}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+        />
+    )
 }
