@@ -1,0 +1,96 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useState, type ReactNode } from 'react'
+
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogBody,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '#/components/ui/alert-dialog'
+import { Alert, AlertDescription, AlertTitle } from '#/components/ui/alert'
+import { deleteCategory } from '#/http/delete-category'
+
+type DeleteCategoryAlertProps = {
+    categoryId: string
+    categoryName: string
+    children: ReactNode
+}
+
+export function DeleteCategoryAlert({
+    categoryId,
+    categoryName,
+    children,
+}: DeleteCategoryAlertProps) {
+    const queryClient = useQueryClient()
+    const [open, setOpen] = useState(false)
+    const mutation = useMutation({
+        mutationFn: deleteCategory,
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['categories'] })
+            setOpen(false)
+        },
+    })
+
+    function handleOpenChange(nextOpen: boolean) {
+        if (!nextOpen && mutation.isPending) {
+            return
+        }
+
+        setOpen(nextOpen)
+
+        if (!nextOpen) {
+            mutation.reset()
+        }
+    }
+
+    return (
+        <AlertDialog open={open} onOpenChange={handleOpenChange}>
+            <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+            <AlertDialogContent size="confirmation">
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Excluir categoria</AlertDialogTitle>
+                    <AlertDialogDescription>
+                        Tem certeza que deseja excluir a categoria “{categoryName}”? Esta ação não pode ser desfeita.
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+
+                <AlertDialogBody>
+                    {mutation.error ? (
+                        <Alert variant="danger">
+                            <AlertTitle>Não foi possível excluir a categoria</AlertTitle>
+                            <AlertDescription>
+                                {mutation.error.message}
+                            </AlertDescription>
+                        </Alert>
+                    ) : null}
+                </AlertDialogBody>
+
+                <AlertDialogFooter>
+                    <AlertDialogCancel
+                        type="button"
+                        disabled={mutation.isPending}
+                    >
+                        Cancelar
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                        type="button"
+                        variant="destructive"
+                        disabled={mutation.isPending}
+                        onClick={(event) => {
+                            event.preventDefault()
+                            mutation.mutate(categoryId)
+                        }}
+                    >
+                        {mutation.isPending ? 'Excluindo...' : 'Excluir categoria'}
+                    </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    )
+}
