@@ -7,7 +7,19 @@ export const getCategories: RequestHandler = async (_request, response) => {
         orderBy: {
             name: 'asc',
         },
+        include: {
+            _count: {
+                select: {
+                    partners: true,
+                },
+            },
+        },
     })
 
-    return response.status(200).json({ categories })
+    return response.status(200).json({
+        categories: categories.map(({ _count, ...category }) => ({
+            ...category,
+            partnersCount: _count.partners,
+        })),
+    })
 }

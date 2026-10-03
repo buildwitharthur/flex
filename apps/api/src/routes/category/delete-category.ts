@@ -19,11 +19,25 @@ export const deleteCategory: RequestHandler = async (request, response) => {
     const { id } = paramsResult.data
     const existingCategory = await prisma.category.findUnique({
         where: { id },
+        include: {
+            _count: {
+                select: {
+                    partners: true,
+                },
+            },
+        },
     })
 
     if (!existingCategory) {
         return response.status(404).json({
             message: 'Categoria não encontrada',
+        })
+    }
+
+    if (existingCategory._count.partners > 0) {
+        return response.status(409).json({
+            message:
+                'Não é possível excluir uma categoria que possui parceiros vinculados',
         })
     }
 
