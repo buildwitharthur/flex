@@ -15,8 +15,8 @@ import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as AppContactsIndexRouteImport } from './routes/app/contacts/index'
 import { Route as AppContactsPipelineRouteImport } from './routes/app/contacts/pipeline'
 import { Route as AppPartnersIndexRouteImport } from './routes/app/partners/index'
-import { Route as AppPartnersCategoriesRouteImport } from './routes/app/partners/categories'
 import { Route as AppPartnersOverviewRouteImport } from './routes/app/partners/overview'
+import { Route as AppPartnersCategoriesIndexRouteImport } from './routes/app/partners/categories/index'
 
 const AppLayoutRoute = AppLayoutRouteImport.update({
   id: '/app',
@@ -48,36 +48,37 @@ const AppPartnersIndexRoute = AppPartnersIndexRouteImport.update({
   path: '/partners/',
   getParentRoute: () => AppLayoutRoute,
 } as any)
-const AppPartnersCategoriesRoute = AppPartnersCategoriesRouteImport.update({
-  id: '/partners/categories',
-  path: '/partners/categories',
-  getParentRoute: () => AppLayoutRoute,
-} as any)
 const AppPartnersOverviewRoute = AppPartnersOverviewRouteImport.update({
   id: '/partners/overview',
   path: '/partners/overview',
   getParentRoute: () => AppLayoutRoute,
 } as any)
+const AppPartnersCategoriesIndexRoute =
+  AppPartnersCategoriesIndexRouteImport.update({
+    id: '/partners/categories/',
+    path: '/partners/categories/',
+    getParentRoute: () => AppLayoutRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/app': typeof AppLayoutRouteWithChildren
   '/design-system': typeof DesignSystemRoute
   '/login/': typeof LoginIndexRoute
   '/app/contacts/pipeline': typeof AppContactsPipelineRoute
-  '/app/partners/categories': typeof AppPartnersCategoriesRoute
   '/app/partners/overview': typeof AppPartnersOverviewRoute
   '/app/contacts/': typeof AppContactsIndexRoute
   '/app/partners/': typeof AppPartnersIndexRoute
+  '/app/partners/categories/': typeof AppPartnersCategoriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/app': typeof AppLayoutRouteWithChildren
   '/design-system': typeof DesignSystemRoute
   '/login': typeof LoginIndexRoute
   '/app/contacts/pipeline': typeof AppContactsPipelineRoute
-  '/app/partners/categories': typeof AppPartnersCategoriesRoute
   '/app/partners/overview': typeof AppPartnersOverviewRoute
   '/app/contacts': typeof AppContactsIndexRoute
   '/app/partners': typeof AppPartnersIndexRoute
+  '/app/partners/categories': typeof AppPartnersCategoriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -85,10 +86,10 @@ export interface FileRoutesById {
   '/design-system': typeof DesignSystemRoute
   '/login/': typeof LoginIndexRoute
   '/app/contacts/pipeline': typeof AppContactsPipelineRoute
-  '/app/partners/categories': typeof AppPartnersCategoriesRoute
   '/app/partners/overview': typeof AppPartnersOverviewRoute
   '/app/contacts/': typeof AppContactsIndexRoute
   '/app/partners/': typeof AppPartnersIndexRoute
+  '/app/partners/categories/': typeof AppPartnersCategoriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,30 +98,30 @@ export interface FileRouteTypes {
     | '/design-system'
     | '/login/'
     | '/app/contacts/pipeline'
-    | '/app/partners/categories'
     | '/app/partners/overview'
     | '/app/contacts/'
     | '/app/partners/'
+    | '/app/partners/categories/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/app'
     | '/design-system'
     | '/login'
     | '/app/contacts/pipeline'
-    | '/app/partners/categories'
     | '/app/partners/overview'
     | '/app/contacts'
     | '/app/partners'
+    | '/app/partners/categories'
   id:
     | '__root__'
     | '/app'
     | '/design-system'
     | '/login/'
     | '/app/contacts/pipeline'
-    | '/app/partners/categories'
     | '/app/partners/overview'
     | '/app/contacts/'
     | '/app/partners/'
+    | '/app/partners/categories/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -173,13 +174,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPartnersIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
-    '/app/partners/categories': {
-      id: '/app/partners/categories'
-      path: '/partners/categories'
-      fullPath: '/app/partners/categories'
-      preLoaderRoute: typeof AppPartnersCategoriesRouteImport
-      parentRoute: typeof AppLayoutRoute
-    }
     '/app/partners/overview': {
       id: '/app/partners/overview'
       path: '/partners/overview'
@@ -187,23 +181,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPartnersOverviewRouteImport
       parentRoute: typeof AppLayoutRoute
     }
+    '/app/partners/categories/': {
+      id: '/app/partners/categories/'
+      path: '/partners/categories'
+      fullPath: '/app/partners/categories/'
+      preLoaderRoute: typeof AppPartnersCategoriesIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
   }
 }
 
 interface AppLayoutRouteChildren {
   AppContactsPipelineRoute: typeof AppContactsPipelineRoute
-  AppPartnersCategoriesRoute: typeof AppPartnersCategoriesRoute
   AppPartnersOverviewRoute: typeof AppPartnersOverviewRoute
   AppContactsIndexRoute: typeof AppContactsIndexRoute
   AppPartnersIndexRoute: typeof AppPartnersIndexRoute
+  AppPartnersCategoriesIndexRoute: typeof AppPartnersCategoriesIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
   AppContactsPipelineRoute: AppContactsPipelineRoute,
-  AppPartnersCategoriesRoute: AppPartnersCategoriesRoute,
   AppPartnersOverviewRoute: AppPartnersOverviewRoute,
   AppContactsIndexRoute: AppContactsIndexRoute,
   AppPartnersIndexRoute: AppPartnersIndexRoute,
+  AppPartnersCategoriesIndexRoute: AppPartnersCategoriesIndexRoute,
 }
 
 const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
