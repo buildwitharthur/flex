@@ -1,14 +1,56 @@
 import { useDraggable } from '@dnd-kit/core'
-import { Ellipsis } from 'lucide-react'
+import {
+    CheckCircle2,
+    Copy,
+    Ellipsis,
+    MessageCircle,
+    XCircle,
+} from 'lucide-react'
 import type { ComponentPropsWithoutRef, Ref } from 'react'
+import { toast } from 'sonner'
 
 import { Button } from '#/components/ui/button'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '#/components/ui/dropdown-menu'
 import { cn } from '#/lib/cn'
+
+type StageChangeHandler = (contact: Contact, stage: ContactStage) => void
 
 type PipelineCardProps = {
     contact: Contact
     disabled?: boolean
     overlay?: boolean
+    onStageChange?: StageChangeHandler
+}
+
+function normalizePhone(phone: string) {
+    const digits = phone.replace(/\D/g, '')
+
+    return digits.startsWith('55') ? digits : `55${digits}`
+}
+
+function openWhatsApp(contact: Contact) {
+    const message =
+        contact.type === 'PARTNER'
+            ? `Olá, ${contact.name}! Tudo bem? Aqui é da Flex Clube. Recebemos seu interesse em ser parceiro e estou entrando em contato para dar continuidade.`
+            : `Olá, ${contact.name}! Tudo bem? Aqui é da Flex Clube. Recebemos seu contato e estou entrando em contato para dar continuidade.`
+    const url = `https://wa.me/${normalizePhone(contact.phone)}?text=${encodeURIComponent(message)}`
+
+    window.open(url, '_blank', 'noopener,noreferrer')
+}
+
+async function copyPhone(phone: string) {
+    try {
+        await navigator.clipboard.writeText(phone)
+        toast.success('Telefone copiado')
+    } catch {
+        toast.error('Não foi possível copiar o telefone')
+    }
 }
 
 const contactTypeLabel: Record<ContactType, string> = {
@@ -45,11 +87,13 @@ function formatRelativeTime(createdAt: string) {
 
 type PipelineCardContentProps = ComponentPropsWithoutRef<'article'> & {
     contact: Contact
+    onStageChange?: StageChangeHandler
     cardRef?: Ref<HTMLElement>
 }
 
 function PipelineCardContent({
     contact,
+    onStageChange,
     cardRef,
     className,
     ...props
@@ -79,15 +123,60 @@ function PipelineCardContent({
                 <span className="truncate">{contact.name}</span>
             </div>
 
-            <Button
-                variant="ghost"
-                size="icon"
-                aria-label={`Ações de ${contact.name}`}
-                className="absolute top-1 right-1 size-6 min-w-6"
-                onPointerDown={(event) => event.stopPropagation()}
-            >
-                <Ellipsis aria-hidden="true" className="size-4" />
-            </Button>
+            {onStageChange ? (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={`Ações de ${contact.name}`}
+                            className="absolute top-1 right-1 size-6 min-w-6"
+                            onPointerDown={(event) => event.stopPropagation()}
+                        >
+                            <Ellipsis aria-hidden="true" className="size-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                        align="end"
+                        onPointerDown={(event) => event.stopPropagation()}
+                    >
+                        <DropdownMenuItem onSelect={() => openWhatsApp(contact)}>
+                            <MessageCircle aria-hidden="true" />
+                            Abrir no WhatsApp
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            onSelect={() => void copyPhone(contact.phone)}
+                        >
+                            <Copy aria-hidden="true" />
+                            Copiar telefone
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                            onSelect={() => onStageChange(contact, 'COMPLETED')}
+                        >
+                            <CheckCircle2 aria-hidden="true" />
+                            Finalizar contato
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            destructive
+                            onSelect={() => onStageChange(contact, 'LOST')}
+                        >
+                            <XCircle aria-hidden="true" />
+                            Marcar como perdido
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            ) : (
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label={`Ações de ${contact.name}`}
+                    className="absolute top-1 right-1 size-6 min-w-6"
+                    tabIndex={-1}
+                >
+                    <Ellipsis aria-hidden="true" className="size-4" />
+                </Button>
+            )}
 
             <p className="truncate text-[13px] leading-4.5 text-muted-foreground">
                 {contact.company ?? contactTypeLabel[contact.type]}
@@ -108,6 +197,7 @@ function PipelineCardContent({
 function DraggablePipelineCard({
     contact,
     disabled,
+    onStageChange,
 }: Omit<PipelineCardProps, 'overlay'>) {
     const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
         id: contact.id,
@@ -118,6 +208,7 @@ function DraggablePipelineCard({
     return (
         <PipelineCardContent
             contact={contact}
+            onStageChange={onStageChange}
             cardRef={setNodeRef}
             {...attributes}
             {...listeners}
@@ -129,7 +220,12 @@ function DraggablePipelineCard({
     )
 }
 
-export function PipelineCard({ contact, disabled, overlay }: PipelineCardProps) {
+export function PipelineCard({
+    contact,
+    disabled,
+    overlay,
+    onStageChange,
+}: PipelineCardProps) {
     if (overlay) {
         return (
             <PipelineCardContent
@@ -140,5 +236,11 @@ export function PipelineCard({ contact, disabled, overlay }: PipelineCardProps) 
         )
     }
 
-    return <DraggablePipelineCard contact={contact} disabled={disabled} />
+    return (
+        <DraggablePipelineCard
+            contact={contact}
+            disabled={disabled}
+            onStageChange={onStageChange}
+        />
+    )
 }

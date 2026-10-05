@@ -196,6 +196,13 @@
     svg {
         max-width: 100%;
     }
+    ::selection {
+        background: var(--color-primary);
+        color: var(--color-primary-foreground);
+    }
+    * {
+        scrollbar-color: var(--color-primary) transparent;
+    }
     :focus-visible {
         outline: 2px solid var(--color-focus);
         outline-offset: 2px;

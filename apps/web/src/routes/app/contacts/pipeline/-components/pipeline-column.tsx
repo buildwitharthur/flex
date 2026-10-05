@@ -1,4 +1,5 @@
 import { useDroppable } from '@dnd-kit/core'
+import { useNavigate } from '@tanstack/react-router'
 import { ArrowRight } from 'lucide-react'
 
 import { Badge } from '#/components/ui/badge'
@@ -12,6 +13,7 @@ type PipelineColumnProps = {
     contacts: Contact[]
     total: number
     dragDisabled?: boolean
+    onStageChange: (contact: Contact, stage: ContactStage) => void
 }
 
 const stageDot: Partial<Record<ContactStage, string>> = {
@@ -30,8 +32,10 @@ export function PipelineColumn({
     contacts,
     total,
     dragDisabled,
+    onStageChange,
 }: PipelineColumnProps) {
     const { setNodeRef, isOver } = useDroppable({ id: stage, data: { stage } })
+    const navigate = useNavigate()
     const hasMore = total > contacts.length
 
     return (
@@ -73,7 +77,7 @@ export function PipelineColumn({
                 {contacts.length > 0 ? (
                     contacts.map((contact) => (
                         <div key={contact.id} role="listitem">
-                            <PipelineCard contact={contact} disabled={dragDisabled} />
+                            <PipelineCard contact={contact} disabled={dragDisabled} onStageChange={onStageChange} />
                         </div>
                     ))
                 ) : (
@@ -90,7 +94,10 @@ export function PipelineColumn({
                             <span className="tabular-nums">
                                 {contacts.length} de {total}
                             </span>
-                            <Button variant="link">
+                            <Button
+                                variant="link"
+                                onClick={() => void navigate({ to: '/app/contacts' })}
+                            >
                                 Ver todos
                                 <ArrowRight
                                     aria-hidden="true"

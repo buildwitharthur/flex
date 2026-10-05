@@ -12,6 +12,16 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from '#/components/ui/alert-dialog'
 import { useListContacts } from '#/hooks/use-list-contacts'
 import { updateContact } from '#/http/update-contact'
 import { PipelineCard } from './pipeline-card'
@@ -21,6 +31,26 @@ const PIPELINE_VISIBLE_LIMIT = 15
 
 type ContactsQueryData = { contacts: Contact[] }
 type UpdateStageInput = { id: string; stage: ContactStage }
+type TerminalStage = Extract<ContactStage, 'COMPLETED' | 'LOST'>
+type PendingTerminalChange = { contact: Contact; stage: TerminalStage }
+
+const TERMINAL_COPY: Record<
+    TerminalStage,
+    { title: string; description: string; action: string }
+> = {
+    COMPLETED: {
+        title: 'Finalizar contato?',
+        description:
+            'O contato será removido do Pipeline e marcado como concluído.',
+        action: 'Finalizar contato',
+    },
+    LOST: {
+        title: 'Marcar como perdido?',
+        description:
+            'O contato será removido do Pipeline e marcado como perdido.',
+        action: 'Marcar como perdido',
+    },
+}
 
 function isPipelineStage(value: unknown): value is ContactStage {
     return value === 'NEW' || value === 'CONTACTED' || value === 'NEGOTIATION'
@@ -34,6 +64,8 @@ export function ContactsPipeline() {
     const { data } = useListContacts()
     const queryClient = useQueryClient()
     const [activeContactId, setActiveContactId] = useState<string | null>(null)
+    const [pendingChange, setPendingChange] =
+        useState<PendingTerminalChange | null>(null)
 
     const sensors = useSensors(
         useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -95,6 +127,19 @@ export function ContactsPipeline() {
         setActiveContactId(contactId)
     }
 
+    function handleStageChange(id: string, stage: ContactStage) {
+        stageMutation.mutate({ id, stage })
+    }
+
+    function handleCardStageChange(contact: Contact, stage: ContactStage) {
+        if (stage === 'COMPLETED' || stage === 'LOST') {
+            setPendingChange({ contact, stage })
+            return
+        }
+
+        handleStageChange(contact.id, stage)
+    }
+
     function handleDragCancel() {
         setActiveContactId(null)
     }
@@ -112,7 +157,7 @@ export function ContactsPipeline() {
         }
         if (sourceStage === targetStage) return
 
-        stageMutation.mutate({ id: contactId, stage: targetStage })
+        handleStageChange(contactId, targetStage)
     }
 
     // filter() cria novos arrays, então o sort não muta o cache.
@@ -182,6 +227,7 @@ export function ContactsPipeline() {
                                 contacts={column.contacts}
                                 total={column.total}
                                 dragDisabled={dragDisabled}
+                                onStageChange={handleCardStageChange}
                             />
                         ),
                     )}
@@ -193,6 +239,53 @@ export function ContactsPipeline() {
                     ) : null}
                 </DragOverlay>
             </DndContext>
+
+            <AlertDialog
+                open={pendingChange !== null}
+                onOpenChange={(open) => {
+                    if (!open) setPendingChange(null)
+                }}
+            >
+                <AlertDialogContent size="confirmation">
+                    {pendingChange ? (
+                        <>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                    {TERMINAL_COPY[pendingChange.stage].title}
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    {
+                                        TERMINAL_COPY[pendingChange.stage]
+                                            .description
+                                    }
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel type="button">
+                                    Cancelar
+                                </AlertDialogCancel>
+                                <AlertDialogAction
+                                    type="button"
+                                    variant={
+                                        pendingChange.stage === 'LOST'
+                                            ? 'destructive'
+                                            : undefined
+                                    }
+                                    disabled={stageMutation.isPending}
+                                    onClick={() =>
+                                        handleStageChange(
+                                            pendingChange.contact.id,
+                                            pendingChange.stage,
+                                        )
+                                    }
+                                >
+                                    {TERMINAL_COPY[pendingChange.stage].action}
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </>
+                    ) : null}
+                </AlertDialogContent>
+            </AlertDialog>
         </div>
     )
 }
