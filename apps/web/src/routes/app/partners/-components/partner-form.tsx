@@ -140,7 +140,7 @@ export function PartnerForm({
                                 </Label>
                                 <Suspense
                                     fallback={
-                                        <div>Carregando categorias...</div>
+                                        <Skeleton className="h-control-md w-full rounded-md" />
                                     }
                                 >
                                     <ListCategoriesSelect

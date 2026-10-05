@@ -6,6 +6,7 @@ import { PageHeader } from '#/components/page-header'
 import { Button } from '#/components/ui/button'
 import { PartnersList } from './-components/partners-list'
 import { PartnersSearch } from './-components/partners-search'
+import { PartnersTableSkeleton } from './-components/partners-table-skeleton'
 
 export const Route = createFileRoute('/app/partners/')({
     component: PartnersPage,
@@ -30,7 +31,7 @@ function PartnersPage() {
 
             <PartnersSearch />
 
-            <Suspense fallback={<div>Carregando parceiros...</div>}>
+            <Suspense fallback={<PartnersTableSkeleton />}>
                 <PartnersList />
             </Suspense>
         </div>

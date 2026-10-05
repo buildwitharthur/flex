@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import { Button } from '#/components/ui/button'
 import { PageHeader } from '#/components/page-header'
 import { CategoriesList } from './-components/categories-list'
+import { CategoriesTableSkeleton } from './-components/categories-table-skeleton'
 import { UpsertCategory } from './-components/upsert-category'
 
 export const Route = createFileRoute('/app/partners/categories/')({
@@ -22,7 +23,7 @@ function PartnersCategoriesPage() {
                 </UpsertCategory>
             </PageHeader>
 
-            <Suspense fallback={<div>Carregando categorias...</div>}>
+            <Suspense fallback={<CategoriesTableSkeleton />}>
                 <CategoriesList />
             </Suspense>
         </div>

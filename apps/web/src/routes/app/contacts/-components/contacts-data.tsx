@@ -72,141 +72,135 @@ export function ContactsData({
     const to = Math.min(page * pageSize, totalItems)
 
     return (
-        <div className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-                {totalItems} {totalItems === 1 ? 'contato' : 'contatos'}
-            </p>
+        <TableContainer className="min-w-0 rounded-xl">
+            {totalItems === 0 ? (
+                <div className="px-6 py-12 text-center">
+                    <h3 className="font-semibold text-foreground">
+                        Nenhum contato encontrado
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                        Tente alterar a busca aplicada.
+                    </p>
+                </div>
+            ) : (
+                <TableScroll>
+                    <Table>
+                        <TableHeader>
+                            <TableRow className="hover:bg-transparent">
+                                <TableHead>Contato</TableHead>
+                                <TableHead>Tipo</TableHead>
+                                <TableHead>Etapa</TableHead>
+                                <TableHead>Telefone</TableHead>
+                                <TableHead>Criado em</TableHead>
+                            </TableRow>
+                        </TableHeader>
 
-            <TableContainer className="min-w-0 rounded-xl">
-                {totalItems === 0 ? (
-                    <div className="px-6 py-12 text-center">
-                        <h3 className="font-semibold text-foreground">
-                            Nenhum contato encontrado
-                        </h3>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                            Tente alterar a busca aplicada.
-                        </p>
-                    </div>
-                ) : (
-                    <TableScroll>
-                        <Table>
-                            <TableHeader>
-                                <TableRow className="hover:bg-transparent">
-                                    <TableHead>Contato</TableHead>
-                                    <TableHead>Tipo</TableHead>
-                                    <TableHead>Etapa</TableHead>
-                                    <TableHead>Telefone</TableHead>
-                                    <TableHead>Criado em</TableHead>
-                                </TableRow>
-                            </TableHeader>
+                        <TableBody>
+                            {contacts.map((contact) => {
+                                const subtitle =
+                                    contact.company || contact.email
+                                const createdAt = new Date(contact.createdAt)
 
-                            <TableBody>
-                                {contacts.map((contact) => {
-                                    const subtitle =
-                                        contact.company || contact.email
-                                    const createdAt = new Date(contact.createdAt)
-
-                                    return (
-                                        <TableRow key={contact.id}>
-                                            <TableCell className="w-full max-w-0 min-w-56">
-                                                <div className="truncate font-semibold text-foreground">
-                                                    {contact.name}
+                                return (
+                                    <TableRow key={contact.id}>
+                                        <TableCell className="w-full max-w-0 min-w-56">
+                                            <div className="truncate font-semibold text-foreground">
+                                                {contact.name}
+                                            </div>
+                                            {subtitle ? (
+                                                <div className="truncate text-[0.8125rem] text-muted-foreground">
+                                                    {subtitle}
                                                 </div>
-                                                {subtitle ? (
-                                                    <div className="truncate text-[0.8125rem] text-muted-foreground">
-                                                        {subtitle}
-                                                    </div>
-                                                ) : null}
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge
-                                                    variant="outline"
-                                                    dot={false}
-                                                >
-                                                    {
-                                                        CONTACT_TYPE_LABELS[
-                                                            contact.type
-                                                        ]
-                                                    }
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge
-                                                    variant="stage"
-                                                    tone={
-                                                        CONTACT_STAGE_TONES[
-                                                            contact.stage
-                                                        ]
-                                                    }
-                                                >
-                                                    {
-                                                        CONTACT_STAGE_LABELS[
-                                                            contact.stage
-                                                        ]
-                                                    }
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell className="whitespace-nowrap tabular-nums">
-                                                {contact.phone}
-                                            </TableCell>
-                                            <TableCell className="tabular-nums">
-                                                <div>
-                                                    {dateFormatter.format(
-                                                        createdAt,
-                                                    )}
-                                                </div>
-                                                <div className="text-[0.8125rem] text-muted-foreground">
-                                                    {timeFormatter.format(
-                                                        createdAt,
-                                                    )}
-                                                </div>
-                                            </TableCell>
-                                        </TableRow>
-                                    )
-                                })}
-                            </TableBody>
-                        </Table>
-                    </TableScroll>
-                )}
+                                            ) : null}
+                                        </TableCell>
+                                        <TableCell>
+                                            <Badge
+                                                variant="outline"
+                                                dot={false}
+                                            >
+                                                {
+                                                    CONTACT_TYPE_LABELS[
+                                                        contact.type
+                                                    ]
+                                                }
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Badge
+                                                variant="stage"
+                                                tone={
+                                                    CONTACT_STAGE_TONES[
+                                                        contact.stage
+                                                    ]
+                                                }
+                                            >
+                                                {
+                                                    CONTACT_STAGE_LABELS[
+                                                        contact.stage
+                                                    ]
+                                                }
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="whitespace-nowrap tabular-nums">
+                                            {contact.phone}
+                                        </TableCell>
+                                        <TableCell className="tabular-nums">
+                                            <div>
+                                                {dateFormatter.format(
+                                                    createdAt,
+                                                )}
+                                            </div>
+                                            <div className="text-[0.8125rem] text-muted-foreground">
+                                                {timeFormatter.format(
+                                                    createdAt,
+                                                )}
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            })}
+                        </TableBody>
+                    </Table>
+                </TableScroll>
+            )}
 
-                {totalItems > pageSize ? (
-                    <Pagination>
-                        <PaginationInfo>
-                            {from}–{to} de {totalItems}
-                        </PaginationInfo>
+            {totalItems > pageSize ? (
+                <Pagination>
+                    <PaginationInfo>
+                        {from}–{to} de {totalItems}
+                    </PaginationInfo>
 
-                        <PaginationContent>
+                    <PaginationContent>
+                        <PaginationButton
+                            disabled={page <= 1}
+                            onClick={() => onPageChange(page - 1)}
+                        >
+                            Anterior
+                        </PaginationButton>
+                        {Array.from(
+                            { length: totalPages },
+                            (_, index) => index + 1,
+                        ).map((pageNumber) => (
                             <PaginationButton
-                                disabled={page <= 1}
-                                onClick={() => onPageChange(page - 1)}
+                                key={pageNumber}
+                                active={pageNumber === page}
+                                aria-current={
+                                    pageNumber === page ? 'page' : undefined
+                                }
+                                onClick={() => onPageChange(pageNumber)}
                             >
-                                Anterior
+                                {pageNumber}
                             </PaginationButton>
-                            {Array.from(
-                                { length: totalPages },
-                                (_, index) => index + 1,
-                            ).map((pageNumber) => (
-                                <PaginationButton
-                                    key={pageNumber}
-                                    active={pageNumber === page}
-                                    aria-current={
-                                        pageNumber === page ? 'page' : undefined
-                                    }
-                                    onClick={() => onPageChange(pageNumber)}
-                                >
-                                    {pageNumber}
-                                </PaginationButton>
-                            ))}
-                            <PaginationButton
-                                disabled={page >= totalPages}
-                                onClick={() => onPageChange(page + 1)}
-                            >
-                                Próxima
-                            </PaginationButton>
-                        </PaginationContent>
-                    </Pagination>
-                ) : null}
-            </TableContainer>
-        </div>
+                        ))}
+                        <PaginationButton
+                            disabled={page >= totalPages}
+                            onClick={() => onPageChange(page + 1)}
+                        >
+                            Próxima
+                        </PaginationButton>
+                    </PaginationContent>
+                </Pagination>
+            ) : null}
+        </TableContainer>
     )
 }

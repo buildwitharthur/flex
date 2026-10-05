@@ -2,9 +2,9 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 
 import { PageHeader } from '#/components/page-header'
-import { Skeleton } from '#/components/ui/skeleton'
 import { ContactsList } from './-components/contacts-list'
 import { ContactsSearch } from './-components/contacts-search'
+import { ContactsTableSkeleton } from './-components/contacts-table-skeleton'
 
 export const Route = createFileRoute('/app/contacts/')({
     component: ContactsPage,
@@ -20,7 +20,7 @@ function ContactsPage() {
 
             <ContactsSearch />
 
-            <Suspense fallback={<Skeleton className="h-4 w-24" />}>
+            <Suspense fallback={<ContactsTableSkeleton />}>
                 <ContactsList />
             </Suspense>
         </div>

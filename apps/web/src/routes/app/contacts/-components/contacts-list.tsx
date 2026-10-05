@@ -4,7 +4,7 @@ import { useEffect, useMemo } from 'react'
 import { useListContacts } from '#/hooks/use-list-contacts'
 import { ContactsData } from './contacts-data'
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 10
 
 export function ContactsList() {
     const { data } = useListContacts()
@@ -32,7 +32,9 @@ export function ContactsList() {
 
         return data.contacts.filter(
             (contact) =>
-                contact.name.toLocaleLowerCase('pt-BR').includes(normalizedSearch) ||
+                contact.name
+                    .toLocaleLowerCase('pt-BR')
+                    .includes(normalizedSearch) ||
                 contact.company
                     ?.toLocaleLowerCase('pt-BR')
                     .includes(normalizedSearch) ||
