@@ -10,6 +10,7 @@ import { rateLimitPlugin } from './plugins/rate-limit.js'
 import { loginRouter } from './routes/login.js'
 import { logoutRouter } from './routes/logout.js'
 import { profileRouter } from './routes/profile.js'
+import { adminUsersRouter } from './routes/admin/users/index.js'
 import { categoryRouter } from './routes/category/index.js'
 import { partnerRouter } from './routes/partner/index.js'
 import { contactRouter } from './routes/contact/index.js'
@@ -35,6 +36,7 @@ app.use(profileRouter)
 app.use('/categories', categoryRouter)
 app.use('/partners', partnerRouter)
 app.use('/contacts', contactRouter)
+app.use('/admin/users', adminUsersRouter)
 
 app.get('/health', (_request, response) => {
     response.json({ status: 'ok' })

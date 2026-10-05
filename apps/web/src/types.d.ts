@@ -34,7 +34,20 @@ type Partner = {
     updatedAt: string
 }
 
-type ContactType = 'PARTNER' | 'MEMBER'
+type UserRole = 'ADMIN' | 'STAFF'
+
+type User = {
+    id: string
+    name: string
+    username: string
+    email: string | null
+    role: UserRole
+    isActive: boolean
+    createdAt: string
+    updatedAt: string
+}
+
+type ContactType ='PARTNER' | 'MEMBER'
 
 type ContactStage =
     | 'NEW'
