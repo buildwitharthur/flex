@@ -5,15 +5,15 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/cn'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 rounded-md border border-transparent font-body font-medium leading-none whitespace-nowrap select-none transition-[background-color,border-color,color,transform] duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50 active:not-disabled:translate-y-px',
+  'inline-flex items-center justify-center gap-2 rounded-md border border-transparent font-body font-medium leading-none whitespace-nowrap select-none transition-[background-color,background-image,border-color,color,box-shadow,transform] duration-fast focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50 active:not-disabled:translate-y-px',
   {
     variants: {
       variant: {
-        primary: 'bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-active focus-visible:outline-focus',
+        primary: 'border-primary-edge bg-linear-to-b from-primary-raised to-primary text-primary-foreground shadow-brand-raised hover:from-primary-raised-hover hover:to-primary-hover hover:shadow-brand-raised-hover active:from-primary-active active:to-primary-active active:shadow-brand-pressed focus-visible:outline-focus',
         secondary: 'bg-secondary text-foreground hover:bg-secondary-hover active:bg-secondary-hover focus-visible:outline-focus',
-        outline: 'border-border-strong bg-surface text-foreground hover:border-muted-foreground hover:bg-surface-hover active:bg-surface-muted focus-visible:outline-focus',
+        outline: 'border-control-border bg-linear-to-b from-surface to-surface-hover text-foreground shadow-control-raised hover:border-control-border-hover hover:from-surface-hover hover:to-surface-muted hover:shadow-control-raised-hover active:from-surface-muted active:to-surface-hover active:shadow-control-pressed focus-visible:outline-focus',
         ghost: 'bg-transparent text-foreground hover:bg-surface-muted active:bg-secondary-hover focus-visible:outline-focus',
-        destructive: 'bg-danger text-primary-foreground hover:bg-danger-hover active:bg-danger-hover active:brightness-[0.92] focus-visible:outline-danger',
+        destructive: 'border-danger-edge bg-linear-to-b from-danger-raised to-danger text-primary-foreground shadow-brand-raised hover:from-danger hover:to-danger-hover hover:shadow-brand-raised-hover active:from-danger-hover active:to-danger-hover active:shadow-brand-pressed focus-visible:outline-danger',
         link: 'h-auto min-w-0 rounded-xs border-0 bg-transparent p-0 text-[13px] text-accent-foreground underline decoration-1 underline-offset-[3px] hover:bg-transparent active:translate-y-0 focus-visible:outline-focus',
       },
       size: {

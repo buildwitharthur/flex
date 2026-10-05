@@ -50,12 +50,8 @@ export function LoginForm() {
 
     return (
         <div className="grid gap-7">
-            <header className="grid gap-1.5">
-                <span
-                    aria-hidden="true"
-                    className="mb-2.5 h-0.75 w-8 rounded-full bg-primary"
-                />
-                <h1 className="t-page">Flex Admin</h1>
+            <header>
+                <h1 className="t-page">Acesse sua conta</h1>
                 <p className="t-body muted">Acesse sua conta para continuar.</p>
             </header>
 

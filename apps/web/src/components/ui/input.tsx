@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../../lib/cn'
 
 const inputVariants = cva(
-  'w-full rounded-md border border-border-strong bg-surface px-3 font-body text-sm leading-5 font-normal text-foreground transition-[border-color,box-shadow] duration-fast placeholder:text-muted-foreground placeholder:opacity-[0.85] hover:not-disabled:border-muted-foreground focus:border-focus focus:ring-[3px] focus:ring-focus-ring focus:outline-none aria-invalid:border-danger aria-invalid:focus:ring-danger-ring disabled:cursor-not-allowed disabled:border-border disabled:bg-surface-muted disabled:text-muted-foreground read-only:cursor-default read-only:border-border read-only:bg-surface-muted read-only:text-muted-foreground read-only:hover:border-border',
+  'w-full rounded-md border border-control-border bg-control shadow-control-inset px-3 font-body text-sm leading-5 font-normal text-foreground transition-[background-color,border-color,box-shadow] duration-fast placeholder:text-muted-foreground placeholder:opacity-[0.8] hover:not-disabled:border-control-border-hover focus:border-focus focus:ring-[3px] focus:ring-focus-ring focus:outline-none aria-invalid:border-danger aria-invalid:focus:ring-danger-ring disabled:cursor-not-allowed disabled:border-border disabled:bg-surface-muted disabled:shadow-none disabled:text-muted-foreground read-only:cursor-default read-only:border-border read-only:bg-surface-muted read-only:text-muted-foreground read-only:hover:border-border',
   {
     variants: {
       size: {

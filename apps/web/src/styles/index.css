@@ -2,14 +2,22 @@
 @import 'tailwindcss';
 
 @theme static {
-    --color-background: #f5f8fa;
+    --color-background: #f5f7f8;
     --color-foreground: #0a1428;
     --color-surface: #ffffff;
-    --color-surface-muted: #eef3f5;
-    --color-surface-hover: #f7f9fb;
-    --color-border: #d9e1e7;
+    --color-surface-muted: #f1f3f5;
+    --color-surface-hover: #f7f8f9;
+    --color-border: #cbd3dc;
     --color-border-strong: #8a95a6;
-    --color-muted: #eef3f5;
+    --color-control: #fdfdfe;
+    --color-control-border: #c4ccd5;
+    --color-control-border-hover: #aeb8c4;
+    --color-primary-raised: #d1500e;
+    --color-primary-raised-hover: #c5460a;
+    --color-primary-edge: #92350a;
+    --color-danger-raised: #bc2d43;
+    --color-danger-edge: #7f1829;
+    --color-muted: #f1f3f5;
     --color-muted-foreground: #566173;
     --color-primary: #cc4a0a;
     --color-primary-hover: #b83f08;
@@ -44,7 +52,7 @@
     --color-on-dark-danger: #ff8a99;
     --color-on-dark-info: #8fb4ff;
     --color-focus: #f4651a;
-    --color-focus-ring: rgba(244, 101, 26, 0.22);
+    --color-focus-ring: rgba(244, 101, 26, 0.14);
     --color-danger-ring: rgba(180, 35, 58, 0.18);
     --color-overlay: rgba(7, 16, 36, 0.5);
     --font-sans:
@@ -59,6 +67,19 @@
     --radius-xl: 12px;
     --radius-full: 999px;
     --shadow-sm: 0 1px 2px rgba(10, 20, 40, 0.04);
+    --shadow-control-inset:
+        inset 0 1px 2px rgba(10, 20, 40, 0.05), 0 1px 0 rgba(255, 255, 255, 0.7);
+    --shadow-control-raised:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 1px 2px rgba(10, 20, 40, 0.06);
+    --shadow-control-raised-hover:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 1px 3px rgba(10, 20, 40, 0.1);
+    --shadow-control-pressed: inset 0 1px 3px rgba(10, 20, 40, 0.12);
+    --shadow-brand-raised:
+        inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 1px 2px rgba(50, 25, 10, 0.14);
+    --shadow-brand-raised-hover:
+        inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 3px rgba(50, 25, 10, 0.18);
+    --shadow-brand-pressed:
+        inset 0 1px 3px rgba(70, 25, 5, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     --shadow-md:
         0 1px 2px rgba(10, 20, 40, 0.04), 0 6px 16px rgba(10, 20, 40, 0.08);
     --shadow-lg:
@@ -104,8 +125,8 @@
     --table-row-md: 48px;
     --border-width: 1px;
     --brand-skew: -14deg;
-    --duration-fast: 120ms;
-    --duration-base: 180ms;
+    --duration-fast: 160ms;
+    --duration-base: 200ms;
     --sidebar-width: 232px;
     --sidebar-width-collapsed: 56px;
     --header-height: 48px;
