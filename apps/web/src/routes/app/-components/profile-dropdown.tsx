@@ -80,7 +80,9 @@ export function ProfileDropdown({ collapsed, user }: ProfileDropdownProps) {
                             )}
                             type="button"
                         >
-                            <Avatar variant="user">{getInitials(username)}</Avatar>
+                            <Avatar variant="user">
+                                {getInitials(username)}
+                            </Avatar>
 
                             {!collapsed ? (
                                 <span className="min-w-0 flex-1">
@@ -119,13 +121,6 @@ export function ProfileDropdown({ collapsed, user }: ProfileDropdownProps) {
                 side="top"
                 sideOffset={6}
             >
-                <DropdownMenuItem disabled>
-                    <KeyRound aria-hidden="true" />
-                    Alterar senha
-                </DropdownMenuItem>
-
-                <DropdownMenuSeparator />
-
                 <DropdownMenuItem
                     disabled={logoutMutation.isPending}
                     onSelect={(event) => {
