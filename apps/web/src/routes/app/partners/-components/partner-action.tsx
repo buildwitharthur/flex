@@ -31,8 +31,22 @@ export function PartnerAction({ partner }: PartnerActionProps) {
     const navigate = useNavigate()
     const updateMutation = useMutation({
         mutationFn: updatePartner,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['partners'] })
+        onSuccess: ({ partner: updatedPartner }) => {
+            queryClient.setQueryData(['partner', updatedPartner.id], {
+                partner: updatedPartner,
+            })
+            queryClient.setQueryData<{ partners: Partner[] }>(
+                ['partners'],
+                (current) =>
+                    current && {
+                        ...current,
+                        partners: current.partners.map((currentPartner) =>
+                            currentPartner.id === updatedPartner.id
+                                ? updatedPartner
+                                : currentPartner,
+                        ),
+                    },
+            )
             toast.success('Parceiro atualizado')
         },
         onError: (error) => {

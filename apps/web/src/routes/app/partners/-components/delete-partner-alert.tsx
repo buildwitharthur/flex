@@ -30,9 +30,50 @@ export function DeletePartnerAlert({
     const [open, setOpen] = useState(false)
     const mutation = useMutation({
         mutationFn: deletePartner,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['partners'] })
-            await queryClient.invalidateQueries({ queryKey: ['categories'] })
+        onSuccess: (_response, deletedPartnerId) => {
+            const deletedPartner = queryClient
+                .getQueryData<{ partners: Partner[] }>(['partners'])
+                ?.partners.find((partner) => partner.id === deletedPartnerId)
+
+            queryClient.setQueryData<{ partners: Partner[] }>(
+                ['partners'],
+                (current) =>
+                    current && {
+                        ...current,
+                        partners: current.partners.filter(
+                            (partner) => partner.id !== deletedPartnerId,
+                        ),
+                    },
+            )
+            queryClient.removeQueries({
+                queryKey: ['partner', deletedPartnerId],
+                exact: true,
+            })
+
+            if (deletedPartner) {
+                queryClient.setQueryData<{ categories: Category[] }>(
+                    ['categories'],
+                    (current) =>
+                        current && {
+                            ...current,
+                            categories: current.categories.map((category) =>
+                                category.id === deletedPartner.categoryId
+                                    ? {
+                                          ...category,
+                                          partnersCount:
+                                              category.partnersCount - 1,
+                                      }
+                                    : category,
+                            ),
+                        },
+                )
+            } else {
+                // categoria do parceiro desconhecida: apenas marca como stale
+                void queryClient.invalidateQueries({
+                    queryKey: ['categories'],
+                })
+            }
+
             setOpen(false)
             toast.success('Parceiro excluído')
         },

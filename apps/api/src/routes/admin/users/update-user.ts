@@ -12,7 +12,7 @@ const userParamsSchema = z.strictObject({
 
 const updateUserSchema = z
     .strictObject({
-        name: z.string().trim().min(1).optional(),
+        name: z.string().trim().min(1).toLowerCase().optional(),
         username: z.string().trim().min(1).optional(),
         email: z.string().trim().email().nullable().optional(),
         password: z.string().min(1).optional(),

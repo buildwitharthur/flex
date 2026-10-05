@@ -28,12 +28,54 @@ export function EditPartner({ partnerId }: EditPartnerProps) {
 
     const mutation = useMutation({
         mutationFn: updatePartner,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['partners'] })
-            await queryClient.invalidateQueries({
-                queryKey: ['partner', partner.id],
+        onSuccess: async ({ partner: updatedPartner }) => {
+            queryClient.setQueryData(['partner', updatedPartner.id], {
+                partner: updatedPartner,
             })
-            await queryClient.invalidateQueries({ queryKey: ['categories'] })
+            queryClient.setQueryData<{ partners: Partner[] }>(
+                ['partners'],
+                (current) =>
+                    current && {
+                        ...current,
+                        partners: current.partners
+                            .map((currentPartner) =>
+                                currentPartner.id === updatedPartner.id
+                                    ? updatedPartner
+                                    : currentPartner,
+                            )
+                            .sort((a, b) =>
+                                a.name.localeCompare(b.name, 'pt-BR'),
+                            ),
+                    },
+            )
+
+            if (partner.categoryId !== updatedPartner.categoryId) {
+                queryClient.setQueryData<{ categories: Category[] }>(
+                    ['categories'],
+                    (current) =>
+                        current && {
+                            ...current,
+                            categories: current.categories.map((category) => {
+                                if (category.id === partner.categoryId) {
+                                    return {
+                                        ...category,
+                                        partnersCount: category.partnersCount - 1,
+                                    }
+                                }
+
+                                if (category.id === updatedPartner.categoryId) {
+                                    return {
+                                        ...category,
+                                        partnersCount: category.partnersCount + 1,
+                                    }
+                                }
+
+                                return category
+                            }),
+                        },
+                )
+            }
+
             await navigate({ to: '/app/partners' })
             toast.success('Parceiro atualizado')
         },

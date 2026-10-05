@@ -7,7 +7,7 @@ import { prisma } from '../../../lib/prisma/index.js'
 import { userSelect } from './user-select.js'
 
 const createUserSchema = z.strictObject({
-    name: z.string().trim().min(1),
+    name: z.string().trim().min(1).toLowerCase(),
     username: z.string().trim().min(1),
     email: z.string().trim().email().optional(),
     password: z.string().min(1),

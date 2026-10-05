@@ -14,9 +14,36 @@ export function CreatePartner() {
 
     const mutation = useMutation({
         mutationFn: createPartner,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['partners'] })
-            await queryClient.invalidateQueries({ queryKey: ['categories'] })
+        onSuccess: async ({ partner }) => {
+            queryClient.setQueryData<{ partners: Partner[] }>(
+                ['partners'],
+                (current) =>
+                    current && {
+                        ...current,
+                        partners: [
+                            ...current.partners.filter(
+                                (currentPartner) =>
+                                    currentPartner.id !== partner.id,
+                            ),
+                            partner,
+                        ].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR')),
+                    },
+            )
+            queryClient.setQueryData<{ categories: Category[] }>(
+                ['categories'],
+                (current) =>
+                    current && {
+                        ...current,
+                        categories: current.categories.map((category) =>
+                            category.id === partner.categoryId
+                                ? {
+                                      ...category,
+                                      partnersCount: category.partnersCount + 1,
+                                  }
+                                : category,
+                        ),
+                    },
+            )
             await navigate({ to: '/app/partners' })
             toast.success('Parceiro criado')
         },

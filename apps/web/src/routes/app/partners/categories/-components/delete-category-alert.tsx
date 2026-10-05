@@ -30,8 +30,17 @@ export function DeleteCategoryAlert({
     const [open, setOpen] = useState(false)
     const mutation = useMutation({
         mutationFn: deleteCategory,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['categories'] })
+        onSuccess: (_response, deletedCategoryId) => {
+            queryClient.setQueryData<{ categories: Category[] }>(
+                ['categories'],
+                (current) =>
+                    current && {
+                        ...current,
+                        categories: current.categories.filter(
+                            (category) => category.id !== deletedCategoryId,
+                        ),
+                    },
+            )
             setOpen(false)
             toast.success('Categoria excluída')
         },

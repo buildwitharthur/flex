@@ -53,7 +53,7 @@ export function UsersData({ users }: UsersDataProps) {
                     ) : (
                         users.map((user) => (
                             <TableRow key={user.id}>
-                                <TableCell className="font-medium text-foreground">
+                                <TableCell className="font-medium text-foreground capitalize">
                                     {user.name}
                                 </TableCell>
                                 <TableCell>{user.username}</TableCell>

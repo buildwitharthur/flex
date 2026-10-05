@@ -72,8 +72,54 @@ export function UpsertCategory({
                 name: data.name,
             })
         },
-        onSuccess: async (_response, data) => {
-            await queryClient.invalidateQueries({ queryKey: ['categories'] })
+        onSuccess: ({ category: savedCategory }, data) => {
+            queryClient.setQueryData<{ categories: Category[] }>(
+                ['categories'],
+                (current) => {
+                    if (!current) return current
+
+                    const previous = current.categories.find(
+                        (category) => category.id === savedCategory.id,
+                    )
+                    const merged: Category = {
+                        ...savedCategory,
+                        partnersCount: previous?.partnersCount ?? 0,
+                    }
+
+                    return {
+                        ...current,
+                        categories: [
+                            ...current.categories.filter(
+                                (category) => category.id !== savedCategory.id,
+                            ),
+                            merged,
+                        ].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR')),
+                    }
+                },
+            )
+
+            if (isEditing) {
+                queryClient.setQueryData<{ partners: Partner[] }>(
+                    ['partners'],
+                    (current) =>
+                        current && {
+                            ...current,
+                            partners: current.partners.map((partner) =>
+                                partner.categoryId === savedCategory.id
+                                    ? {
+                                          ...partner,
+                                          category: {
+                                              id: savedCategory.id,
+                                              name: savedCategory.name,
+                                              slug: savedCategory.slug,
+                                          },
+                                      }
+                                    : partner,
+                            ),
+                        },
+                )
+            }
+
             setOpen(false)
             reset({
                 name: isEditing ? data.name : '',
