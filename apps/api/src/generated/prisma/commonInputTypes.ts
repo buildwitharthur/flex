@@ -140,6 +140,40 @@ export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
 }
 
+export type EnumContactTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ContactType | Prisma.EnumContactTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ContactType[] | Prisma.ListEnumContactTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ContactType[] | Prisma.ListEnumContactTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumContactTypeFilter<$PrismaModel> | $Enums.ContactType
+}
+
+export type EnumContactStageFilter<$PrismaModel = never> = {
+  equals?: $Enums.ContactStage | Prisma.EnumContactStageFieldRefInput<$PrismaModel>
+  in?: $Enums.ContactStage[] | Prisma.ListEnumContactStageFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ContactStage[] | Prisma.ListEnumContactStageFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumContactStageFilter<$PrismaModel> | $Enums.ContactStage
+}
+
+export type EnumContactTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ContactType | Prisma.EnumContactTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ContactType[] | Prisma.ListEnumContactTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ContactType[] | Prisma.ListEnumContactTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumContactTypeWithAggregatesFilter<$PrismaModel> | $Enums.ContactType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumContactTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumContactTypeFilter<$PrismaModel>
+}
+
+export type EnumContactStageWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ContactStage | Prisma.EnumContactStageFieldRefInput<$PrismaModel>
+  in?: $Enums.ContactStage[] | Prisma.ListEnumContactStageFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ContactStage[] | Prisma.ListEnumContactStageFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumContactStageWithAggregatesFilter<$PrismaModel> | $Enums.ContactStage
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumContactStageFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumContactStageFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -277,6 +311,40 @@ export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
+}
+
+export type NestedEnumContactTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ContactType | Prisma.EnumContactTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ContactType[] | Prisma.ListEnumContactTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ContactType[] | Prisma.ListEnumContactTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumContactTypeFilter<$PrismaModel> | $Enums.ContactType
+}
+
+export type NestedEnumContactStageFilter<$PrismaModel = never> = {
+  equals?: $Enums.ContactStage | Prisma.EnumContactStageFieldRefInput<$PrismaModel>
+  in?: $Enums.ContactStage[] | Prisma.ListEnumContactStageFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ContactStage[] | Prisma.ListEnumContactStageFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumContactStageFilter<$PrismaModel> | $Enums.ContactStage
+}
+
+export type NestedEnumContactTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ContactType | Prisma.EnumContactTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ContactType[] | Prisma.ListEnumContactTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ContactType[] | Prisma.ListEnumContactTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumContactTypeWithAggregatesFilter<$PrismaModel> | $Enums.ContactType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumContactTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumContactTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumContactStageWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ContactStage | Prisma.EnumContactStageFieldRefInput<$PrismaModel>
+  in?: $Enums.ContactStage[] | Prisma.ListEnumContactStageFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ContactStage[] | Prisma.ListEnumContactStageFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumContactStageWithAggregatesFilter<$PrismaModel> | $Enums.ContactStage
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumContactStageFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumContactStageFilter<$PrismaModel>
 }
 
 

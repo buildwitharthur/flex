@@ -15,3 +15,22 @@ export const UserRole = {
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const ContactType = {
+  PARTNER: 'PARTNER',
+  MEMBER: 'MEMBER'
+} as const
+
+export type ContactType = (typeof ContactType)[keyof typeof ContactType]
+
+
+export const ContactStage = {
+  NEW: 'NEW',
+  CONTACTED: 'CONTACTED',
+  NEGOTIATION: 'NEGOTIATION',
+  COMPLETED: 'COMPLETED',
+  LOST: 'LOST'
+} as const
+
+export type ContactStage = (typeof ContactStage)[keyof typeof ContactStage]
