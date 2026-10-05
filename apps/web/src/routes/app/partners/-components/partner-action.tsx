@@ -9,6 +9,7 @@ import {
     StarOff,
     Trash2,
 } from 'lucide-react'
+import { toast } from 'sonner'
 
 import { Button } from '#/components/ui/button'
 import {
@@ -30,8 +31,13 @@ export function PartnerAction({ partner }: PartnerActionProps) {
     const navigate = useNavigate()
     const updateMutation = useMutation({
         mutationFn: updatePartner,
-        onSuccess: () =>
-            queryClient.invalidateQueries({ queryKey: ['partners'] }),
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({ queryKey: ['partners'] })
+            toast.success('Parceiro atualizado')
+        },
+        onError: (error) => {
+            toast.error(error.message)
+        },
     })
 
     return (

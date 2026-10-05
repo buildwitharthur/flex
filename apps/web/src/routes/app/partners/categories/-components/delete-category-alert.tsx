@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState, type ReactNode } from 'react'
+import { toast } from 'sonner'
 
 import {
     AlertDialog,
     AlertDialogAction,
-    AlertDialogBody,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -13,7 +13,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from '#/components/ui/alert-dialog'
-import { Alert, AlertDescription, AlertTitle } from '#/components/ui/alert'
 import { deleteCategory } from '#/http/delete-category'
 
 type DeleteCategoryAlertProps = {
@@ -34,6 +33,10 @@ export function DeleteCategoryAlert({
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ['categories'] })
             setOpen(false)
+            toast.success('Categoria excluída')
+        },
+        onError: (error) => {
+            toast.error(error.message)
         },
     })
 
@@ -59,17 +62,6 @@ export function DeleteCategoryAlert({
                         Tem certeza que deseja excluir a categoria “{categoryName}”? Esta ação não pode ser desfeita.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-
-                <AlertDialogBody>
-                    {mutation.error ? (
-                        <Alert variant="danger">
-                            <AlertTitle>Não foi possível excluir a categoria</AlertTitle>
-                            <AlertDescription>
-                                {mutation.error.message}
-                            </AlertDescription>
-                        </Alert>
-                    ) : null}
-                </AlertDialogBody>
 
                 <AlertDialogFooter>
                     <AlertDialogCancel

@@ -2,9 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState, type ReactNode } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { Alert, AlertDescription, AlertTitle } from '#/components/ui/alert'
 import {
     Dialog,
     DialogBody,
@@ -78,6 +78,12 @@ export function UpsertCategory({
             reset({
                 name: isEditing ? data.name : '',
             })
+            toast.success(
+                isEditing ? 'Categoria atualizada' : 'Categoria criada',
+            )
+        },
+        onError: (error) => {
+            toast.error(error.message)
         },
     })
 
@@ -96,8 +102,6 @@ export function UpsertCategory({
         mutation.mutate(data)
     }
 
-    const errorMessage = mutation.error?.message
-
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>{children}</DialogTrigger>
@@ -115,17 +119,6 @@ export function UpsertCategory({
                     </DialogHeader>
 
                     <DialogBody>
-                        {errorMessage ? (
-                            <Alert variant="danger">
-                                <AlertTitle>
-                                    Não foi possível salvar a categoria
-                                </AlertTitle>
-                                <AlertDescription>
-                                    {errorMessage}
-                                </AlertDescription>
-                            </Alert>
-                        ) : null}
-
                         <div className="grid gap-1.5">
                             <Controller
                                 control={control}
@@ -147,12 +140,6 @@ export function UpsertCategory({
                                             aria-invalid={
                                                 errors.name ? 'true' : undefined
                                             }
-                                            onChange={(event) => {
-                                                if (mutation.isError) {
-                                                    mutation.reset()
-                                                }
-                                                field.onChange(event)
-                                            }}
                                         />
                                         {errors.name?.message ? (
                                             <span id="category-name-error">

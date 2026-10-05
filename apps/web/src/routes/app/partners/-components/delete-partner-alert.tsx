@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState, type ReactNode } from 'react'
+import { toast } from 'sonner'
 
-import { Alert, AlertDescription, AlertTitle } from '#/components/ui/alert'
 import {
     AlertDialog,
     AlertDialogAction,
-    AlertDialogBody,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -35,6 +34,10 @@ export function DeletePartnerAlert({
             await queryClient.invalidateQueries({ queryKey: ['partners'] })
             await queryClient.invalidateQueries({ queryKey: ['categories'] })
             setOpen(false)
+            toast.success('Parceiro excluído')
+        },
+        onError: (error) => {
+            toast.error(error.message)
         },
     })
 
@@ -60,17 +63,6 @@ export function DeletePartnerAlert({
                         Tem certeza que deseja excluir o parceiro “{partnerName}”? Esta ação não pode ser desfeita.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-
-                <AlertDialogBody>
-                    {mutation.error ? (
-                        <Alert variant="danger">
-                            <AlertTitle>Não foi possível excluir o parceiro</AlertTitle>
-                            <AlertDescription>
-                                {mutation.error.message}
-                            </AlertDescription>
-                        </Alert>
-                    ) : null}
-                </AlertDialogBody>
 
                 <AlertDialogFooter>
                     <AlertDialogCancel

@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
+import { toast } from 'sonner'
 
 import { createPartner } from '#/http/create-partner'
 import {
@@ -17,6 +18,10 @@ export function CreatePartner() {
             await queryClient.invalidateQueries({ queryKey: ['partners'] })
             await queryClient.invalidateQueries({ queryKey: ['categories'] })
             await navigate({ to: '/app/partners' })
+            toast.success('Parceiro criado')
+        },
+        onError: (error) => {
+            toast.error(error.message)
         },
     })
 
@@ -48,7 +53,6 @@ export function CreatePartner() {
             onSubmit={handleCreatePartner}
             onCancel={handleCancel}
             isPending={mutation.isPending}
-            errorMessage={mutation.error?.message}
         />
     )
 }

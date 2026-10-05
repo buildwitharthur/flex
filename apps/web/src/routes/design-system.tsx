@@ -7,6 +7,7 @@ import {
     TriangleAlert,
 } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
+import { toast } from 'sonner'
 import type { CheckedState } from '@radix-ui/react-checkbox'
 import { createFileRoute } from '@tanstack/react-router'
 
@@ -100,14 +101,6 @@ import {
 } from '../components/ui/table'
 import { Textarea } from '../components/ui/textarea'
 import {
-    Toast,
-    ToastClose,
-    ToastDescription,
-    ToastProvider,
-    ToastTitle,
-    ToastViewport,
-} from '../components/ui/toast'
-import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
@@ -142,13 +135,10 @@ function DesignSystemShowcase() {
     const [menuRole, setMenuRole] = useState('staff')
     const [segment, setSegment] = useState('table')
     const [page, setPage] = useState(1)
-    const [toast, setToast] = useState<'success' | 'danger' | 'info' | null>(
-        null,
-    )
     const [showChip, setShowChip] = useState(true)
 
     return (
-        <ToastProvider duration={4500}>
+        <>
             <main className="min-h-screen bg-background px-6 py-10 text-foreground">
                 <div className="mx-auto grid max-w-[960px] gap-10">
                     <header className="grid gap-1">
@@ -623,18 +613,18 @@ function DesignSystemShowcase() {
                     </ShowcaseSection>
 
                     <ShowcaseSection title="Toast">
-                        <Button onClick={() => setToast('success')}>
+                        <Button onClick={() => toast.success('Mensagem de demonstração do toast.')}>
                             Mostrar sucesso
                         </Button>
                         <Button
                             variant="destructive"
-                            onClick={() => setToast('danger')}
+                            onClick={() => toast.error('Mensagem de demonstração do toast.')}
                         >
                             Mostrar erro
                         </Button>
                         <Button
                             variant="secondary"
-                            onClick={() => setToast('info')}
+                            onClick={() => toast.info('Mensagem de demonstração do toast.')}
                         >
                             Mostrar informação
                         </Button>
@@ -933,32 +923,8 @@ function DesignSystemShowcase() {
                         <Skeleton className="h-[22px] w-16 rounded-full" />
                         <Skeleton className="h-8 w-24 rounded-md" />
                     </ShowcaseSection>
-                    {toast ? (
-                        <Toast
-                            variant={toast}
-                            open
-                            onOpenChange={(open) => {
-                                if (!open) setToast(null)
-                            }}
-                        >
-                            <div className="min-w-0">
-                                <ToastTitle>
-                                    {toast === 'success'
-                                        ? 'Sucesso'
-                                        : toast === 'danger'
-                                          ? 'Erro'
-                                          : 'Informação'}
-                                </ToastTitle>
-                                <ToastDescription>
-                                    Mensagem de demonstração do toast.
-                                </ToastDescription>
-                            </div>
-                            <ToastClose />
-                        </Toast>
-                    ) : null}
-                    <ToastViewport />
                 </div>
             </main>
-        </ToastProvider>
+        </>
     )
 }

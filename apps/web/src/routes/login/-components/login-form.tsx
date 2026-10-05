@@ -3,11 +3,8 @@ import { useMutation } from '@tanstack/react-query'
 import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import {
-    Alert,
-    AlertDescription,
-    AlertTitle,
-} from '../../../components/ui/alert'
+import { toast } from 'sonner'
+
 import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input'
 import { FieldError, Label } from '../../../components/ui/label'
@@ -38,18 +35,15 @@ export function LoginForm() {
 
     const mutation = useMutation({
         mutationFn: login,
+        onError: (error) => {
+            toast.error(error.message)
+        },
     })
 
     const onSubmit = (values: LoginFormValues) => {
-        if (mutation.isError) {
-            mutation.reset()
-        }
-
         mutation.mutate(values)
         navigate({ to: '/app', replace: true })
     }
-
-    const errorMessage = mutation.error?.message
 
     return (
         <div className="grid gap-8">
@@ -65,13 +59,6 @@ export function LoginForm() {
                 noValidate
                 onSubmit={handleSubmit(onSubmit)}
             >
-                {errorMessage ? (
-                    <Alert variant="danger">
-                        <AlertTitle>Não foi possível entrar</AlertTitle>
-                        <AlertDescription>{errorMessage}</AlertDescription>
-                    </Alert>
-                ) : null}
-
                 <div className="grid gap-1.5">
                     <Controller
                         control={control}
@@ -94,12 +81,6 @@ export function LoginForm() {
                                     aria-invalid={
                                         errors.username ? 'true' : undefined
                                     }
-                                    onChange={(event) => {
-                                        if (mutation.isError) {
-                                            mutation.reset()
-                                        }
-                                        field.onChange(event)
-                                    }}
                                 />
                                 {errors.username?.message ? (
                                     <span id="login-username-error">
@@ -134,12 +115,6 @@ export function LoginForm() {
                                     aria-invalid={
                                         errors.password ? 'true' : undefined
                                     }
-                                    onChange={(event) => {
-                                        if (mutation.isError) {
-                                            mutation.reset()
-                                        }
-                                        field.onChange(event)
-                                    }}
                                 />
                                 {errors.password?.message ? (
                                     <span id="login-password-error">

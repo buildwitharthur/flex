@@ -3,7 +3,6 @@ import { Suspense, useEffect } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { z } from 'zod'
 
-import { Alert, AlertDescription } from '#/components/ui/alert'
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
 import { FieldError, FieldHelper, Label } from '#/components/ui/label'
@@ -47,7 +46,6 @@ type PartnerFormProps = {
     onSubmit: (data: PartnerFormData) => void
     onCancel?: () => void
     isPending?: boolean
-    errorMessage?: string
 }
 
 function getDefaultValues(partner?: Partner): PartnerFormData {
@@ -74,7 +72,6 @@ export function PartnerForm({
     onSubmit,
     onCancel,
     isPending = false,
-    errorMessage,
 }: PartnerFormProps) {
     const isEditing = Boolean(partner)
     const { control, handleSubmit, reset } = useForm<PartnerFormData>({
@@ -452,12 +449,6 @@ export function PartnerForm({
                     )}
                 />
             </section>
-
-            {errorMessage ? (
-                <Alert variant="danger">
-                    <AlertDescription>{errorMessage}</AlertDescription>
-                </Alert>
-            ) : null}
 
             <div className="flex justify-end gap-3 border-t border-border pt-6">
                 {onCancel ? (

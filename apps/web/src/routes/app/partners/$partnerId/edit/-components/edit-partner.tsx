@@ -4,6 +4,7 @@ import {
     useSuspenseQuery,
 } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
+import { toast } from 'sonner'
 
 import { getPartner } from '#/http/get-partner'
 import { updatePartner } from '#/http/update-partner'
@@ -34,6 +35,10 @@ export function EditPartner({ partnerId }: EditPartnerProps) {
             })
             await queryClient.invalidateQueries({ queryKey: ['categories'] })
             await navigate({ to: '/app/partners' })
+            toast.success('Parceiro atualizado')
+        },
+        onError: (error) => {
+            toast.error(error.message)
         },
     })
 
@@ -67,7 +72,6 @@ export function EditPartner({ partnerId }: EditPartnerProps) {
             onSubmit={handleUpdatePartner}
             onCancel={handleCancel}
             isPending={mutation.isPending}
-            errorMessage={mutation.error?.message}
         />
     )
     

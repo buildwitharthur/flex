@@ -10,8 +10,8 @@ import {
 } from '@dnd-kit/core'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
-import { Alert, AlertDescription, AlertTitle } from '#/components/ui/alert'
 import { useListContacts } from '#/hooks/use-list-contacts'
 import { updateContact } from '#/http/update-contact'
 import { PipelineCard } from './pipeline-card'
@@ -62,10 +62,11 @@ export function ContactsPipeline() {
 
             return { previousData }
         },
-        onError: (_error, _input, context) => {
+        onError: (error, _input, context) => {
             if (context?.previousData) {
                 queryClient.setQueryData(['contacts'], context.previousData)
             }
+            toast.error(error.message)
         },
         onSuccess: ({ contact }) => {
             queryClient.setQueryData<ContactsQueryData>(
@@ -164,15 +165,6 @@ export function ContactsPipeline() {
 
     return (
         <div className="flex flex-col gap-3">
-            {stageMutation.isError ? (
-                <Alert variant="danger">
-                    <AlertTitle>Não foi possível mover o contato</AlertTitle>
-                    <AlertDescription>
-                        {stageMutation.error.message}
-                    </AlertDescription>
-                </Alert>
-            ) : null}
-
             <DndContext
                 sensors={sensors}
                 collisionDetection={pointerWithin}
