@@ -1,11 +1,18 @@
+import { canPermission } from '#/utils/can-permission'
+import { type ProfileResponse } from '#/http/get-profile'
 import { appNavigation } from './app-navigation'
 import { SidebarNavItem } from './sidebar-nav-item'
 
 type SidebarNavProps = {
     collapsed: boolean
+    user: ProfileResponse['user'] | null | undefined
 }
 
-export function SidebarNav({ collapsed }: SidebarNavProps) {
+export function SidebarNav({ collapsed, user }: SidebarNavProps) {
+    const visibleNavigation = appNavigation.filter(
+        (item) => !item.roles || canPermission(user, item.roles),
+    )
+
     return (
         <nav aria-label="Módulos" className="grid gap-2 ">
             {collapsed ? (
@@ -26,7 +33,7 @@ export function SidebarNav({ collapsed }: SidebarNavProps) {
                         : 'grid w-full gap-0.5'
                 }
             >
-                {appNavigation.map((item) => (
+                {visibleNavigation.map((item) => (
                     <SidebarNavItem
                         key={item.label}
                         collapsed={collapsed}

@@ -15,6 +15,7 @@ export type AppNavigationChild = {
 export type AppNavigationModule = {
     label: string
     icon: LucideIcon
+    roles?: UserRole[]
     children: AppNavigationChild[]
 }
 
@@ -38,6 +39,7 @@ export const appNavigation: AppNavigationModule[] = [
     {
         label: 'Administração',
         icon: ShieldCheck,
+        roles: ['ADMIN'],
         children: [{ label: 'Usuários', to: '/app/admin' }],
     },
 ]

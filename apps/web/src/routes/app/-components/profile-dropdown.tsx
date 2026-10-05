@@ -16,8 +16,7 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '../../../components/ui/tooltip'
-import { useSession } from '../../../hooks/use-session'
-import { type UserRole } from '../../../http/get-profile'
+import { type ProfileResponse, type UserRole } from '../../../http/get-profile'
 import { logout } from '../../../http/logout'
 import { cn } from '../../../lib/cn'
 
@@ -42,13 +41,12 @@ function getInitials(username: string) {
 
 type ProfileDropdownProps = {
     collapsed: boolean
+    user: ProfileResponse['user'] | null | undefined
 }
 
-export function ProfileDropdown({ collapsed }: ProfileDropdownProps) {
+export function ProfileDropdown({ collapsed, user }: ProfileDropdownProps) {
     const navigate = useNavigate()
     const queryClient = useQueryClient()
-
-    const user = useSession()
 
     const logoutMutation = useMutation({
         mutationFn: logout,

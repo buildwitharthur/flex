@@ -1,3 +1,4 @@
+import { useSession } from '../../../hooks/use-session'
 import { TooltipProvider } from '../../../components/ui/tooltip'
 import { cn } from '../../../lib/cn'
 import { SidebarNav } from './sidebar-nav'
@@ -8,6 +9,8 @@ type AppSidebarProps = {
 }
 
 export function AppSidebar({ collapsed }: AppSidebarProps) {
+    const user = useSession()
+
     return (
         <TooltipProvider>
             <aside
@@ -61,7 +64,7 @@ export function AppSidebar({ collapsed }: AppSidebarProps) {
                         collapsed ? 'px-2' : 'px-4',
                     )}
                 >
-                    <SidebarNav collapsed={collapsed} />
+                    <SidebarNav collapsed={collapsed} user={user} />
                 </div>
 
                 <div
@@ -70,7 +73,7 @@ export function AppSidebar({ collapsed }: AppSidebarProps) {
                         collapsed && 'px-2',
                     )}
                 >
-                    <ProfileDropdown collapsed={collapsed} />
+                    <ProfileDropdown collapsed={collapsed} user={user} />
                 </div>
             </aside>
         </TooltipProvider>
