@@ -9,6 +9,7 @@ import {
     StarOff,
     Trash2,
 } from 'lucide-react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 import { Button } from '#/components/ui/button'
@@ -29,6 +30,7 @@ type PartnerActionProps = {
 export function PartnerAction({ partner }: PartnerActionProps) {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
+    const [deleteOpen, setDeleteOpen] = useState(false)
     const updateMutation = useMutation({
         mutationFn: updatePartner,
         onSuccess: ({ partner: updatedPartner }) => {
@@ -55,6 +57,7 @@ export function PartnerAction({ partner }: PartnerActionProps) {
     })
 
     return (
+        <>
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button
@@ -120,19 +123,22 @@ export function PartnerAction({ partner }: PartnerActionProps) {
 
                 <DropdownMenuSeparator />
 
-                <DeletePartnerAlert
-                    partnerId={partner.id}
-                    partnerName={partner.name}
+                <DropdownMenuItem
+                    destructive
+                    onSelect={() => setDeleteOpen(true)}
                 >
-                    <DropdownMenuItem
-                        destructive
-                        onSelect={(event) => event.preventDefault()}
-                    >
-                        <Trash2 aria-hidden="true" />
-                        Excluir parceiro
-                    </DropdownMenuItem>
-                </DeletePartnerAlert>
+                    <Trash2 aria-hidden="true" />
+                    Excluir parceiro
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
+
+        <DeletePartnerAlert
+            partnerId={partner.id}
+            partnerName={partner.name}
+            open={deleteOpen}
+            onOpenChange={setDeleteOpen}
+        />
+        </>
     )
 }

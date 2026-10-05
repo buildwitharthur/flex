@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState, type ReactNode } from 'react'
 import { toast } from 'sonner'
 
 import {
@@ -11,23 +10,23 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from '#/components/ui/alert-dialog'
 import { deletePartner } from '#/http/delete-partner'
 
 type DeletePartnerAlertProps = {
     partnerId: string
     partnerName: string
-    children: ReactNode
+    open: boolean
+    onOpenChange: (open: boolean) => void
 }
 
 export function DeletePartnerAlert({
     partnerId,
     partnerName,
-    children,
+    open,
+    onOpenChange,
 }: DeletePartnerAlertProps) {
     const queryClient = useQueryClient()
-    const [open, setOpen] = useState(false)
     const mutation = useMutation({
         mutationFn: deletePartner,
         onSuccess: (_response, deletedPartnerId) => {
@@ -74,7 +73,7 @@ export function DeletePartnerAlert({
                 })
             }
 
-            setOpen(false)
+            onOpenChange(false)
             toast.success('Parceiro excluído')
         },
         onError: (error) => {
@@ -87,7 +86,7 @@ export function DeletePartnerAlert({
             return
         }
 
-        setOpen(nextOpen)
+        onOpenChange(nextOpen)
 
         if (!nextOpen) {
             mutation.reset()
@@ -96,7 +95,6 @@ export function DeletePartnerAlert({
 
     return (
         <AlertDialog open={open} onOpenChange={handleOpenChange}>
-            <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
             <AlertDialogContent size="confirmation">
                 <AlertDialogHeader>
                     <AlertDialogTitle>Excluir parceiro</AlertDialogTitle>

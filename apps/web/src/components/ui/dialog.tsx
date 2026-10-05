@@ -62,7 +62,7 @@ export const DialogContent = React.forwardRef<
 
 export const DialogHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   function DialogHeader({ className, ...props }, ref) {
-    return <div ref={ref} className={cn('grid gap-0 px-6 pt-6', className)} {...props} />
+    return <div ref={ref} className={cn('grid gap-1.5 px-6 pt-6 pb-5', className)} {...props} />
   },
 )
 
@@ -77,12 +77,12 @@ export const DialogDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 >(function DialogDescription({ className, ...props }, ref) {
-  return <DialogPrimitive.Description ref={ref} className={cn('mt-1 text-sm leading-5 text-muted-foreground', className)} {...props} />
+  return <DialogPrimitive.Description ref={ref} className={cn('text-sm leading-normal text-muted-foreground', className)} {...props} />
 })
 
 export const DialogBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   function DialogBody({ className, ...props }, ref) {
-    return <div ref={ref} className={cn('flex flex-col gap-4 px-6 py-5', className)} {...props} />
+    return <div ref={ref} className={cn('flex flex-col gap-4 px-6 pb-5', className)} {...props} />
   },
 )
 

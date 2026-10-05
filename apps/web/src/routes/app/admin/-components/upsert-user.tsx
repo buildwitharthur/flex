@@ -57,7 +57,9 @@ type UpsertUserForm = z.infer<typeof upsertUserSchema>
 
 type UpsertUserProps = {
     user?: User
-    children: ReactNode
+    children?: ReactNode
+    open?: boolean
+    onOpenChange?: (open: boolean) => void
 }
 
 function getDefaultValues(user?: User): UpsertUserForm {
@@ -71,10 +73,17 @@ function getDefaultValues(user?: User): UpsertUserForm {
     }
 }
 
-export function UpsertUser({ user, children }: UpsertUserProps) {
+export function UpsertUser({
+    user,
+    children,
+    open: controlledOpen,
+    onOpenChange,
+}: UpsertUserProps) {
     const isEditing = Boolean(user)
     const queryClient = useQueryClient()
-    const [open, setOpen] = useState(false)
+    const [internalOpen, setInternalOpen] = useState(false)
+    const open = controlledOpen ?? internalOpen
+    const setOpen = onOpenChange ?? setInternalOpen
     const {
         control,
         handleSubmit,
@@ -173,7 +182,9 @@ export function UpsertUser({ user, children }: UpsertUserProps) {
 
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
-            <DialogTrigger asChild>{children}</DialogTrigger>
+            {children ? (
+                <DialogTrigger asChild>{children}</DialogTrigger>
+            ) : null}
             <DialogContent>
                 <form noValidate onSubmit={handleSubmit(onSubmit)}>
                     <DialogHeader>

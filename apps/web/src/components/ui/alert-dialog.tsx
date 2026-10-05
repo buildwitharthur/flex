@@ -65,7 +65,7 @@ export const AlertDialogHeader = React.forwardRef<
     return (
         <div
             ref={ref}
-            className={cn('grid gap-0 px-6 pt-6', className)}
+            className={cn('grid gap-1.5 px-6 pt-6 pb-5', className)}
             {...props}
         />
     )
@@ -78,7 +78,7 @@ export const AlertDialogBody = React.forwardRef<
     return (
         <div
             ref={ref}
-            className={cn('flex flex-col gap-4 px-6 py-5', className)}
+            className={cn('flex flex-col gap-4 px-6 pb-5', className)}
             {...props}
         />
     )
@@ -123,7 +123,7 @@ export const AlertDialogDescription = React.forwardRef<
     return (
         <AlertDialogPrimitive.Description
             ref={ref}
-            className={cn('mt-1 text-sm leading-5 text-muted-foreground', className)}
+            className={cn('text-sm leading-normal text-muted-foreground', className)}
             {...props}
         />
     )

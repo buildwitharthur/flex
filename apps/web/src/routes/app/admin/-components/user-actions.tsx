@@ -1,4 +1,5 @@
 import { Ellipsis, Pencil, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 
 import { Button } from '#/components/ui/button'
 import {
@@ -16,7 +17,11 @@ type UserActionsProps = {
 }
 
 export function UserActions({ user }: UserActionsProps) {
+    const [editOpen, setEditOpen] = useState(false)
+    const [deleteOpen, setDeleteOpen] = useState(false)
+
     return (
+        <>
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button
@@ -31,27 +36,31 @@ export function UserActions({ user }: UserActionsProps) {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end">
-                <UpsertUser user={user}>
-                    <DropdownMenuItem
-                        onSelect={(event) => event.preventDefault()}
-                    >
-                        <Pencil aria-hidden="true" />
-                        Editar usuário
-                    </DropdownMenuItem>
-                </UpsertUser>
+                <DropdownMenuItem onSelect={() => setEditOpen(true)}>
+                    <Pencil aria-hidden="true" />
+                    Editar usuário
+                </DropdownMenuItem>
 
                 <DropdownMenuSeparator />
 
-                <DeleteUserAlert userId={user.id} userName={user.name}>
-                    <DropdownMenuItem
-                        destructive
-                        onSelect={(event) => event.preventDefault()}
-                    >
-                        <Trash2 aria-hidden="true" />
-                        Excluir usuário
-                    </DropdownMenuItem>
-                </DeleteUserAlert>
+                <DropdownMenuItem
+                    destructive
+                    onSelect={() => setDeleteOpen(true)}
+                >
+                    <Trash2 aria-hidden="true" />
+                    Excluir usuário
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
+
+        <UpsertUser user={user} open={editOpen} onOpenChange={setEditOpen} />
+
+        <DeleteUserAlert
+            userId={user.id}
+            userName={user.name}
+            open={deleteOpen}
+            onOpenChange={setDeleteOpen}
+        />
+        </>
     )
 }

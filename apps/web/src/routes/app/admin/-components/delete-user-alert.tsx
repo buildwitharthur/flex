@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState, type ReactNode } from 'react'
 import { toast } from 'sonner'
 
 import {
@@ -11,23 +10,23 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
-    AlertDialogTrigger,
 } from '#/components/ui/alert-dialog'
 import { deleteUser } from '#/http/delete-user'
 
 type DeleteUserAlertProps = {
     userId: string
     userName: string
-    children: ReactNode
+    open: boolean
+    onOpenChange: (open: boolean) => void
 }
 
 export function DeleteUserAlert({
     userId,
     userName,
-    children,
+    open,
+    onOpenChange,
 }: DeleteUserAlertProps) {
     const queryClient = useQueryClient()
-    const [open, setOpen] = useState(false)
     const mutation = useMutation({
         mutationFn: deleteUser,
         onSuccess: (_response, deletedUserId) => {
@@ -41,7 +40,7 @@ export function DeleteUserAlert({
                         ),
                     },
             )
-            setOpen(false)
+            onOpenChange(false)
             toast.success('Usuário excluído com sucesso')
         },
         onError: (error) => {
@@ -54,7 +53,7 @@ export function DeleteUserAlert({
             return
         }
 
-        setOpen(nextOpen)
+        onOpenChange(nextOpen)
 
         if (!nextOpen) {
             mutation.reset()
@@ -63,7 +62,6 @@ export function DeleteUserAlert({
 
     return (
         <AlertDialog open={open} onOpenChange={handleOpenChange}>
-            <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
             <AlertDialogContent size="confirmation">
                 <AlertDialogHeader>
                     <AlertDialogTitle>Excluir usuário?</AlertDialogTitle>
