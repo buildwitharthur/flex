@@ -1,4 +1,5 @@
 import { useListContacts } from '#/hooks/use-list-contacts'
+import { PipelineColumn } from './pipeline-column'
 
 const PIPELINE_VISIBLE_LIMIT = 15
 
@@ -35,38 +36,46 @@ export function ContactsPipeline() {
     )
 
     const newColumn = {
-        stage: 'NEW',
+        stage: 'NEW' as const,
         title: 'Novo',
         contacts: visibleNewContacts,
         total: newTotal,
     }
 
     const contactedColumn = {
-        stage: 'CONTACTED',
+        stage: 'CONTACTED' as const,
         title: 'Em contato',
         contacts: visibleContactedContacts,
         total: contactedTotal,
     }
 
     const negotiationColumn = {
-        stage: 'NEGOTIATION',
+        stage: 'NEGOTIATION' as const,
         title: 'Negociação',
         contacts: visibleNegotiationContacts,
         total: negotiationTotal,
     }
 
-    const columns = [newColumn, contactedColumn, negotiationColumn]
-
-    // Render temporário para validar os dados; removido na Etapa 2.
     return (
-        <div className="grid gap-4">
-            {columns.map((column) => (
-                <div key={column.stage}>
-                    <p className="font-medium">{column.title}</p>
-                    <p>{column.total} contatos</p>
-                    <p>{column.contacts.length} visíveis</p>
-                </div>
-            ))}
+        <div className="flex items-start gap-3 overflow-x-auto pb-2">
+            <PipelineColumn
+                stage={newColumn.stage}
+                title={newColumn.title}
+                contacts={newColumn.contacts}
+                total={newColumn.total}
+            />
+            <PipelineColumn
+                stage={contactedColumn.stage}
+                title={contactedColumn.title}
+                contacts={contactedColumn.contacts}
+                total={contactedColumn.total}
+            />
+            <PipelineColumn
+                stage={negotiationColumn.stage}
+                title={negotiationColumn.title}
+                contacts={negotiationColumn.contacts}
+                total={negotiationColumn.total}
+            />
         </div>
     )
 }

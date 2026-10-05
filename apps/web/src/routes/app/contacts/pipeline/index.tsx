@@ -20,9 +20,9 @@ function ContactsPipelinePage() {
             <Suspense
                 fallback={
                     <div className="grid gap-4 md:grid-cols-3">
-                        <Skeleton className="h-64" />
-                        <Skeleton className="h-64" />
-                        <Skeleton className="h-64" />
+                        <Skeleton className="h-96" />
+                        <Skeleton className="h-96" />
+                        <Skeleton className="h-96" />
                     </div>
                 }
             >
