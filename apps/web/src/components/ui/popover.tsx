@@ -16,7 +16,7 @@ export const PopoverContent = React.forwardRef<
         ref={ref}
         align={align}
         sideOffset={sideOffset}
-        className={cn('z-50 grid w-[296px] max-w-[calc(100vw-32px)] gap-3 rounded-md bg-surface p-4 shadow-md data-[state=open]:animate-[popover-in_120ms_ease-out]', className)}
+        className={cn('z-50 grid w-[296px] max-w-[calc(100vw-32px)] gap-3 rounded-lg bg-surface p-4 shadow-md data-[state=open]:animate-[popover-in_120ms_ease-out]', className)}
         {...props}
       />
     </PopoverPrimitive.Portal>

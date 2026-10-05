@@ -16,7 +16,7 @@ export const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<
 
 export const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
   function CardTitle({ className, ...props }, ref) {
-    return <h3 ref={ref} className={cn('font-display text-[15px] leading-[22px] font-semibold', className)} {...props} />
+    return <h3 ref={ref} className={cn('font-display text-sm leading-5 font-semibold', className)} {...props} />
   },
 )
 

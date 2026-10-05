@@ -13,7 +13,7 @@ export const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
 >(function DropdownMenuContent({ className, sideOffset = 6, ...props }, ref) {
-  return <DropdownMenuPrimitive.Portal><DropdownMenuPrimitive.Content ref={ref} sideOffset={sideOffset} className={cn('z-50 min-w-[208px] rounded-md bg-surface p-1 shadow-md', className)} {...props} /></DropdownMenuPrimitive.Portal>
+  return <DropdownMenuPrimitive.Portal><DropdownMenuPrimitive.Content ref={ref} sideOffset={sideOffset} className={cn('z-50 min-w-[208px] rounded-lg bg-surface p-1 shadow-md', className)} {...props} /></DropdownMenuPrimitive.Portal>
 })
 
 type DropdownMenuItemProps = React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & { destructive?: boolean }
@@ -50,7 +50,7 @@ export const DropdownMenuSubContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubContent>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
 >(function DropdownMenuSubContent({ className, sideOffset = 4, ...props }, ref) {
-  return <DropdownMenuPrimitive.SubContent ref={ref} sideOffset={sideOffset} className={cn('z-50 min-w-[208px] rounded-md bg-surface p-1 shadow-md', className)} {...props} />
+  return <DropdownMenuPrimitive.SubContent ref={ref} sideOffset={sideOffset} className={cn('z-50 min-w-[208px] rounded-lg bg-surface p-1 shadow-md', className)} {...props} />
 })
 
 export const DropdownMenuRadioItem = React.forwardRef<

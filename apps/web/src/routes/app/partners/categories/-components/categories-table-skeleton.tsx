@@ -13,7 +13,7 @@ const ROWS = 6
 
 export function CategoriesTableSkeleton() {
     return (
-        <TableContainer aria-hidden="true" className="rounded-xl">
+        <TableContainer aria-hidden="true">
             <Table>
                 <TableHeader>
                     <TableRow>

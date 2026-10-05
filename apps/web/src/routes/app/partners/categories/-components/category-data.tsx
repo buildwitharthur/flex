@@ -25,7 +25,7 @@ const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
 
 export function CategoryData({ categories }: CategoryDataProps) {
     return (
-        <TableContainer className="rounded-xl">
+        <TableContainer>
             <Table>
                 <TableHeader>
                     <TableRow>

@@ -72,7 +72,7 @@ export function ContactsData({
     const to = Math.min(page * pageSize, totalItems)
 
     return (
-        <TableContainer className="min-w-0 rounded-xl">
+        <TableContainer className="min-w-0">
             {totalItems === 0 ? (
                 <div className="px-6 py-12 text-center">
                     <h3 className="font-semibold text-foreground">

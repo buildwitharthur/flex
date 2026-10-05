@@ -15,7 +15,7 @@ const ROWS = 8
 
 export function ContactsTableSkeleton() {
     return (
-        <TableContainer aria-hidden="true" className="min-w-0 rounded-xl">
+        <TableContainer aria-hidden="true" className="min-w-0">
             <TableScroll>
                 <Table>
                     <TableHeader>

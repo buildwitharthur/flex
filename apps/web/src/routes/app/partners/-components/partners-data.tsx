@@ -78,7 +78,7 @@ export function PartnersData({
     const to = Math.min(page * pageSize, totalItems)
 
     return (
-        <TableContainer className="min-w-0 rounded-xl">
+        <TableContainer className="min-w-0">
             <TableScroll>
                 <Table>
                     <TableHeader>

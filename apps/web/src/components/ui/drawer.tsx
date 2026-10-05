@@ -42,7 +42,7 @@ export const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(function DrawerTitle({ className, ...props }, ref) {
-  return <DialogPrimitive.Title ref={ref} className={cn('font-display text-[18px] leading-[26px] font-semibold', className)} {...props} />
+  return <DialogPrimitive.Title ref={ref} className={cn('font-display text-base leading-6 font-semibold', className)} {...props} />
 })
 
 export const DrawerBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
