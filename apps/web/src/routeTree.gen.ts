@@ -13,7 +13,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppLayoutRouteImport } from './routes/app/layout'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as AppIndexRouteImport } from './routes/app/index'
+import { Route as AppAdminLayoutRouteImport } from './routes/app/admin/layout'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as AppAdminIndexRouteImport } from './routes/app/admin/index'
 import { Route as AppContactsIndexRouteImport } from './routes/app/contacts/index'
 import { Route as AppPartnersIndexRouteImport } from './routes/app/partners/index'
 import { Route as AppContactsPipelineIndexRouteImport } from './routes/app/contacts/pipeline/index'
@@ -41,10 +43,20 @@ const AppIndexRoute = AppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppLayoutRoute,
 } as any)
+const AppAdminLayoutRoute = AppAdminLayoutRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AppLayoutRoute,
+} as any)
 const LoginIndexRoute = LoginIndexRouteImport.update({
   id: '/login/',
   path: '/login/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppAdminIndexRoute = AppAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppAdminLayoutRoute,
 } as any)
 const AppContactsIndexRoute = AppContactsIndexRouteImport.update({
   id: '/contacts/',
@@ -84,8 +96,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppLayoutRouteWithChildren
   '/design-system': typeof DesignSystemRoute
+  '/app/admin': typeof AppAdminLayoutRouteWithChildren
   '/app/': typeof AppIndexRoute
   '/login/': typeof LoginIndexRoute
+  '/app/admin/': typeof AppAdminIndexRoute
   '/app/contacts/': typeof AppContactsIndexRoute
   '/app/partners/': typeof AppPartnersIndexRoute
   '/app/contacts/pipeline/': typeof AppContactsPipelineIndexRoute
@@ -98,6 +112,7 @@ export interface FileRoutesByTo {
   '/design-system': typeof DesignSystemRoute
   '/app': typeof AppIndexRoute
   '/login': typeof LoginIndexRoute
+  '/app/admin': typeof AppAdminIndexRoute
   '/app/contacts': typeof AppContactsIndexRoute
   '/app/partners': typeof AppPartnersIndexRoute
   '/app/contacts/pipeline': typeof AppContactsPipelineIndexRoute
@@ -110,8 +125,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppLayoutRouteWithChildren
   '/design-system': typeof DesignSystemRoute
+  '/app/admin': typeof AppAdminLayoutRouteWithChildren
   '/app/': typeof AppIndexRoute
   '/login/': typeof LoginIndexRoute
+  '/app/admin/': typeof AppAdminIndexRoute
   '/app/contacts/': typeof AppContactsIndexRoute
   '/app/partners/': typeof AppPartnersIndexRoute
   '/app/contacts/pipeline/': typeof AppContactsPipelineIndexRoute
@@ -125,8 +142,10 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/design-system'
+    | '/app/admin'
     | '/app/'
     | '/login/'
+    | '/app/admin/'
     | '/app/contacts/'
     | '/app/partners/'
     | '/app/contacts/pipeline/'
@@ -139,6 +158,7 @@ export interface FileRouteTypes {
     | '/design-system'
     | '/app'
     | '/login'
+    | '/app/admin'
     | '/app/contacts'
     | '/app/partners'
     | '/app/contacts/pipeline'
@@ -150,8 +170,10 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/design-system'
+    | '/app/admin'
     | '/app/'
     | '/login/'
+    | '/app/admin/'
     | '/app/contacts/'
     | '/app/partners/'
     | '/app/contacts/pipeline/'
@@ -197,12 +219,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
+    '/app/admin': {
+      id: '/app/admin'
+      path: '/admin'
+      fullPath: '/app/admin'
+      preLoaderRoute: typeof AppAdminLayoutRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
     '/login/': {
       id: '/login/'
       path: '/login'
       fullPath: '/login/'
       preLoaderRoute: typeof LoginIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/admin/': {
+      id: '/app/admin/'
+      path: '/'
+      fullPath: '/app/admin/'
+      preLoaderRoute: typeof AppAdminIndexRouteImport
+      parentRoute: typeof AppAdminLayoutRoute
     }
     '/app/contacts/': {
       id: '/app/contacts/'
@@ -249,7 +285,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AppAdminLayoutRouteChildren {
+  AppAdminIndexRoute: typeof AppAdminIndexRoute
+}
+
+const AppAdminLayoutRouteChildren: AppAdminLayoutRouteChildren = {
+  AppAdminIndexRoute: AppAdminIndexRoute,
+}
+
+const AppAdminLayoutRouteWithChildren = AppAdminLayoutRoute._addFileChildren(
+  AppAdminLayoutRouteChildren,
+)
+
 interface AppLayoutRouteChildren {
+  AppAdminLayoutRoute: typeof AppAdminLayoutRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
   AppContactsIndexRoute: typeof AppContactsIndexRoute
   AppPartnersIndexRoute: typeof AppPartnersIndexRoute
@@ -260,6 +309,7 @@ interface AppLayoutRouteChildren {
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
+  AppAdminLayoutRoute: AppAdminLayoutRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
   AppContactsIndexRoute: AppContactsIndexRoute,
   AppPartnersIndexRoute: AppPartnersIndexRoute,

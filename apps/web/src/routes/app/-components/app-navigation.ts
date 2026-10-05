@@ -1,6 +1,7 @@
-import { Contact, Store, type LucideIcon } from 'lucide-react'
+import { Contact, ShieldCheck, Store, type LucideIcon } from 'lucide-react'
 
 export type AppRoutePath =
+    | '/app/admin'
     | '/app/partners'
     | '/app/partners/categories'
     | '/app/contacts/pipeline'
@@ -33,5 +34,10 @@ export const appNavigation: AppNavigationModule[] = [
             { label: 'Pipeline', to: '/app/contacts/pipeline' },
             { label: 'Todos os contatos', to: '/app/contacts' },
         ],
+    },
+    {
+        label: 'Administração',
+        icon: ShieldCheck,
+        children: [{ label: 'Usuários', to: '/app/admin' }],
     },
 ]

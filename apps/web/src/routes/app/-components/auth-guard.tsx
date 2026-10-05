@@ -1,20 +1,16 @@
-import { getProfile } from '#/http/get-profile'
-import { useQuery } from '@tanstack/react-query'
+import { useSession } from '#/hooks/use-session'
 import { type PropsWithChildren } from 'react'
 import { AppSkeleton } from './app-skeleton'
 import { Navigate } from '@tanstack/react-router'
 
 export const AuthGuard = ({ children }: PropsWithChildren) => {
-    const { data, error, isPending } = useQuery({
-        queryKey: ['profile'],
-        queryFn: getProfile,
-    })
+    const user = useSession()
 
-    if (isPending) {
+    if (user === undefined) {
         return <AppSkeleton />
     }
 
-    if (!data?.user || error) {
+    if (!user) {
         return <Navigate replace to="/login" />
     }
 

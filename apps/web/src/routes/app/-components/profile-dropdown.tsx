@@ -1,8 +1,4 @@
-import {
-    useMutation,
-    useQuery,
-    useQueryClient,
-} from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { ChevronsUpDown, KeyRound, LogOut } from 'lucide-react'
 import { toast } from 'sonner'
@@ -20,7 +16,8 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '../../../components/ui/tooltip'
-import { getProfile, type UserRole } from '../../../http/get-profile'
+import { useSession } from '../../../hooks/use-session'
+import { type UserRole } from '../../../http/get-profile'
 import { logout } from '../../../http/logout'
 import { cn } from '../../../lib/cn'
 
@@ -51,10 +48,7 @@ export function ProfileDropdown({ collapsed }: ProfileDropdownProps) {
     const navigate = useNavigate()
     const queryClient = useQueryClient()
 
-    const { data } = useQuery({
-        queryKey: ['profile'],
-        queryFn: getProfile,
-    })
+    const user = useSession()
 
     const logoutMutation = useMutation({
         mutationFn: logout,
@@ -69,11 +63,11 @@ export function ProfileDropdown({ collapsed }: ProfileDropdownProps) {
         },
     })
 
-    if (!data?.user) {
+    if (!user) {
         return null
     }
 
-    const { username, role } = data.user
+    const { username, role } = user
 
     return (
         <DropdownMenu>
