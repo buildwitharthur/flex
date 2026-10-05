@@ -1,6 +1,5 @@
 import { Star } from 'lucide-react'
 
-import { Avatar } from '#/components/ui/avatar'
 import { Badge } from '#/components/ui/badge'
 import {
     Pagination,
@@ -35,35 +34,12 @@ const dateFormatter = new Intl.DateTimeFormat('pt-BR', {
     year: 'numeric',
 })
 
-const nameConnectors = new Set(['de', 'da', 'do', 'das', 'dos', 'e'])
-
 function formatDate(value: string) {
     const parts = dateFormatter.formatToParts(new Date(value))
     const get = (type: Intl.DateTimeFormatPartTypes) =>
         parts.find((part) => part.type === type)?.value ?? ''
 
     return `${get('day')} ${get('month')} ${get('year')}`
-}
-
-function getInitials(name: string) {
-    const words = name
-        .split(/\s+/)
-        .filter(
-            (word) =>
-                /\p{L}/u.test(word) &&
-                !nameConnectors.has(word.toLocaleLowerCase('pt-BR')),
-        )
-
-    if (words.length === 0) {
-        return name.slice(0, 2).toLocaleUpperCase('pt-BR')
-    }
-
-    const letters =
-        words.length === 1
-            ? Array.from(words[0]).filter((char) => /\p{L}/u.test(char))
-            : words.map((word) => Array.from(word).find((char) => /\p{L}/u.test(char)) ?? '')
-
-    return letters.slice(0, 2).join('').toLocaleUpperCase('pt-BR')
 }
 
 export function PartnersData({
@@ -107,14 +83,9 @@ export function PartnersData({
                             partners.map((partner) => (
                                 <TableRow key={partner.id}>
                                     <TableCell className="w-full">
-                                        <div className="flex items-center gap-3">
-                                            <Avatar variant="partner">
-                                                {getInitials(partner.name)}
-                                            </Avatar>
-                                            <span className="font-semibold text-foreground">
-                                                {partner.name}
-                                            </span>
-                                        </div>
+                                        <span className="font-semibold text-foreground capitalize">
+                                            {partner.name}
+                                        </span>
                                     </TableCell>
                                     <TableCell className="text-muted-foreground">
                                         {partner.category.name}
