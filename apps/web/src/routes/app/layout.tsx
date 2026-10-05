@@ -19,10 +19,7 @@ function AppLayout() {
     })
 
     useEffect(() => {
-        window.localStorage.setItem(
-            'flex.sidebar.collapsed',
-            String(collapsed),
-        )
+        window.localStorage.setItem('flex.sidebar.collapsed', String(collapsed))
     }, [collapsed])
 
     return (
