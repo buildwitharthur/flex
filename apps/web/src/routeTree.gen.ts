@@ -9,8 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppLayoutRouteImport } from './routes/app/layout'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
+import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as AppContactsIndexRouteImport } from './routes/app/contacts/index'
 import { Route as AppPartnersIndexRouteImport } from './routes/app/partners/index'
@@ -19,6 +21,11 @@ import { Route as AppPartnersCategoriesIndexRouteImport } from './routes/app/par
 import { Route as AppPartnersNewIndexRouteImport } from './routes/app/partners/new/index'
 import { Route as AppPartnersPartnerIdEditIndexRouteImport } from './routes/app/partners/$partnerId/edit/index'
 
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppLayoutRoute = AppLayoutRouteImport.update({
   id: '/app',
   path: '/app',
@@ -28,6 +35,11 @@ const DesignSystemRoute = DesignSystemRouteImport.update({
   id: '/design-system',
   path: '/design-system',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 const LoginIndexRoute = LoginIndexRouteImport.update({
   id: '/login/',
@@ -69,8 +81,10 @@ const AppPartnersPartnerIdEditIndexRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/app': typeof AppLayoutRouteWithChildren
   '/design-system': typeof DesignSystemRoute
+  '/app/': typeof AppIndexRoute
   '/login/': typeof LoginIndexRoute
   '/app/contacts/': typeof AppContactsIndexRoute
   '/app/partners/': typeof AppPartnersIndexRoute
@@ -80,8 +94,9 @@ export interface FileRoutesByFullPath {
   '/app/partners/$partnerId/edit/': typeof AppPartnersPartnerIdEditIndexRoute
 }
 export interface FileRoutesByTo {
-  '/app': typeof AppLayoutRouteWithChildren
+  '/': typeof IndexRoute
   '/design-system': typeof DesignSystemRoute
+  '/app': typeof AppIndexRoute
   '/login': typeof LoginIndexRoute
   '/app/contacts': typeof AppContactsIndexRoute
   '/app/partners': typeof AppPartnersIndexRoute
@@ -92,8 +107,10 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/app': typeof AppLayoutRouteWithChildren
   '/design-system': typeof DesignSystemRoute
+  '/app/': typeof AppIndexRoute
   '/login/': typeof LoginIndexRoute
   '/app/contacts/': typeof AppContactsIndexRoute
   '/app/partners/': typeof AppPartnersIndexRoute
@@ -105,8 +122,10 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/app'
     | '/design-system'
+    | '/app/'
     | '/login/'
     | '/app/contacts/'
     | '/app/partners/'
@@ -116,8 +135,9 @@ export interface FileRouteTypes {
     | '/app/partners/$partnerId/edit/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/app'
+    | '/'
     | '/design-system'
+    | '/app'
     | '/login'
     | '/app/contacts'
     | '/app/partners'
@@ -127,8 +147,10 @@ export interface FileRouteTypes {
     | '/app/partners/$partnerId/edit'
   id:
     | '__root__'
+    | '/'
     | '/app'
     | '/design-system'
+    | '/app/'
     | '/login/'
     | '/app/contacts/'
     | '/app/partners/'
@@ -139,6 +161,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   AppLayoutRoute: typeof AppLayoutRouteWithChildren
   DesignSystemRoute: typeof DesignSystemRoute
   LoginIndexRoute: typeof LoginIndexRoute
@@ -146,6 +169,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app': {
       id: '/app'
       path: '/app'
@@ -159,6 +189,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/design-system'
       preLoaderRoute: typeof DesignSystemRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
     }
     '/login/': {
       id: '/login/'
@@ -213,6 +250,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppLayoutRouteChildren {
+  AppIndexRoute: typeof AppIndexRoute
   AppContactsIndexRoute: typeof AppContactsIndexRoute
   AppPartnersIndexRoute: typeof AppPartnersIndexRoute
   AppContactsPipelineIndexRoute: typeof AppContactsPipelineIndexRoute
@@ -222,6 +260,7 @@ interface AppLayoutRouteChildren {
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
+  AppIndexRoute: AppIndexRoute,
   AppContactsIndexRoute: AppContactsIndexRoute,
   AppPartnersIndexRoute: AppPartnersIndexRoute,
   AppContactsPipelineIndexRoute: AppContactsPipelineIndexRoute,
@@ -235,6 +274,7 @@ const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   AppLayoutRoute: AppLayoutRouteWithChildren,
   DesignSystemRoute: DesignSystemRoute,
   LoginIndexRoute: LoginIndexRoute,
