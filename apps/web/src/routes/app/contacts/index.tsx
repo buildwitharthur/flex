@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 
 import { PageHeader } from '#/components/page-header'
 import { ContactsList } from './-components/contacts-list'
+import { ExportContactsButton } from './-components/export-contacts-button'
 import { ContactsSearch } from './-components/contacts-search'
 import { ContactsTableSkeleton } from './-components/contacts-table-skeleton'
 
@@ -16,7 +17,9 @@ function ContactsPage() {
             <PageHeader
                 title="Todos os contatos"
                 description="Consulte e gerencie todos os contatos recebidos pelo Flex."
-            />
+            >
+                <ExportContactsButton />
+            </PageHeader>
 
             <ContactsSearch />
 
