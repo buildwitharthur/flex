@@ -115,8 +115,29 @@ export function UpsertUser({ user, children }: UpsertUserProps) {
                 ...(email ? { email } : {}),
             })
         },
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ['users'] })
+        onSuccess: ({ user: savedUser }) => {
+            queryClient.setQueryData<{ users: User[] }>(
+                ['users'],
+                (current) => {
+                    if (!current) return current
+
+                    const users = isEditing
+                        ? current.users.map((currentUser) =>
+                              currentUser.id === savedUser.id
+                                  ? savedUser
+                                  : currentUser,
+                          )
+                        : [
+                              savedUser,
+                              ...current.users.filter(
+                                  (currentUser) =>
+                                      currentUser.id !== savedUser.id,
+                              ),
+                          ]
+
+                    return { ...current, users }
+                },
+            )
             setOpen(false)
             reset(getDefaultValues(isEditing ? user : undefined))
             toast.success(

@@ -17,6 +17,13 @@ export const deleteUser: RequestHandler = async (request, response) => {
     }
 
     const { id } = paramsResult.data
+
+    if (request.auth.userId === id) {
+        return response.status(400).json({
+            message: 'Você não pode excluir seu próprio usuário',
+        })
+    }
+
     const existingUser = await prisma.user.findUnique({
         where: { id },
         select: { id: true },

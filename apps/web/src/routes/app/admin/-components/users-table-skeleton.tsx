@@ -29,6 +29,7 @@ export function UsersTableSkeleton() {
                         <TableHead className="w-36">
                             <Skeleton className="h-3 w-16" />
                         </TableHead>
+                        <TableHead className="w-16" />
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -45,6 +46,9 @@ export function UsersTableSkeleton() {
                             </TableCell>
                             <TableCell>
                                 <Skeleton className="h-3.5 w-20" />
+                            </TableCell>
+                            <TableCell className="text-right">
+                                <Skeleton className="ml-auto size-8 rounded-lg" />
                             </TableCell>
                         </TableRow>
                     ))}

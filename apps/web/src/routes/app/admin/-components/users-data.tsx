@@ -1,4 +1,5 @@
 import { Badge } from '#/components/ui/badge'
+import { UserActions } from './user-actions'
 import {
     Table,
     TableBody,
@@ -34,13 +35,16 @@ export function UsersData({ users }: UsersDataProps) {
                         <TableHead>Usuário</TableHead>
                         <TableHead className="w-44">Permissão</TableHead>
                         <TableHead className="w-36">Criado em</TableHead>
+                        <TableHead className="w-16 text-right">
+                            <span className="sr-only">Ações</span>
+                        </TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {users.length === 0 ? (
                         <TableRow>
                             <TableCell
-                                colSpan={4}
+                                colSpan={5}
                                 className="text-muted-foreground"
                             >
                                 Nenhum usuário encontrado.
@@ -68,6 +72,9 @@ export function UsersData({ users }: UsersDataProps) {
                                     {dateFormatter.format(
                                         new Date(user.createdAt),
                                     )}
+                                </TableCell>
+                                <TableCell className="text-right">
+                                    <UserActions user={user} />
                                 </TableCell>
                             </TableRow>
                         ))
