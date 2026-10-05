@@ -1,9 +1,9 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 
 import { PageHeader } from '#/components/page-header'
 import { Skeleton } from '#/components/ui/skeleton'
-import { ContactsViewNavigation } from '../-components/contacts-view-navigation'
+
 import { ContactsPipeline } from './-components/contacts-pipeline'
 
 export const Route = createFileRoute('/app/contacts/pipeline/')({
@@ -17,8 +17,6 @@ function ContactsPipelinePage() {
                 title="Pipeline"
                 description="Acompanhe os contatos em andamento."
             ></PageHeader>
-
-            <ContactsViewNavigation />
 
             <Suspense
                 fallback={

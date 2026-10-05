@@ -1,5 +1,5 @@
 import { Search, X } from 'lucide-react'
-import { useQueryState } from 'nuqs'
+import { debounce, defaultRateLimit, useQueryState } from 'nuqs'
 
 import { Button } from '#/components/ui/button'
 import { Input } from '#/components/ui/input'
@@ -26,19 +26,15 @@ export function ContactsSearch() {
                 autoComplete="off"
                 className="pr-9 pl-9 [&::-webkit-search-cancel-button]:appearance-none"
                 value={search}
-                onChange={(event) => setSearch(event.target.value)}
+                onChange={(event) => {
+                    const value = event.target.value
+
+                    setSearch(value, {
+                        limitUrlUpdates:
+                            value === '' ? defaultRateLimit : debounce(400),
+                    })
+                }}
             />
-            {search !== '' ? (
-                <Button
-                    type="button"
-                    variant="ghost"
-                    aria-label="Limpar busca"
-                    className="absolute top-1/2 right-0.5 size-7 min-w-0 -translate-y-1/2 p-0"
-                    onClick={() => setSearch('')}
-                >
-                    <X aria-hidden="true" className="size-4" />
-                </Button>
-            ) : null}
         </div>
     )
 }

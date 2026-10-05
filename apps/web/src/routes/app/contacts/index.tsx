@@ -1,6 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { Suspense } from 'react'
 
 import { PageHeader } from '#/components/page-header'
+import { Skeleton } from '#/components/ui/skeleton'
+import { ContactsList } from './-components/contacts-list'
 import { ContactsSearch } from './-components/contacts-search'
 
 export const Route = createFileRoute('/app/contacts/')({
@@ -15,9 +18,11 @@ function ContactsPage() {
                 description="Consulte e gerencie todos os contatos recebidos pelo Flex."
             />
 
-            <div className="flex items-center gap-2">
-                <ContactsSearch />
-            </div>
+            <ContactsSearch />
+
+            <Suspense fallback={<Skeleton className="h-4 w-24" />}>
+                <ContactsList />
+            </Suspense>
         </div>
     )
 }
