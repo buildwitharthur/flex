@@ -12,6 +12,7 @@ import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input'
 import { FieldError, Label } from '../../../components/ui/label'
 import { login } from '../../../http/login'
+import { useNavigate } from '@tanstack/react-router'
 
 const loginSchema = z.object({
     username: z.string().trim().min(1, 'Informe seu usuário.'),
@@ -21,6 +22,8 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>
 
 export function LoginForm() {
+    const navigate = useNavigate()
+
     const {
         control,
         handleSubmit,
@@ -43,6 +46,7 @@ export function LoginForm() {
         }
 
         mutation.mutate(values)
+        navigate({ to: '/app', replace: true })
     }
 
     const errorMessage = mutation.error?.message

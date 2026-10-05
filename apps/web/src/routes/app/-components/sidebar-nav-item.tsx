@@ -76,7 +76,11 @@ export function SidebarNavItem({
                     <TooltipContent side="right">{label}</TooltipContent>
                 </Tooltip>
 
-                <DropdownMenuContent align="start" className="min-w-[208px]" side="right">
+                <DropdownMenuContent
+                    align="start"
+                    className="min-w-[208px]"
+                    side="right"
+                >
                     <DropdownMenuLabel>{label}</DropdownMenuLabel>
                     {children.map((child) => {
                         const childActive = matchRoute({
@@ -89,11 +93,14 @@ export function SidebarNavItem({
                                 key={child.to}
                                 asChild
                                 className={cn(
-                                    childActive && 'bg-surface-muted font-semibold',
+                                    childActive &&
+                                        'bg-surface-muted font-semibold',
                                 )}
                             >
                                 <Link
-                                    aria-current={childActive ? 'page' : undefined}
+                                    aria-current={
+                                        childActive ? 'page' : undefined
+                                    }
                                     to={child.to}
                                 >
                                     {child.label}
@@ -157,7 +164,9 @@ export function SidebarNavItem({
                             return (
                                 <Link
                                     key={child.to}
-                                    aria-current={childActive ? 'page' : undefined}
+                                    aria-current={
+                                        childActive ? 'page' : undefined
+                                    }
                                     className={cn(
                                         'relative flex h-[var(--nav-item-height)] w-full items-center rounded-md px-3 font-body text-[13px] leading-5 font-medium text-sidebar-muted outline-none transition-colors duration-fast hover:bg-sidebar-hover hover:text-sidebar-foreground focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus',
                                         childActive && [

@@ -4,15 +4,15 @@ type UpdatePartnerRequest = {
     id: string
     name?: string
     description?: string
-    shortDescription?: string
+    shortDescription?: string | null
     discount?: string
-    address?: string
-    phone?: string
-    whatsapp?: string
-    logoUrl?: string
-    websiteUrl?: string
-    couponCode?: string
-    redemptionInstructions?: string
+    address?: string | null
+    phone?: string | null
+    whatsapp?: string | null
+    logoUrl?: string | null
+    websiteUrl?: string | null
+    couponCode?: string | null
+    redemptionInstructions?: string | null
     categoryId?: string
     isActive?: boolean
     isFeatured?: boolean

@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
 import {
     CircleCheck,
     CircleOff,
     Ellipsis,
-    Eye,
     Pencil,
     Star,
     StarOff,
@@ -27,6 +27,7 @@ type PartnerActionProps = {
 
 export function PartnerAction({ partner }: PartnerActionProps) {
     const queryClient = useQueryClient()
+    const navigate = useNavigate()
     const updateMutation = useMutation({
         mutationFn: updatePartner,
         onSuccess: () =>
@@ -48,6 +49,20 @@ export function PartnerAction({ partner }: PartnerActionProps) {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end">
+                <DropdownMenuItem
+                    onSelect={() =>
+                        void navigate({
+                            to: '/app/partners/$partnerId/edit',
+                            params: { partnerId: partner.id },
+                        })
+                    }
+                >
+                    <Pencil aria-hidden="true" />
+                    Editar
+                </DropdownMenuItem>
+
+                <DropdownMenuSeparator />
+
                 <DropdownMenuItem
                     disabled={updateMutation.isPending}
                     onSelect={() =>

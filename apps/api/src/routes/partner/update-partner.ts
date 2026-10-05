@@ -6,7 +6,7 @@ import { prisma } from '../../lib/prisma/index.js'
 
 const partnerNameSchema = z.string().trim().min(1).toLowerCase()
 const requiredTextSchema = z.string().trim().min(1)
-const optionalTextSchema = z.string().trim().min(1).optional()
+const nullableTextSchema = z.string().trim().min(1).nullable().optional()
 const categoryIdSchema = z.string().trim().min(1)
 
 const partnerParamsSchema = z.strictObject({
@@ -17,15 +17,15 @@ const updatePartnerSchema = z
     .strictObject({
         name: partnerNameSchema.optional(),
         description: requiredTextSchema.optional(),
-        shortDescription: optionalTextSchema,
+        shortDescription: nullableTextSchema,
         discount: requiredTextSchema.optional(),
-        address: optionalTextSchema,
-        phone: optionalTextSchema,
-        whatsapp: optionalTextSchema,
-        logoUrl: optionalTextSchema,
-        websiteUrl: optionalTextSchema,
-        couponCode: optionalTextSchema,
-        redemptionInstructions: optionalTextSchema,
+        address: nullableTextSchema,
+        phone: nullableTextSchema,
+        whatsapp: nullableTextSchema,
+        logoUrl: nullableTextSchema,
+        websiteUrl: nullableTextSchema,
+        couponCode: nullableTextSchema,
+        redemptionInstructions: nullableTextSchema,
         categoryId: categoryIdSchema.optional(),
         isActive: z.boolean().optional(),
         isFeatured: z.boolean().optional(),
