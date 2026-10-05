@@ -8,6 +8,7 @@ import { errorHandler } from './plugins/error-handler.js'
 import { rateLimitPlugin } from './plugins/rate-limit.js'
 
 import { loginRouter } from './routes/login.js'
+import { logoutRouter } from './routes/logout.js'
 import { profileRouter } from './routes/profile.js'
 import { categoryRouter } from './routes/category/index.js'
 import { partnerRouter } from './routes/partner/index.js'
@@ -28,6 +29,7 @@ app.use(rateLimitPlugin)
 app.use(errorHandler)
 
 app.use(loginRouter)
+app.use(logoutRouter)
 app.use(profileRouter)
 
 app.use('/categories', categoryRouter)

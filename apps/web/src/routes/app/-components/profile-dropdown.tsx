@@ -1,5 +1,11 @@
-import { useQuery } from '@tanstack/react-query'
+import {
+    useMutation,
+    useQuery,
+    useQueryClient,
+} from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
 import { ChevronsUpDown, KeyRound, LogOut } from 'lucide-react'
+import { toast } from 'sonner'
 
 import {
     DropdownMenu,
@@ -15,6 +21,7 @@ import {
     TooltipTrigger,
 } from '../../../components/ui/tooltip'
 import { getProfile, type UserRole } from '../../../http/get-profile'
+import { logout } from '../../../http/logout'
 import { cn } from '../../../lib/cn'
 
 const roleLabels: Record<UserRole, string> = {
@@ -41,9 +48,25 @@ type ProfileDropdownProps = {
 }
 
 export function ProfileDropdown({ collapsed }: ProfileDropdownProps) {
+    const navigate = useNavigate()
+    const queryClient = useQueryClient()
+
     const { data } = useQuery({
         queryKey: ['profile'],
         queryFn: getProfile,
+    })
+
+    const logoutMutation = useMutation({
+        mutationFn: logout,
+        onSuccess: async () => {
+            // Navega antes de remover o profile para que AuthGuard e este
+            // componente já estejam desmontados e não refaçam GET /profile.
+            await navigate({ to: '/login', replace: true })
+            queryClient.removeQueries({ queryKey: ['profile'], exact: true })
+        },
+        onError: (error) => {
+            toast.error(error.message)
+        },
     })
 
     if (!data?.user) {
@@ -111,9 +134,15 @@ export function ProfileDropdown({ collapsed }: ProfileDropdownProps) {
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem disabled>
+                <DropdownMenuItem
+                    disabled={logoutMutation.isPending}
+                    onSelect={(event) => {
+                        event.preventDefault()
+                        logoutMutation.mutate()
+                    }}
+                >
                     <LogOut aria-hidden="true" />
-                    Sair
+                    {logoutMutation.isPending ? 'Saindo...' : 'Sair'}
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
