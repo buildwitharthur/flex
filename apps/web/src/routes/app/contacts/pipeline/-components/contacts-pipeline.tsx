@@ -67,8 +67,18 @@ export function ContactsPipeline() {
                 queryClient.setQueryData(['contacts'], context.previousData)
             }
         },
-        onSettled: () =>
-            queryClient.invalidateQueries({ queryKey: ['contacts'] }),
+        onSuccess: ({ contact }) => {
+            queryClient.setQueryData<ContactsQueryData>(
+                ['contacts'],
+                (current) =>
+                    current && {
+                        ...current,
+                        contacts: current.contacts.map((item) =>
+                            item.id === contact.id ? contact : item,
+                        ),
+                    },
+            )
+        },
     })
 
     const activeContact = data.contacts.find(
