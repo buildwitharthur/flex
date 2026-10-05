@@ -1,9 +1,14 @@
+import { useDraggable } from '@dnd-kit/core'
 import { Ellipsis } from 'lucide-react'
+import type { ComponentPropsWithoutRef, Ref } from 'react'
 
 import { Button } from '#/components/ui/button'
+import { cn } from '#/lib/cn'
 
 type PipelineCardProps = {
     contact: Contact
+    disabled?: boolean
+    overlay?: boolean
 }
 
 const contactTypeLabel: Record<ContactType, string> = {
@@ -38,12 +43,29 @@ function formatRelativeTime(createdAt: string) {
     return `há ${days} ${days === 1 ? 'dia' : 'dias'}`
 }
 
-export function PipelineCard({ contact }: PipelineCardProps) {
+type PipelineCardContentProps = ComponentPropsWithoutRef<'article'> & {
+    contact: Contact
+    cardRef?: Ref<HTMLElement>
+}
+
+function PipelineCardContent({
+    contact,
+    cardRef,
+    className,
+    ...props
+}: PipelineCardContentProps) {
     const isRecent =
         getElapsedMinutes(contact.createdAt) < RECENT_LIMIT_IN_MINUTES
 
     return (
-        <article className="relative rounded-md border border-border bg-surface px-3 pt-2 pb-2.5 transition-colors duration-fast hover:border-border-strong">
+        <article
+            ref={cardRef}
+            className={cn(
+                'relative rounded-md border border-border bg-surface px-3 pt-2 pb-2.5 transition-colors duration-fast hover:border-border-strong',
+                className,
+            )}
+            {...props}
+        >
             <div className="flex min-w-0 items-center gap-1.5 pr-7 leading-5 font-semibold">
                 {isRecent ? (
                     <>
@@ -62,6 +84,7 @@ export function PipelineCard({ contact }: PipelineCardProps) {
                 size="icon"
                 aria-label={`Ações de ${contact.name}`}
                 className="absolute top-1 right-1 size-6 min-w-6"
+                onPointerDown={(event) => event.stopPropagation()}
             >
                 <Ellipsis aria-hidden="true" className="size-4" />
             </Button>
@@ -80,4 +103,42 @@ export function PipelineCard({ contact }: PipelineCardProps) {
             </div>
         </article>
     )
+}
+
+function DraggablePipelineCard({
+    contact,
+    disabled,
+}: Omit<PipelineCardProps, 'overlay'>) {
+    const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+        id: contact.id,
+        data: { contactId: contact.id, stage: contact.stage },
+        disabled,
+    })
+
+    return (
+        <PipelineCardContent
+            contact={contact}
+            cardRef={setNodeRef}
+            {...attributes}
+            {...listeners}
+            className={cn(
+                disabled ? 'cursor-default' : 'cursor-grab',
+                isDragging && 'opacity-40',
+            )}
+        />
+    )
+}
+
+export function PipelineCard({ contact, disabled, overlay }: PipelineCardProps) {
+    if (overlay) {
+        return (
+            <PipelineCardContent
+                contact={contact}
+                aria-hidden="true"
+                className="scale-[1.02] cursor-grabbing shadow-lg hover:border-border"
+            />
+        )
+    }
+
+    return <DraggablePipelineCard contact={contact} disabled={disabled} />
 }

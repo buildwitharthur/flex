@@ -1,7 +1,9 @@
+import { useDroppable } from '@dnd-kit/core'
 import { ArrowRight } from 'lucide-react'
 
 import { Badge } from '#/components/ui/badge'
 import { Button } from '#/components/ui/button'
+import { cn } from '#/lib/cn'
 import { PipelineCard } from './pipeline-card'
 
 type PipelineColumnProps = {
@@ -9,6 +11,7 @@ type PipelineColumnProps = {
     title: string
     contacts: Contact[]
     total: number
+    dragDisabled?: boolean
 }
 
 const stageDot: Partial<Record<ContactStage, string>> = {
@@ -26,13 +29,19 @@ export function PipelineColumn({
     title,
     contacts,
     total,
+    dragDisabled,
 }: PipelineColumnProps) {
+    const { setNodeRef, isOver } = useDroppable({ id: stage, data: { stage } })
     const hasMore = total > contacts.length
 
     return (
         <section
+            ref={setNodeRef}
             aria-labelledby={`pipeline-${stage}`}
-            className="flex min-w-[84vw] flex-[1_1_296px] flex-col rounded-lg border border-border bg-surface-muted sm:min-w-74"
+            className={cn(
+                'flex min-w-[84vw] flex-[1_1_296px] flex-col rounded-lg border border-border bg-surface-muted transition-colors duration-fast sm:min-w-74',
+                isOver && 'border-accent/50 bg-accent-subtle',
+            )}
         >
             <header className="flex h-11 flex-none items-center gap-2 px-3">
                 <span
@@ -64,7 +73,7 @@ export function PipelineColumn({
                 {contacts.length > 0 ? (
                     contacts.map((contact) => (
                         <div key={contact.id} role="listitem">
-                            <PipelineCard contact={contact} />
+                            <PipelineCard contact={contact} disabled={dragDisabled} />
                         </div>
                     ))
                 ) : (
