@@ -38,24 +38,29 @@ export function LoginForm() {
         onError: (error) => {
             toast.error(error.message)
         },
+        onSuccess: () => {
+            toast.success('Login realizado com sucesso!')
+            navigate({ to: '/app/partners' })
+        },
     })
 
     const onSubmit = (values: LoginFormValues) => {
         mutation.mutate(values)
-        navigate({ to: '/app', replace: true })
     }
 
     return (
-        <div className="grid gap-8">
-            <header className="grid gap-2">
-                <h1 className="t-page">Acesse sua conta</h1>
-                <p className="t-body muted">
-                    Entre com suas credenciais para acessar o Flex Admin.
-                </p>
+        <div className="grid gap-7">
+            <header className="grid gap-1.5">
+                <span
+                    aria-hidden="true"
+                    className="mb-2.5 h-0.75 w-8 rounded-full bg-primary"
+                />
+                <h1 className="t-page">Flex Admin</h1>
+                <p className="t-body muted">Acesse sua conta para continuar.</p>
             </header>
 
             <form
-                className="grid gap-5"
+                className="grid gap-4"
                 noValidate
                 onSubmit={handleSubmit(onSubmit)}
             >
@@ -65,10 +70,16 @@ export function LoginForm() {
                         name="username"
                         render={({ field }) => (
                             <>
-                                <Label htmlFor="login-username">Usuário</Label>
+                                <Label
+                                    className="font-medium"
+                                    htmlFor="login-username"
+                                >
+                                    Usuário
+                                </Label>
                                 <Input
                                     {...field}
                                     id="login-username"
+                                    size="lg"
                                     type="text"
                                     autoComplete="username"
                                     autoFocus
@@ -100,10 +111,16 @@ export function LoginForm() {
                         name="password"
                         render={({ field }) => (
                             <>
-                                <Label htmlFor="login-password">Senha</Label>
+                                <Label
+                                    className="font-medium"
+                                    htmlFor="login-password"
+                                >
+                                    Senha
+                                </Label>
                                 <Input
                                     {...field}
                                     id="login-password"
+                                    size="lg"
                                     type="password"
                                     autoComplete="current-password"
                                     placeholder="Digite sua senha"
@@ -129,7 +146,7 @@ export function LoginForm() {
                 </div>
 
                 <Button
-                    className="w-full"
+                    className="mt-1 w-full text-sm font-semibold"
                     loading={mutation.isPending}
                     size="lg"
                     type="submit"
