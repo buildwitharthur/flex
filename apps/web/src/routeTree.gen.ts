@@ -13,8 +13,8 @@ import { Route as AppLayoutRouteImport } from './routes/app/layout'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as AppContactsIndexRouteImport } from './routes/app/contacts/index'
-import { Route as AppContactsPipelineRouteImport } from './routes/app/contacts/pipeline'
 import { Route as AppPartnersIndexRouteImport } from './routes/app/partners/index'
+import { Route as AppContactsPipelineIndexRouteImport } from './routes/app/contacts/pipeline/index'
 import { Route as AppPartnersCategoriesIndexRouteImport } from './routes/app/partners/categories/index'
 import { Route as AppPartnersNewIndexRouteImport } from './routes/app/partners/new/index'
 import { Route as AppPartnersPartnerIdEditIndexRouteImport } from './routes/app/partners/$partnerId/edit/index'
@@ -39,16 +39,17 @@ const AppContactsIndexRoute = AppContactsIndexRouteImport.update({
   path: '/contacts/',
   getParentRoute: () => AppLayoutRoute,
 } as any)
-const AppContactsPipelineRoute = AppContactsPipelineRouteImport.update({
-  id: '/contacts/pipeline',
-  path: '/contacts/pipeline',
-  getParentRoute: () => AppLayoutRoute,
-} as any)
 const AppPartnersIndexRoute = AppPartnersIndexRouteImport.update({
   id: '/partners/',
   path: '/partners/',
   getParentRoute: () => AppLayoutRoute,
 } as any)
+const AppContactsPipelineIndexRoute =
+  AppContactsPipelineIndexRouteImport.update({
+    id: '/contacts/pipeline/',
+    path: '/contacts/pipeline/',
+    getParentRoute: () => AppLayoutRoute,
+  } as any)
 const AppPartnersCategoriesIndexRoute =
   AppPartnersCategoriesIndexRouteImport.update({
     id: '/partners/categories/',
@@ -71,9 +72,9 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppLayoutRouteWithChildren
   '/design-system': typeof DesignSystemRoute
   '/login/': typeof LoginIndexRoute
-  '/app/contacts/pipeline': typeof AppContactsPipelineRoute
   '/app/contacts/': typeof AppContactsIndexRoute
   '/app/partners/': typeof AppPartnersIndexRoute
+  '/app/contacts/pipeline/': typeof AppContactsPipelineIndexRoute
   '/app/partners/categories/': typeof AppPartnersCategoriesIndexRoute
   '/app/partners/new/': typeof AppPartnersNewIndexRoute
   '/app/partners/$partnerId/edit/': typeof AppPartnersPartnerIdEditIndexRoute
@@ -82,9 +83,9 @@ export interface FileRoutesByTo {
   '/app': typeof AppLayoutRouteWithChildren
   '/design-system': typeof DesignSystemRoute
   '/login': typeof LoginIndexRoute
-  '/app/contacts/pipeline': typeof AppContactsPipelineRoute
   '/app/contacts': typeof AppContactsIndexRoute
   '/app/partners': typeof AppPartnersIndexRoute
+  '/app/contacts/pipeline': typeof AppContactsPipelineIndexRoute
   '/app/partners/categories': typeof AppPartnersCategoriesIndexRoute
   '/app/partners/new': typeof AppPartnersNewIndexRoute
   '/app/partners/$partnerId/edit': typeof AppPartnersPartnerIdEditIndexRoute
@@ -94,9 +95,9 @@ export interface FileRoutesById {
   '/app': typeof AppLayoutRouteWithChildren
   '/design-system': typeof DesignSystemRoute
   '/login/': typeof LoginIndexRoute
-  '/app/contacts/pipeline': typeof AppContactsPipelineRoute
   '/app/contacts/': typeof AppContactsIndexRoute
   '/app/partners/': typeof AppPartnersIndexRoute
+  '/app/contacts/pipeline/': typeof AppContactsPipelineIndexRoute
   '/app/partners/categories/': typeof AppPartnersCategoriesIndexRoute
   '/app/partners/new/': typeof AppPartnersNewIndexRoute
   '/app/partners/$partnerId/edit/': typeof AppPartnersPartnerIdEditIndexRoute
@@ -107,9 +108,9 @@ export interface FileRouteTypes {
     | '/app'
     | '/design-system'
     | '/login/'
-    | '/app/contacts/pipeline'
     | '/app/contacts/'
     | '/app/partners/'
+    | '/app/contacts/pipeline/'
     | '/app/partners/categories/'
     | '/app/partners/new/'
     | '/app/partners/$partnerId/edit/'
@@ -118,9 +119,9 @@ export interface FileRouteTypes {
     | '/app'
     | '/design-system'
     | '/login'
-    | '/app/contacts/pipeline'
     | '/app/contacts'
     | '/app/partners'
+    | '/app/contacts/pipeline'
     | '/app/partners/categories'
     | '/app/partners/new'
     | '/app/partners/$partnerId/edit'
@@ -129,9 +130,9 @@ export interface FileRouteTypes {
     | '/app'
     | '/design-system'
     | '/login/'
-    | '/app/contacts/pipeline'
     | '/app/contacts/'
     | '/app/partners/'
+    | '/app/contacts/pipeline/'
     | '/app/partners/categories/'
     | '/app/partners/new/'
     | '/app/partners/$partnerId/edit/'
@@ -173,18 +174,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppContactsIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
-    '/app/contacts/pipeline': {
-      id: '/app/contacts/pipeline'
-      path: '/contacts/pipeline'
-      fullPath: '/app/contacts/pipeline'
-      preLoaderRoute: typeof AppContactsPipelineRouteImport
-      parentRoute: typeof AppLayoutRoute
-    }
     '/app/partners/': {
       id: '/app/partners/'
       path: '/partners'
       fullPath: '/app/partners/'
       preLoaderRoute: typeof AppPartnersIndexRouteImport
+      parentRoute: typeof AppLayoutRoute
+    }
+    '/app/contacts/pipeline/': {
+      id: '/app/contacts/pipeline/'
+      path: '/contacts/pipeline'
+      fullPath: '/app/contacts/pipeline/'
+      preLoaderRoute: typeof AppContactsPipelineIndexRouteImport
       parentRoute: typeof AppLayoutRoute
     }
     '/app/partners/categories/': {
@@ -212,18 +213,18 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppLayoutRouteChildren {
-  AppContactsPipelineRoute: typeof AppContactsPipelineRoute
   AppContactsIndexRoute: typeof AppContactsIndexRoute
   AppPartnersIndexRoute: typeof AppPartnersIndexRoute
+  AppContactsPipelineIndexRoute: typeof AppContactsPipelineIndexRoute
   AppPartnersCategoriesIndexRoute: typeof AppPartnersCategoriesIndexRoute
   AppPartnersNewIndexRoute: typeof AppPartnersNewIndexRoute
   AppPartnersPartnerIdEditIndexRoute: typeof AppPartnersPartnerIdEditIndexRoute
 }
 
 const AppLayoutRouteChildren: AppLayoutRouteChildren = {
-  AppContactsPipelineRoute: AppContactsPipelineRoute,
   AppContactsIndexRoute: AppContactsIndexRoute,
   AppPartnersIndexRoute: AppPartnersIndexRoute,
+  AppContactsPipelineIndexRoute: AppContactsPipelineIndexRoute,
   AppPartnersCategoriesIndexRoute: AppPartnersCategoriesIndexRoute,
   AppPartnersNewIndexRoute: AppPartnersNewIndexRoute,
   AppPartnersPartnerIdEditIndexRoute: AppPartnersPartnerIdEditIndexRoute,

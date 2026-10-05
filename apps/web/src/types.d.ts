@@ -33,3 +33,24 @@ type Partner = {
     createdAt: string
     updatedAt: string
 }
+
+type ContactType = 'PARTNER' | 'MEMBER'
+
+type ContactStage =
+    | 'NEW'
+    | 'CONTACTED'
+    | 'NEGOTIATION'
+    | 'COMPLETED'
+    | 'LOST'
+
+type Contact = {
+    id: string
+    type: ContactType
+    name: string
+    company: string | null
+    email: string | null
+    phone: string
+    stage: ContactStage
+    createdAt: string
+    updatedAt: string
+}

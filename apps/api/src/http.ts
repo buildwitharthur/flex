@@ -11,6 +11,7 @@ import { loginRouter } from './routes/login.js'
 import { profileRouter } from './routes/profile.js'
 import { categoryRouter } from './routes/category/index.js'
 import { partnerRouter } from './routes/partner/index.js'
+import { contactRouter } from './routes/contact/index.js'
 
 const app = express()
 const port = Number(process.env.PORT) || 3333
@@ -31,6 +32,7 @@ app.use(profileRouter)
 
 app.use('/categories', categoryRouter)
 app.use('/partners', partnerRouter)
+app.use('/contacts', contactRouter)
 
 app.get('/health', (_request, response) => {
     response.json({ status: 'ok' })
