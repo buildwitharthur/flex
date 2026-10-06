@@ -4,9 +4,28 @@ import '../styles/global.css'
 interface Props {
   title: string
   description: string
+  canonical?: string
+  image?: string
+  noindex?: boolean
 }
 
-const { title, description } = Astro.props
+const {
+  title,
+  description,
+  canonical,
+  image,
+  noindex = false,
+} = Astro.props
+
+const siteName = 'Flex Clube'
+
+const canonicalUrl = new URL(
+  canonical ?? Astro.url.pathname + Astro.url.search,
+  Astro.site ?? Astro.url,
+).href
+const absoluteImageUrl = image
+  ? new URL(image, Astro.site ?? Astro.url).href
+  : undefined
 ---
 
 <!doctype html>
@@ -14,8 +33,31 @@ const { title, description } = Astro.props
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&family=Fraunces:opsz,ital,wght@9..144,0,100..900;9..144,1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/brand/flex-favicon.svg" type="image/svg+xml" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta
+      name="robots"
+      content={noindex ? 'noindex, nofollow' : 'index, follow'}
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={siteName} />
+    {absoluteImageUrl && <meta property="og:image" content={absoluteImageUrl} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {absoluteImageUrl && <meta name="twitter:image" content={absoluteImageUrl} />}
   </head>
   <body>
     <slot />

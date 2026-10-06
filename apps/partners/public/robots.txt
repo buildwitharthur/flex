@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Configure SITE_URL before adding the absolute sitemap URL.
