@@ -1,71 +1,66 @@
 ---
+import type { PartnerSort, PublicPartner } from '../types/partner'
 import PartnerCard from './partner-card.astro'
+import PartnersPagination from './partners-pagination.astro'
 
-interface MockCategory {
-  id: string
+interface PartnerCategoryFilter {
+  key: string
   name: string
-  icon?: string
+  count: number
 }
 
-interface MockPartner {
-  id: string
-  name: string
-  description: string
-  discount: string
-  isFeatured: boolean
-  category: MockCategory
+interface Props {
+  partners: PublicPartner[]
+  categories: PartnerCategoryFilter[]
+  totalPartners: number
+  filteredCount: number
+  page: number
+  totalPages: number
+  query: string
+  activeCategory: string
+  sort: PartnerSort
+  error?: boolean
 }
 
-const partners: MockPartner[] = [
-  {
-    id: '1',
-    name: 'Clínica Vida',
-    description: 'Consultas e cuidados para toda a família.',
-    discount: '30% OFF',
-    isFeatured: true,
-    category: { id: 'health', name: 'Saúde', icon: '✦' },
-  },
-  {
-    id: '2',
-    name: 'Laboratório Central',
-    description: 'Exames laboratoriais com condições especiais para clientes Flex.',
-    discount: '20% OFF',
-    isFeatured: false,
-    category: { id: 'laboratory', name: 'Laboratório', icon: '✦' },
-  },
-  {
-    id: '3',
-    name: 'Odonto Prime',
-    description: 'Atendimento odontológico e tratamentos completos.',
-    discount: '25% OFF',
-    isFeatured: true,
-    category: { id: 'dentistry', name: 'Odontologia', icon: '✦' },
-  },
-  {
-    id: '4',
-    name: 'Ótica Visão',
-    description: 'Óculos, lentes e cuidados para a sua visão.',
-    discount: '15% OFF',
-    isFeatured: false,
-    category: { id: 'optics', name: 'Ótica', icon: '✦' },
-  },
-  {
-    id: '5',
-    name: 'Studio Movimento',
-    description: 'Bem-estar, fisioterapia e qualidade de vida.',
-    discount: '20% OFF',
-    isFeatured: false,
-    category: { id: 'wellness', name: 'Bem-estar', icon: '✦' },
-  },
-  {
-    id: '6',
-    name: 'Academia Forma',
-    description: 'Treinos e atividades para manter uma rotina mais saudável.',
-    discount: '10% OFF',
-    isFeatured: false,
-    category: { id: 'fitness', name: 'Fitness', icon: '✦' },
-  },
-]
+const {
+  partners,
+  categories,
+  totalPartners,
+  filteredCount,
+  page,
+  totalPages,
+  query,
+  activeCategory,
+  sort,
+  error = false,
+} = Astro.props
+
+function buildPartnersUrl({
+  category,
+  query: nextQuery = query,
+  sort: nextSort = sort,
+}: {
+  category?: string
+  query?: string
+  sort?: PartnerSort
+} = {}) {
+  const params = new URLSearchParams()
+
+  if (nextQuery) params.set('q', nextQuery)
+  if (category && category !== 'all') params.set('category', category)
+  if (nextSort !== 'featured') params.set('sort', nextSort)
+
+  const search = params.toString()
+  return `/${search ? `?${search}` : ''}#parceiros`
+}
+
+const hasActiveFilters = Boolean(query) || activeCategory !== 'all' || sort !== 'featured'
+const partnerCountLabel = totalPartners === 1
+  ? 'parceiro disponível agora.'
+  : 'parceiros disponíveis agora.'
+const filteredCountLabel = filteredCount === 1
+  ? 'parceiro encontrado'
+  : 'parceiros encontrados'
 ---
 
 <section id="parceiros" class="relative py-24 lg:py-32">
@@ -88,15 +83,143 @@ const partners: MockPartner[] = [
         <p class="max-w-md text-lg text-ink/70">
           Filtre por categoria, busque por nome ou ordene como preferir.
         </p>
-        <p class="mt-3 text-sm text-ink/50">
-          <span class="font-medium text-ink">{partners.length}</span>
-          parceiros disponíveis agora.
-        </p>
+        {!error && (
+          <p class="mt-3 text-sm text-ink/50">
+            <span class="font-medium text-ink">{totalPartners}</span>
+            {` ${partnerCountLabel}`}
+          </p>
+        )}
       </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {partners.map((partner) => <PartnerCard partner={partner} />)}
-    </div>
+    {error ? (
+      <div class="rounded-3xl border border-dashed border-ink/10 px-6 py-16 text-center">
+        <p class="display-italic text-3xl text-ink/40">
+          Não foi possível carregar os parceiros agora.
+        </p>
+        <p class="mt-3 text-ink/50">Tente novamente em alguns instantes.</p>
+      </div>
+    ) : (
+      <>
+        <form method="GET" action="/#parceiros" class="mb-6 mt-12">
+          <div class="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto]">
+            <div class="relative">
+              <label class="sr-only" for="partners-search">Buscar parceiros</label>
+              <svg
+                class="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-ink/40"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </svg>
+              <input
+                id="partners-search"
+                type="search"
+                name="q"
+                value={query}
+                placeholder="Buscar por nome, categoria ou desconto..."
+                class="w-full rounded-full border border-ink/10 bg-cream-50 py-4 pl-12 pr-5 text-base text-ink placeholder:text-ink/40 transition-colors focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15"
+              />
+            </div>
+
+            <div class="flex gap-3">
+              <label class="sr-only" for="partners-sort">Ordenar parceiros</label>
+              <select
+                id="partners-sort"
+                name="sort"
+                class="min-w-[190px] flex-1 cursor-pointer rounded-full border border-ink/10 bg-cream-50 px-5 py-4 text-base text-ink focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15"
+              >
+                <option value="featured" selected={sort === 'featured'}>Em destaque</option>
+                <option value="discount" selected={sort === 'discount'}>Maior desconto</option>
+                <option value="name" selected={sort === 'name'}>Ordem alfabética</option>
+              </select>
+              <button type="submit" class="btn-primary whitespace-nowrap px-5 py-3.5">
+                Buscar
+              </button>
+            </div>
+          </div>
+
+          {activeCategory !== 'all' && (
+            <input type="hidden" name="category" value={activeCategory} />
+          )}
+        </form>
+
+        <div class="mb-12 flex flex-wrap gap-2">
+          <a
+            href={buildPartnersUrl()}
+            class:list={[
+              'inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition-colors',
+              activeCategory === 'all'
+                ? 'border-ink bg-ink text-cream-50'
+                : 'border-ink/15 bg-transparent text-ink hover:border-ink/40 hover:bg-cream-100',
+            ]}
+            aria-current={activeCategory === 'all' ? 'true' : undefined}
+          >
+            Tudo ({totalPartners})
+          </a>
+
+          {categories.map((category) => (
+            <a
+              href={buildPartnersUrl({ category: category.key })}
+              class:list={[
+                'inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition-colors',
+                activeCategory === category.key
+                  ? 'border-ink bg-ink text-cream-50'
+                  : 'border-ink/15 bg-transparent text-ink hover:border-ink/40 hover:bg-cream-100',
+              ]}
+              aria-current={activeCategory === category.key ? 'true' : undefined}
+            >
+              {category.name} ({category.count})
+            </a>
+          ))}
+        </div>
+
+        {(hasActiveFilters || partners.length === 0) && (
+          <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+            <p class="text-sm text-ink/50">
+              {filteredCount} {filteredCountLabel}
+            </p>
+            {hasActiveFilters && (
+              <a href="/#parceiros" class="text-sm text-coral hover:underline">
+                Limpar filtros
+              </a>
+            )}
+          </div>
+        )}
+
+        {partners.length === 0 ? (
+          <div class="rounded-3xl border border-dashed border-ink/10 px-6 py-16 text-center">
+            <p class="display-italic text-3xl text-ink/40">
+              {hasActiveFilters ? 'Nada encontrado' : 'Nenhum parceiro disponível no momento.'}
+            </p>
+            {hasActiveFilters && (
+              <p class="mt-3 text-ink/50">
+                Tente ajustar os filtros ou buscar com outras palavras.
+              </p>
+            )}
+          </div>
+        ) : (
+          <>
+            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {partners.map((partner) => <PartnerCard partner={partner} />)}
+            </div>
+
+            <PartnersPagination
+              page={page}
+              totalPages={totalPages}
+              query={query}
+              activeCategory={activeCategory}
+              sort={sort}
+            />
+          </>
+        )}
+      </>
+    )}
   </div>
 </section>

@@ -5,10 +5,12 @@ import { createPartner } from './create-partner.js'
 import { deletePartner } from './delete-partner.js'
 import { getPartner } from './get-partner.js'
 import { getPartners } from './get-partners.js'
+import { getPublicPartners } from './get-public-partners.js'
 import { updatePartner } from './update-partner.js'
 
 const partnerRouter = Router()
 
+partnerRouter.get('/public', getPublicPartners)
 partnerRouter.use(auth)
 partnerRouter.get('/', getPartners)
 partnerRouter.get('/:id', getPartner)

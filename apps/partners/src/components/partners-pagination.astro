@@ -1,0 +1,109 @@
+---
+import type { PartnerSort } from '../types/partner'
+
+interface Props {
+  page: number
+  totalPages: number
+  query: string
+  activeCategory: string
+  sort: PartnerSort
+}
+
+const { page, totalPages, query, activeCategory, sort } = Astro.props
+type PageItem = number | 'ellipsis'
+
+function buildPageUrl(nextPage: number) {
+  const params = new URLSearchParams()
+
+  if (query) params.set('q', query)
+  if (activeCategory !== 'all') params.set('category', activeCategory)
+  if (sort !== 'featured') params.set('sort', sort)
+  if (nextPage > 1) params.set('page', String(nextPage))
+
+  const search = params.toString()
+  return `/${search ? `?${search}` : ''}#parceiros`
+}
+
+function getPageItems() {
+  if (totalPages <= 7) {
+    return Array.from({ length: totalPages }, (_, index) => index + 1) as PageItem[]
+  }
+
+  const pages = new Set<number>([1, totalPages, page])
+
+  for (let offset = 1; offset <= 2; offset += 1) {
+    if (page - offset > 1) pages.add(page - offset)
+    if (page + offset < totalPages) pages.add(page + offset)
+  }
+
+  const sortedPages = Array.from(pages).sort((a, b) => a - b)
+  const items: PageItem[] = []
+
+  sortedPages.forEach((number, index) => {
+    if (index > 0 && number - sortedPages[index - 1] > 1) {
+      items.push('ellipsis')
+    }
+    items.push(number)
+  })
+
+  return items
+}
+
+const pageItems = getPageItems()
+---
+
+{totalPages > 1 && (
+  <nav
+    class="mt-12 flex flex-wrap items-center justify-center gap-2"
+    aria-label="Paginação de parceiros"
+  >
+    {page > 1 ? (
+      <a
+        href={buildPageUrl(page - 1)}
+        class="inline-flex h-10 items-center gap-2 rounded-full border border-ink/10 px-4 text-sm transition-colors hover:border-ink/30 hover:bg-cream-100"
+      >
+        <span aria-hidden="true">←</span>
+        Anterior
+      </a>
+    ) : (
+      <span class="inline-flex h-10 items-center gap-2 rounded-full border border-ink/5 px-4 text-sm text-ink/30">
+        <span aria-hidden="true">←</span>
+        Anterior
+      </span>
+    )}
+
+    {pageItems.map((item) => item === 'ellipsis' ? (
+      <span class="inline-flex h-10 min-w-10 items-center justify-center px-3 text-sm text-ink/50" aria-hidden="true">
+        …
+      </span>
+    ) : (
+      <a
+        href={buildPageUrl(item)}
+        class:list={[
+          'inline-flex h-10 min-w-10 items-center justify-center rounded-full border px-3 text-sm transition-colors',
+          item === page
+            ? 'border-ink bg-ink text-cream-50'
+            : 'border-ink/10 text-ink hover:border-ink/30',
+        ]}
+        aria-current={item === page ? 'page' : undefined}
+      >
+        {item}
+      </a>
+    ))}
+
+    {page < totalPages ? (
+      <a
+        href={buildPageUrl(page + 1)}
+        class="inline-flex h-10 items-center gap-2 rounded-full border border-ink/10 px-4 text-sm transition-colors hover:border-ink/30 hover:bg-cream-100"
+      >
+        Próxima
+        <span aria-hidden="true">→</span>
+      </a>
+    ) : (
+      <span class="inline-flex h-10 items-center gap-2 rounded-full border border-ink/5 px-4 text-sm text-ink/30">
+        Próxima
+        <span aria-hidden="true">→</span>
+      </span>
+    )}
+  </nav>
+)}

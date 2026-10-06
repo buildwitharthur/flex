@@ -1,19 +1,8 @@
 ---
-interface Partner {
-  id: string
-  name: string
-  description: string
-  discount: string
-  isFeatured: boolean
-  category: {
-    id: string
-    name: string
-    icon?: string
-  }
-}
+import type { PublicPartner } from '../types/partner'
 
 interface Props {
-  partner: Partner
+  partner: PublicPartner
 }
 
 const { partner } = Astro.props
@@ -24,11 +13,6 @@ const { partner } = Astro.props
 >
   <div class="mb-5 flex items-start justify-between gap-4">
     <div class="flex items-center gap-2">
-      {partner.category.icon && (
-        <span class="text-coral" aria-hidden="true">
-          {partner.category.icon}
-        </span>
-      )}
       <span class="text-xs uppercase tracking-[0.14em] text-ink/50">
         {partner.category.name}
       </span>
@@ -45,9 +29,11 @@ const { partner } = Astro.props
     {partner.name}
   </h3>
 
-  <p class="mb-6 flex-1 text-sm leading-relaxed text-ink/60">
-    {partner.description}
-  </p>
+  {partner.description && (
+    <p class="mb-6 flex-1 text-sm leading-relaxed text-ink/60">
+      {partner.description}
+    </p>
+  )}
 
   <div
     class="mt-auto flex items-end justify-between gap-4 border-t border-ink/10 pt-4"
