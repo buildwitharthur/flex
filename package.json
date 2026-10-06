@@ -10,6 +10,6 @@
         "build": "pnpm -r --if-present run build",
         "build:api": "pnpm --filter @flex/api run build",
         "build:web": "pnpm --filter @flex/web run build",
-        "build:catalog": "pnpm --filter @flex/catalog run build"
+        "build:partners": "pnpm --filter @flex/partners run build"
     }
 }
