@@ -46,6 +46,10 @@ body {
     font-style: italic;
 }
 
+.btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3.5 font-medium tracking-tight text-cream-50 transition-all hover:scale-[1.02] hover:bg-coral active:scale-[0.98];
+}
+
 ::selection {
     color: var(--color-cream-50);
     background: var(--color-coral);
