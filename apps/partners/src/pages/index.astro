@@ -1,17 +1,15 @@
 ---
 import BaseLayout from '../layouts/base-layout.astro'
 import Header from '../components/header.astro'
+import Hero from '../components/hero.astro'
 ---
 
 <BaseLayout
   title="Flex Clube"
   description="Benefícios e parceiros para aproveitar mais todos os dias."
 >
-  <main class="min-h-screen bg-cream-50 p-6 pt-32 text-ink">
+  <main class="grain-bg bg-cream-50 text-ink">
     <Header />
-    <h1 class="display text-2xl font-semibold">
-      Flex <span class="display-italic text-coral">Clube</span>
-    </h1>
-    <p class="text-ink-soft">Landing de parceiros</p>
+    <Hero />
   </main>
 </BaseLayout>
