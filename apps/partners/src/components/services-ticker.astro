@@ -1,0 +1,45 @@
+---
+const services = [
+  'Consultas',
+  'Exames de Imagem',
+  'Laboratório',
+  'Drogaria',
+  'Terapias',
+  'Fisioterapia',
+  'Oftalmologista',
+  'Ótica',
+  'Dentista',
+  'Lazer',
+  'Cursos',
+  'Beleza e Cuidados Pessoais',
+  'Assessoria Jurídica',
+  'Auto Escola',
+  'Muito +',
+]
+
+const tickerItems = [...services, ...services]
+---
+
+<section
+  aria-label="Serviços e benefícios"
+  class="overflow-hidden border-y border-cream-50/10 bg-ink py-8 text-cream-50"
+>
+  <div class="marquee-track">
+    {
+      tickerItems.map((service, index) => (
+        <div
+          class="flex items-center gap-4 whitespace-nowrap"
+          aria-hidden={index >= services.length ? 'true' : undefined}
+        >
+          <span class="display text-3xl uppercase md:text-4xl">{service}</span>
+          <span
+            class="display-italic ml-8 text-3xl text-coral"
+            aria-hidden="true"
+          >
+            ✦
+          </span>
+        </div>
+      ))
+    }
+  </div>
+</section>

@@ -101,6 +101,23 @@ body {
     }
 }
 
+.marquee-track {
+    display: flex;
+    gap: 4rem;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
 ::selection {
     color: var(--color-cream-50);
     background: var(--color-coral);
@@ -122,5 +139,10 @@ body {
     .btn-secondary {
         animation: none;
         transition-duration: 0.01ms;
+    }
+
+    .marquee-track {
+        animation: none;
+        transform: none;
     }
 }
