@@ -8,28 +8,7 @@ import PartnersSection from '../components/partners-section.astro'
 import HowItWorks from '../components/how-it-works.astro'
 import Footer from '../components/footer.astro'
 import FlexBot from '../components/flex-bot.astro'
-import type { PartnerSort, PublicPartner } from '../types/partner'
-
-const PAGE_SIZE = 12
-const searchParams = Astro.url.searchParams
-
-function normalizeSearchValue(value: unknown) {
-  return String(value ?? '')
-    .normalize('NFD')
-    .replace(/\p{Diacritic}/gu, '')
-    .toLocaleLowerCase('pt-BR')
-    .trim()
-}
-
-function parsePage(value: string | null) {
-  const page = Number(value)
-  return Number.isInteger(page) && page >= 1 ? page : 1
-}
-
-function parseDiscount(value: string) {
-  const match = value.match(/\d+/)
-  return match ? Number(match[0]) : 0
-}
+import type { PartnerCategoryFilter, PublicPartner } from '../types/partner'
 
 let partners: PublicPartner[] = []
 let partnersError = false
@@ -64,14 +43,6 @@ try {
   console.error('Could not load public partners', error)
 }
 
-const query = searchParams.get('q')?.trim() ?? ''
-const normalizedQuery = normalizeSearchValue(query)
-const requestedCategory = searchParams.get('category')?.trim() ?? 'all'
-const rawSort = searchParams.get('sort')?.trim()
-const sort: PartnerSort = rawSort === 'name' || rawSort === 'discount'
-  ? rawSort
-  : 'featured'
-
 const categories = Array.from(
   partners.reduce((categoryMap, partner) => {
     const key = partner.category.id
@@ -84,54 +55,8 @@ const categories = Array.from(
     })
 
     return categoryMap
-  }, new Map<string, { key: string; name: string; count: number }>()),
+  }, new Map<string, PartnerCategoryFilter>()),
 ).map(([, category]) => category)
-
-const activeCategory = requestedCategory === 'all' ||
-  categories.some((category) => category.key === requestedCategory)
-  ? requestedCategory
-  : 'all'
-
-const searchedPartners = normalizedQuery
-  ? partners.filter((partner) => {
-      const searchableText = [
-        partner.name,
-        partner.description,
-        partner.discount,
-        partner.category.name,
-      ]
-        .map(normalizeSearchValue)
-        .join(' ')
-
-      return searchableText.includes(normalizedQuery)
-    })
-  : partners
-
-const filteredPartners = searchedPartners
-  .filter((partner) => activeCategory === 'all' || partner.category.id === activeCategory)
-  .sort((a, b) => {
-    if (sort === 'name') {
-      return a.name.localeCompare(b.name, 'pt-BR')
-    }
-
-    if (sort === 'discount') {
-      return parseDiscount(b.discount) - parseDiscount(a.discount) ||
-        a.name.localeCompare(b.name, 'pt-BR')
-    }
-
-    if (a.isFeatured !== b.isFeatured) {
-      return Number(b.isFeatured) - Number(a.isFeatured)
-    }
-
-    return a.name.localeCompare(b.name, 'pt-BR')
-  })
-
-const filteredCount = filteredPartners.length
-const totalPages = Math.max(1, Math.ceil(filteredCount / PAGE_SIZE))
-const requestedPage = parsePage(searchParams.get('page'))
-const page = Math.min(requestedPage, totalPages)
-const start = (page - 1) * PAGE_SIZE
-const paginatedPartners = filteredPartners.slice(start, start + PAGE_SIZE)
 ---
 
 <BaseLayout
@@ -144,15 +69,9 @@ const paginatedPartners = filteredPartners.slice(start, start + PAGE_SIZE)
     <ServicesTicker />
     <Benefits />
     <PartnersSection
-      partners={paginatedPartners}
+      partners={partners}
       categories={categories}
       totalPartners={partners.length}
-      filteredCount={filteredCount}
-      page={page}
-      totalPages={totalPages}
-      query={query}
-      activeCategory={activeCategory}
-      sort={sort}
       error={partnersError}
     />
     <HowItWorks />

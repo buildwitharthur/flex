@@ -10,4 +10,8 @@ export interface PublicPartner {
   }
 }
 
-export type PartnerSort = 'featured' | 'name' | 'discount'
+export interface PartnerCategoryFilter {
+  key: string
+  name: string
+  count: number
+}
