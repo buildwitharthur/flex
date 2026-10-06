@@ -1,0 +1,74 @@
+---
+interface Partner {
+  id: string
+  name: string
+  description: string
+  discount: string
+  isFeatured: boolean
+  category: {
+    id: string
+    name: string
+    icon?: string
+  }
+}
+
+interface Props {
+  partner: Partner
+}
+
+const { partner } = Astro.props
+---
+
+<article
+  class="group flex h-full flex-col rounded-3xl border border-ink/5 bg-cream-50 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-ink/15 hover:shadow-[0_18px_50px_rgba(20,20,20,0.06)]"
+>
+  <div class="mb-5 flex items-start justify-between gap-4">
+    <div class="flex items-center gap-2">
+      {partner.category.icon && (
+        <span class="text-coral" aria-hidden="true">
+          {partner.category.icon}
+        </span>
+      )}
+      <span class="text-xs uppercase tracking-[0.14em] text-ink/50">
+        {partner.category.name}
+      </span>
+    </div>
+
+    {partner.isFeatured && (
+      <span class="display-italic whitespace-nowrap text-sm text-coral">
+        ★ destaque
+      </span>
+    )}
+  </div>
+
+  <h3 class="display mb-2 text-2xl text-ink transition-colors group-hover:text-coral">
+    {partner.name}
+  </h3>
+
+  <p class="mb-6 flex-1 text-sm leading-relaxed text-ink/60">
+    {partner.description}
+  </p>
+
+  <div
+    class="mt-auto flex items-end justify-between gap-4 border-t border-ink/10 pt-4"
+  >
+    <span class="display text-3xl text-coral">{partner.discount}</span>
+
+    <span
+      class="flex items-center gap-1 text-xs uppercase tracking-wider text-ink/40 transition-colors group-hover:text-coral"
+    >
+      ver mais
+      <svg
+        width="12"
+        height="12"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        aria-hidden="true"
+      >
+        <path d="M5 12h14M13 6l6 6-6 6"></path>
+      </svg>
+    </span>
+  </div>
+</article>

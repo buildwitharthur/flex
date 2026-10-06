@@ -1,0 +1,102 @@
+---
+import PartnerCard from './partner-card.astro'
+
+interface MockCategory {
+  id: string
+  name: string
+  icon?: string
+}
+
+interface MockPartner {
+  id: string
+  name: string
+  description: string
+  discount: string
+  isFeatured: boolean
+  category: MockCategory
+}
+
+const partners: MockPartner[] = [
+  {
+    id: '1',
+    name: 'Clínica Vida',
+    description: 'Consultas e cuidados para toda a família.',
+    discount: '30% OFF',
+    isFeatured: true,
+    category: { id: 'health', name: 'Saúde', icon: '✦' },
+  },
+  {
+    id: '2',
+    name: 'Laboratório Central',
+    description: 'Exames laboratoriais com condições especiais para clientes Flex.',
+    discount: '20% OFF',
+    isFeatured: false,
+    category: { id: 'laboratory', name: 'Laboratório', icon: '✦' },
+  },
+  {
+    id: '3',
+    name: 'Odonto Prime',
+    description: 'Atendimento odontológico e tratamentos completos.',
+    discount: '25% OFF',
+    isFeatured: true,
+    category: { id: 'dentistry', name: 'Odontologia', icon: '✦' },
+  },
+  {
+    id: '4',
+    name: 'Ótica Visão',
+    description: 'Óculos, lentes e cuidados para a sua visão.',
+    discount: '15% OFF',
+    isFeatured: false,
+    category: { id: 'optics', name: 'Ótica', icon: '✦' },
+  },
+  {
+    id: '5',
+    name: 'Studio Movimento',
+    description: 'Bem-estar, fisioterapia e qualidade de vida.',
+    discount: '20% OFF',
+    isFeatured: false,
+    category: { id: 'wellness', name: 'Bem-estar', icon: '✦' },
+  },
+  {
+    id: '6',
+    name: 'Academia Forma',
+    description: 'Treinos e atividades para manter uma rotina mais saudável.',
+    discount: '10% OFF',
+    isFeatured: false,
+    category: { id: 'fitness', name: 'Fitness', icon: '✦' },
+  },
+]
+---
+
+<section id="parceiros" class="relative py-24 lg:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-10">
+    <div
+      class="mb-14 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"
+    >
+      <div>
+        <p class="mb-6 text-xs uppercase tracking-[0.25em] text-ink/50">
+          ⊹ Parceiros do clube
+        </p>
+
+        <h2 class="display text-5xl leading-[0.95] text-ink lg:text-7xl">
+          Encontre seu próximo<br />
+          <span class="display-italic text-coral">serviço.</span>
+        </h2>
+      </div>
+
+      <div>
+        <p class="max-w-md text-lg text-ink/70">
+          Filtre por categoria, busque por nome ou ordene como preferir.
+        </p>
+        <p class="mt-3 text-sm text-ink/50">
+          <span class="font-medium text-ink">{partners.length}</span>
+          parceiros disponíveis agora.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {partners.map((partner) => <PartnerCard partner={partner} />)}
+    </div>
+  </div>
+</section>
