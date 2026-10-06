@@ -1,0 +1,70 @@
+---
+const benefits = [
+  {
+    number: '01',
+    title: 'Parceiros selecionados',
+    body: 'Cada estabelecimento passa por uma seleção prévia com visitas e acompanhamento para verificar as condições e a qualidade dos serviços.',
+  },
+  {
+    number: '02',
+    title: 'Benefícios de verdade',
+    body: 'Todos os parceiros possuem contrato firmado em que são registrados e validados os descontos e benefícios acordados que serão oferecidos para os clientes Flex.',
+  },
+  {
+    number: '03',
+    title: 'Sem complicação',
+    body: 'Apresente sua Carteirinha Digital junto a um documento de identificação para ter acesso aos descontos.',
+  },
+  {
+    number: '04',
+    title: 'Atualizações mensais',
+    body: 'Nossa equipe está constantemente atualizando e incluindo novos parceiros. Fique por dentro acessando nosso site!',
+  },
+]
+---
+
+<section id="beneficios" class="py-24 lg:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-10">
+    <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-20">
+      <div class="lg:col-span-5">
+        <p class="mb-6 text-xs uppercase tracking-[0.25em] text-ink/50">
+          ⊹ Por que entrar
+        </p>
+
+        <h2 class="display text-5xl leading-[0.95] text-ink lg:text-7xl">
+          Mais que descontos.<br />
+          <span class="display-italic text-coral">Uma rotina mais</span><br />
+          generosa.
+        </h2>
+
+        <p class="mt-8 max-w-md text-lg text-ink/70">
+          Com o Flex, você mantém seus cuidados em dia sem comprometer seu orçamento.
+          Desde 2010, oferecemos as melhores parcerias para gerar acessibilidade em
+          serviços essenciais para o mais importante: você, sua saúde e sua família.
+        </p>
+      </div>
+
+      <div class="lg:col-span-7">
+        <div class="grid grid-cols-1 gap-px bg-ink/10 sm:grid-cols-2">
+          {
+            benefits.map((benefit) => (
+              <div
+                class="group bg-cream-100 p-8 transition-colors hover:bg-cream-50 lg:p-10"
+              >
+                <span class="display-italic mb-6 block text-3xl text-coral">
+                  {benefit.number}
+                </span>
+
+                <h3 class="display mb-3 text-2xl text-ink lg:text-3xl">
+                  {benefit.title}
+                </h3>
+
+                <p class="leading-relaxed text-ink/70">{benefit.body}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
