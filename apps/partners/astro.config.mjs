@@ -4,11 +4,11 @@ import vercel from '@astrojs/vercel'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  site: process.env.SITE_URL || undefined,
-  output: 'server',
-  adapter: vercel(),
-  integrations: [sitemap()],
-  vite: {
-    plugins: [tailwindcss()],
-  },
+    site: process.env.SITE_URL || undefined,
+    output: 'server',
+    adapter: vercel(),
+    integrations: [sitemap()],
+    vite: {
+        plugins: [tailwindcss()],
+    },
 })
