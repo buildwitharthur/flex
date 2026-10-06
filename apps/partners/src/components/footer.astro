@@ -1,0 +1,162 @@
+---
+const currentYear = new Date().getFullYear()
+---
+
+<footer class="bg-ink pt-20 pb-10 text-cream-50">
+  <div class="mx-auto max-w-7xl px-6 lg:px-10">
+    <div class="mb-16 grid grid-cols-1 gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <div class="mb-6 flex items-baseline gap-1">
+          <span class="display text-4xl">Parceiros</span>
+          <span class="display-italic text-4xl text-coral">+</span>
+        </div>
+
+        <p class="display-italic max-w-md text-2xl leading-tight text-cream-50/80">
+          “O clube que reúne os melhores parceiros da cidade em um só lugar.”
+        </p>
+      </div>
+
+      <div class="lg:col-span-2">
+        <h3 class="mb-4 text-xs uppercase tracking-widest text-cream-50/40">
+          Clube
+        </h3>
+
+        <ul class="space-y-3 text-cream-50/80">
+          <li>
+            <a href="#parceiros" class="transition-colors hover:text-coral">
+              Parceiros
+            </a>
+          </li>
+          <li>
+            <a href="#beneficios" class="transition-colors hover:text-coral">
+              Benefícios
+            </a>
+          </li>
+          <li>
+            <a href="#como-funciona" class="transition-colors hover:text-coral">
+              Como funciona
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="lg:col-span-2">
+        <h3 class="mb-4 text-xs uppercase tracking-widest text-cream-50/40">
+          Empresa
+        </h3>
+
+        <ul class="space-y-3 text-cream-50/80">
+          <li>
+            <a
+              href="https://www.flexclube.com.br"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="transition-colors hover:text-coral"
+            >
+              Sobre nós
+            </a>
+          </li>
+          <li>
+            <a href="#cta" class="transition-colors hover:text-coral">
+              Contato
+            </a>
+          </li>
+          <li>
+            <button
+              type="button"
+              data-partner-lead-trigger
+              aria-haspopup="dialog"
+              class="transition-colors hover:text-coral"
+            >
+              Seja parceiro
+            </button>
+          </li>
+          <li>
+            <!-- TODO: configurar a URL pública do painel administrativo quando definida. -->
+            <span class="text-cream-50/80">Painel admin</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="lg:col-span-3">
+        <h3 class="mb-4 text-xs uppercase tracking-widest text-cream-50/40">
+          Contato
+        </h3>
+
+        <ul class="space-y-3 text-cream-50/80">
+          <li>
+            <a
+              href="tel:+552127029080"
+              class="flex items-center gap-2 transition-colors hover:text-coral"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.26-1.26a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"
+                />
+              </svg>
+              21 2702-9080
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://wa.me/552127029080"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-2 transition-colors hover:text-coral"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.2 0 4.27.86 5.83 2.42a8.2 8.2 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.25 8.24a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.25 8.25-8.25zM8.53 7.33c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.43 1.03 2.6.13.16 1.75 2.67 4.25 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.47-.07 1.46-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.29-.25-.12-1.46-.72-1.69-.8-.23-.09-.39-.13-.56.12-.16.25-.64.8-.78.97-.15.16-.29.19-.54.06-.25-.12-1.04-.38-1.99-1.22-.74-.65-1.23-1.46-1.38-1.71-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.42h-.49z"
+                />
+              </svg>
+              WhatsApp
+            </a>
+          </li>
+          <li>
+            <a
+              href="mailto:comercial@flexcard.org.br"
+              class="break-words transition-colors hover:text-coral"
+            >
+              comercial@flexcard.org.br
+            </a>
+          </li>
+          <li class="pt-2 text-sm">
+            Rua Laureano Rosa 100<br />
+            São Gonçalo, RJ
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div
+      class="flex flex-col gap-4 border-t border-cream-50/10 pt-6 text-sm text-cream-50/40 md:flex-row md:justify-between"
+    >
+      <p>© {currentYear} Parceiros+. Todos os direitos reservados.</p>
+
+      <div class="flex gap-6">
+        <a href="#" class="transition-colors hover:text-coral">
+          Termos de uso
+        </a>
+        <a href="#" class="transition-colors hover:text-coral">
+          Privacidade
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
