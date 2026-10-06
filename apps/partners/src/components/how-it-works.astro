@@ -1,0 +1,70 @@
+---
+const steps = [
+  {
+    step: '1',
+    title: 'Cadastre-se',
+    body: 'Realize sua adesão com um de nossos representantes em um de nossos pontos de venda ou preencha o formulário em nosso site.',
+  },
+  {
+    step: '2',
+    title: 'Explore parceiros',
+    body: 'Navegue pelo catálogo, filtre por categoria, encontre o que precisa.',
+  },
+  {
+    step: '3',
+    title: 'Use seu desconto',
+    body: 'Apresente a sua carteirinha digital e um documento com foto no ato do seu atendimento para obtenção dos descontos.',
+  },
+  {
+    step: '4',
+    title: 'Economize sempre',
+    body: 'Realize seus atendimentos de forma completa com acessibilidade e a qualidade que você merece.',
+  },
+]
+---
+
+<section
+  id="como-funciona"
+  class="border-y border-ink/5 bg-cream-200/50 py-24 lg:py-32"
+>
+  <div class="mx-auto max-w-7xl px-6 lg:px-10">
+    <div class="mb-20 text-center">
+      <p class="mb-6 text-xs uppercase tracking-[0.25em] text-ink/50">
+        ⊹ Como funciona
+      </p>
+
+      <h2 class="display text-5xl text-ink lg:text-7xl">
+        Em <span class="display-italic text-coral">quatro</span> passos.
+      </h2>
+    </div>
+
+    <div
+      class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-6"
+    >
+      {
+        steps.map((step, index) => (
+          <div class="relative">
+            {index < steps.length - 1 && (
+              <div
+                class="absolute -right-3 top-12 hidden h-px w-6 bg-ink/20 lg:block"
+                aria-hidden="true"
+              ></div>
+            )}
+
+            <div
+              class="h-full rounded-2xl border border-ink/5 bg-cream-50 p-8"
+            >
+              <div class="mb-6 flex items-baseline gap-3">
+                <span class="display text-6xl text-coral">{step.step}</span>
+                <span class="display-italic text-xl text-coral">/04</span>
+              </div>
+
+              <h3 class="display mb-3 text-2xl text-ink">{step.title}</h3>
+              <p class="leading-relaxed text-ink/70">{step.body}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
