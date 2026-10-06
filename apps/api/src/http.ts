@@ -18,9 +18,18 @@ import { contactRouter } from './routes/contact/index.js'
 const app = express()
 const port = Number(process.env.PORT) || 3333
 
+const corsOrigins = (
+    process.env.CORS_ORIGINS ??
+    process.env.WEB_URL ??
+    'http://localhost:5173'
+)
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean)
+
 app.use(
     cors({
-        origin: process.env.WEB_URL ?? 'http://localhost:5173',
+        origin: corsOrigins,
         credentials: true,
     }),
 )
@@ -41,8 +50,6 @@ app.use('/admin/users', adminUsersRouter)
 app.get('/health', (_request, response) => {
     response.json({ status: 'ok' })
 })
-
-
 
 app.listen(port, () => {
     console.log(`API listening on port ${port}`)

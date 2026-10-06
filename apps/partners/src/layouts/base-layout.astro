@@ -13,19 +13,31 @@ const {
   title,
   description,
   canonical,
-  image,
+  image = '/brand/og-image.png',
   noindex = false,
 } = Astro.props
 
 const siteName = 'Flex Clube'
+const themeColor = '#FBF8F2'
+const siteUrl = Astro.site?.toString().replace(/\/$/, '')
 
 const canonicalUrl = new URL(
-  canonical ?? Astro.url.pathname + Astro.url.search,
+  canonical ?? Astro.url.pathname,
   Astro.site ?? Astro.url,
 ).href
-const absoluteImageUrl = image
-  ? new URL(image, Astro.site ?? Astro.url).href
-  : undefined
+const absoluteImageUrl = new URL(image, Astro.site ?? Astro.url).href
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteName,
+  ...(siteUrl ? { url: siteUrl } : {}),
+}
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: siteName,
+  ...(siteUrl ? { url: siteUrl } : {}),
+}
 ---
 
 <!doctype html>
@@ -33,13 +45,18 @@ const absoluteImageUrl = image
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content={siteName} />
+    <meta name="application-name" content={siteName} />
+    <meta name="theme-color" content={themeColor} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100..1000&family=Fraunces:opsz,ital,wght@9..144,0,100..900;9..144,1,100..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" href="/brand/flex-favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/brand/icon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/brand/apple-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
@@ -53,11 +70,15 @@ const absoluteImageUrl = image
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:site_name" content={siteName} />
-    {absoluteImageUrl && <meta property="og:image" content={absoluteImageUrl} />}
+    <meta property="og:image" content={absoluteImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    {absoluteImageUrl && <meta name="twitter:image" content={absoluteImageUrl} />}
+    <meta name="twitter:image" content={absoluteImageUrl} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
   </head>
   <body>
     <slot />
