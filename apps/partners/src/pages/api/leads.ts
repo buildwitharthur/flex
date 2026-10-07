@@ -4,8 +4,9 @@ import { z } from 'zod'
 export const prerender = false
 
 const leadSchema = z.strictObject({
+    type: z.enum(['PARTNER', 'MEMBER']).default('PARTNER'),
     name: z.string().trim().min(1).max(120),
-    company: z.string().trim().min(1).max(160),
+    company: z.string().trim().min(1).max(160).optional(),
     phone: z
         .string()
         .trim()
@@ -14,6 +15,10 @@ const leadSchema = z.strictObject({
         .transform((value) => value.replace(/\D/g, ''))
         .refine((value) => value.length >= 10 && value.length <= 13),
     email: z.string().trim().email().max(254).optional(),
+}).superRefine((lead, context) => {
+    if (lead.type === 'PARTNER' && !lead.company) {
+        context.addIssue({ code: 'custom', path: ['company'], message: 'Empresa obrigatória para parceiros.' })
+    }
 })
 
 const errorResponse = () =>
