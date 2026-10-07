@@ -1,9 +1,7 @@
 ---
-import type { PartnerCategoryFilter, PublicPartner } from '../types/partner'
+import type { PublicPartner } from '../types/partner'
 import { getPublicPartners } from '../services/get-public-partners'
-import PartnerCard from './partner-card.astro'
-import PartnersFilters from './partners-filters.astro'
-import PartnerDialog from './partner-dialog.astro'
+import Partners from './partners/partners'
 
 let partners: PublicPartner[] = []
 let partnersError = false
@@ -15,20 +13,6 @@ try {
   console.error('Could not load public partners', error)
 }
 
-const categories = Array.from(
-  partners.reduce((categoryMap, partner) => {
-    const key = partner.category.id
-    const existing = categoryMap.get(key)
-
-    categoryMap.set(key, {
-      key,
-      name: partner.category.name,
-      count: (existing?.count ?? 0) + 1,
-    })
-
-    return categoryMap
-  }, new Map<string, PartnerCategoryFilter>()),
-).map(([, category]) => category)
 ---
 
 {partnersError ? (
@@ -44,31 +28,4 @@ const categories = Array.from(
       Nenhum parceiro disponível no momento.
     </p>
   </div>
-) : (
-  <>
-    <PartnersFilters categories={categories} totalPartners={partners.length} />
-
-    <div
-      data-partners-empty
-      hidden
-      class="mb-5 rounded-3xl border border-dashed border-ink/10 px-6 py-16 text-center"
-    >
-      <p class="display-italic mb-2 text-3xl text-ink/40">Nada encontrado</p>
-      <p class="text-ink/60">Tente ajustar os filtros ou buscar com outras palavras.</p>
-      <button type="button" data-partners-clear class="mt-5 text-sm text-coral hover:underline">
-        Limpar filtros
-      </button>
-    </div>
-
-    <div data-partners-grid class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {partners.map((partner) => <PartnerCard partner={partner} />)}
-    </div>
-    <PartnerDialog />
-  </>
-)}
-{!partnersError && partners.length > 0 && (
-  <script>
-    import { setupPartnersFilter } from '../scripts/partners-filter'
-    setupPartnersFilter()
-  </script>
-)}
+) : <Partners partners={partners} client:visible />}
