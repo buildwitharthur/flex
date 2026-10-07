@@ -1,5 +1,6 @@
 ---
 import type { PartnerCategoryFilter, PublicPartner } from '../types/partner'
+import { getPublicPartners } from '../services/get-public-partners'
 import PartnerCard from './partner-card.astro'
 import PartnersFilters from './partners-filters.astro'
 
@@ -7,30 +8,7 @@ let partners: PublicPartner[] = []
 let partnersError = false
 
 try {
-  const apiUrl = import.meta.env.API_URL
-
-  if (!apiUrl) {
-    throw new Error('API_URL is not configured')
-  }
-
-  const response = await fetch(`${apiUrl.replace(/\/$/, '')}/partners/public`)
-
-  if (!response.ok) {
-    throw new Error(`Public partners request failed with ${response.status}`)
-  }
-
-  const data: unknown = await response.json()
-
-  if (
-    typeof data !== 'object' ||
-    data === null ||
-    !('partners' in data) ||
-    !Array.isArray(data.partners)
-  ) {
-    throw new Error('Invalid public partners response')
-  }
-
-  partners = data.partners as PublicPartner[]
+  partners = await getPublicPartners(import.meta.env.API_URL)
 } catch (error) {
   partnersError = true
   console.error('Could not load public partners', error)
