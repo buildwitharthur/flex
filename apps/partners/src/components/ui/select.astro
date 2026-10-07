@@ -1,5 +1,6 @@
 ---
 import type { HTMLAttributes } from 'astro/types'
+import { ChevronDown } from 'lucide-astro'
 import { twMerge } from 'tailwind-merge'
 
 type Props = HTMLAttributes<'select'>
@@ -7,12 +8,19 @@ type Props = HTMLAttributes<'select'>
 const { class: className, ...props } = Astro.props
 ---
 
-<select
-  {...props}
-  class={twMerge(
-    'min-w-[190px] w-full cursor-pointer rounded-full border border-ink/10 bg-cream-50 px-5 py-4 text-base text-ink focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15',
-    className,
-  )}
->
-  <slot />
-</select>
+<div class="relative min-w-[190px] w-full">
+  <select
+    {...props}
+    class={twMerge(
+      'min-w-[190px] w-full appearance-none cursor-pointer rounded-full border border-ink/10 bg-cream-50 py-4 pl-5 pr-10 text-base text-ink focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15',
+      className,
+    )}
+  >
+    <slot />
+  </select>
+  <ChevronDown
+    size={16}
+    aria-hidden="true"
+    class="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-ink"
+  />
+</div>

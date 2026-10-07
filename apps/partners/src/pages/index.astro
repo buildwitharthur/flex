@@ -8,55 +8,6 @@ import PartnersSection from '../components/partners-section.astro'
 import HowItWorks from '../components/how-it-works.astro'
 import Footer from '../components/footer.astro'
 import FlexBot from '../components/flex-bot.astro'
-import type { PartnerCategoryFilter, PublicPartner } from '../types/partner'
-
-let partners: PublicPartner[] = []
-let partnersError = false
-
-try {
-  const apiUrl = import.meta.env.API_URL
-
-  if (!apiUrl) {
-    throw new Error('API_URL is not configured')
-  }
-
-  const response = await fetch(`${apiUrl.replace(/\/$/, '')}/partners/public`)
-
-  if (!response.ok) {
-    throw new Error(`Public partners request failed with ${response.status}`)
-  }
-
-  const data: unknown = await response.json()
-
-  if (
-    typeof data !== 'object' ||
-    data === null ||
-    !('partners' in data) ||
-    !Array.isArray(data.partners)
-  ) {
-    throw new Error('Invalid public partners response')
-  }
-
-  partners = data.partners as PublicPartner[]
-} catch (error) {
-  partnersError = true
-  console.error('Could not load public partners', error)
-}
-
-const categories = Array.from(
-  partners.reduce((categoryMap, partner) => {
-    const key = partner.category.id
-    const existing = categoryMap.get(key)
-
-    categoryMap.set(key, {
-      key,
-      name: partner.category.name,
-      count: (existing?.count ?? 0) + 1,
-    })
-
-    return categoryMap
-  }, new Map<string, PartnerCategoryFilter>()),
-).map(([, category]) => category)
 ---
 
 <BaseLayout
@@ -68,12 +19,7 @@ const categories = Array.from(
     <Hero />
     <ServicesTicker />
     <Benefits />
-    <PartnersSection
-      partners={partners}
-      categories={categories}
-      totalPartners={partners.length}
-      error={partnersError}
-    />
+    <PartnersSection />
     <HowItWorks />
     <Footer />
   </main>

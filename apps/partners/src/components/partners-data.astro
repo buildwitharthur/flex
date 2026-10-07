@@ -1,0 +1,234 @@
+---
+import type { PartnerCategoryFilter, PublicPartner } from '../types/partner'
+import PartnerCard from './partner-card.astro'
+import PartnersFilters from './partners-filters.astro'
+
+let partners: PublicPartner[] = []
+let partnersError = false
+
+try {
+  const apiUrl = import.meta.env.API_URL
+
+  if (!apiUrl) {
+    throw new Error('API_URL is not configured')
+  }
+
+  const response = await fetch(`${apiUrl.replace(/\/$/, '')}/partners/public`)
+
+  if (!response.ok) {
+    throw new Error(`Public partners request failed with ${response.status}`)
+  }
+
+  const data: unknown = await response.json()
+
+  if (
+    typeof data !== 'object' ||
+    data === null ||
+    !('partners' in data) ||
+    !Array.isArray(data.partners)
+  ) {
+    throw new Error('Invalid public partners response')
+  }
+
+  partners = data.partners as PublicPartner[]
+} catch (error) {
+  partnersError = true
+  console.error('Could not load public partners', error)
+}
+
+const categories = Array.from(
+  partners.reduce((categoryMap, partner) => {
+    const key = partner.category.id
+    const existing = categoryMap.get(key)
+
+    categoryMap.set(key, {
+      key,
+      name: partner.category.name,
+      count: (existing?.count ?? 0) + 1,
+    })
+
+    return categoryMap
+  }, new Map<string, PartnerCategoryFilter>()),
+).map(([, category]) => category)
+---
+
+{partnersError ? (
+  <div class="rounded-3xl border border-dashed border-ink/10 px-6 py-16 text-center">
+    <p class="display-italic text-3xl text-ink/40">
+      Não foi possível carregar os parceiros agora.
+    </p>
+    <p class="mt-3 text-ink/50">Tente novamente em alguns instantes.</p>
+  </div>
+) : partners.length === 0 ? (
+  <div class="rounded-3xl border border-dashed border-ink/10 px-6 py-16 text-center">
+    <p class="display-italic text-3xl text-ink/40">
+      Nenhum parceiro disponível no momento.
+    </p>
+  </div>
+) : (
+  <>
+    <PartnersFilters categories={categories} totalPartners={partners.length} />
+
+    <div
+      data-partners-empty
+      hidden
+      class="mb-5 rounded-3xl border border-dashed border-ink/10 px-6 py-16 text-center"
+    >
+      <p class="display-italic mb-2 text-3xl text-ink/40">Nada encontrado</p>
+      <p class="text-ink/60">Tente ajustar os filtros ou buscar com outras palavras.</p>
+      <button type="button" data-partners-clear class="mt-5 text-sm text-coral hover:underline">
+        Limpar filtros
+      </button>
+    </div>
+
+    <div data-partners-grid class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {partners.map((partner) => <PartnerCard partner={partner} />)}
+    </div>
+  </>
+)}
+
+{!partnersError && partners.length > 0 && (
+  <script>
+    const DEFAULT_SORT = 'featured'
+    const state = {
+      query: '',
+      category: 'all',
+      sort: DEFAULT_SORT,
+    }
+
+    const searchInput = document.querySelector('#partners-search')
+    const sortSelect = document.querySelector('#partners-sort')
+    const grid = document.querySelector('[data-partners-grid]')
+    const resultCount = document.querySelector('[data-partners-result-count]')
+    const clearButtons = Array.from(document.querySelectorAll('[data-partners-clear]'))
+    const emptyState = document.querySelector('[data-partners-empty]')
+    const categoryButtons = Array.from(document.querySelectorAll('[data-category-filter]'))
+    const cards = grid
+      ? Array.from(grid.querySelectorAll('[data-partner-card]'))
+      : []
+
+    function normalize(value) {
+      return String(value ?? '')
+        .normalize('NFD')
+        .replace(/\p{Diacritic}/gu, '')
+        .toLocaleLowerCase('pt-BR')
+        .trim()
+    }
+
+    function parseDiscount(value) {
+      const match = String(value ?? '').match(/\d+/)
+      return match ? Number(match[0]) : 0
+    }
+
+    function hasActiveFilters() {
+      return Boolean(state.query) || state.category !== 'all' || state.sort !== DEFAULT_SORT
+    }
+
+    function updateCategoryButtons() {
+      categoryButtons.forEach((button) => {
+        const isActive = button.dataset.categoryFilter === state.category
+        button.setAttribute('aria-pressed', String(isActive))
+        button.classList.toggle('border-ink', isActive)
+        button.classList.toggle('bg-ink', isActive)
+        button.classList.toggle('text-cream-50', isActive)
+        button.classList.toggle('border-ink/15', !isActive)
+        button.classList.toggle('bg-transparent', !isActive)
+        button.classList.toggle('text-ink', !isActive)
+      })
+    }
+
+    function updatePartners() {
+      if (!grid || !resultCount || !emptyState) return
+
+      let filtered = [...cards]
+      const normalizedQuery = normalize(state.query)
+
+      if (normalizedQuery) {
+        filtered = filtered.filter((card) => {
+          const searchable = normalize([
+            card.dataset.name,
+            card.dataset.categoryName,
+            card.dataset.description,
+            card.dataset.discount,
+          ].join(' '))
+
+          return searchable.includes(normalizedQuery)
+        })
+      }
+
+      if (state.category !== 'all') {
+        filtered = filtered.filter(
+          (card) => card.dataset.categoryId === state.category,
+        )
+      }
+
+      filtered.sort((a, b) => {
+        if (state.sort === 'name') {
+          return (a.dataset.name ?? '').localeCompare(b.dataset.name ?? '', 'pt-BR')
+        }
+
+        if (state.sort === 'discount') {
+          return parseDiscount(b.dataset.discount) - parseDiscount(a.dataset.discount) ||
+            (a.dataset.name ?? '').localeCompare(b.dataset.name ?? '', 'pt-BR')
+        }
+
+        if (a.dataset.featured !== b.dataset.featured) {
+          return a.dataset.featured === 'true' ? -1 : 1
+        }
+
+        return (a.dataset.name ?? '').localeCompare(b.dataset.name ?? '', 'pt-BR')
+      })
+
+      cards.forEach((card) => {
+        card.hidden = true
+      })
+
+      filtered.forEach((card) => {
+        card.hidden = false
+        grid.append(card)
+      })
+
+      const countLabel = filtered.length === 1 ? 'parceiro encontrado' : 'parceiros encontrados'
+      resultCount.textContent = `${filtered.length} ${countLabel}`
+      grid.hidden = filtered.length === 0
+      emptyState.hidden = filtered.length !== 0
+      clearButtons.forEach((button) => {
+        button.hidden = !hasActiveFilters()
+      })
+      updateCategoryButtons()
+    }
+
+    if (searchInput && sortSelect && grid && cards.length > 0) {
+      searchInput.addEventListener('input', () => {
+        state.query = searchInput.value
+        updatePartners()
+      })
+
+      sortSelect.addEventListener('change', () => {
+        state.sort = sortSelect.value
+        updatePartners()
+      })
+
+      categoryButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          state.category = button.dataset.categoryFilter ?? 'all'
+          updatePartners()
+        })
+      })
+
+      clearButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          state.query = ''
+          state.category = 'all'
+          state.sort = DEFAULT_SORT
+          searchInput.value = ''
+          sortSelect.value = DEFAULT_SORT
+          updatePartners()
+          searchInput.focus()
+        })
+      })
+
+      updatePartners()
+    }
+  </script>
+)}
