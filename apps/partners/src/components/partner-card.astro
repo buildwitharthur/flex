@@ -48,11 +48,16 @@ const { partner } = Astro.props
   >
     <span class="display text-3xl text-coral">{partner.discount}</span>
 
-    <span
+    <button
+      type="button"
+      data-partner-dialog-trigger
+      aria-haspopup="dialog"
+      aria-controls="partner-dialog"
+      aria-label={`Ver detalhes de ${partner.name}`}
       class="flex items-center gap-1 text-xs uppercase tracking-wider text-ink/40 transition-colors group-hover:text-coral"
     >
       ver mais
       <ArrowRight size={12} strokeWidth={2.5} aria-hidden="true" />
-    </span>
+    </button>
   </div>
 </article>

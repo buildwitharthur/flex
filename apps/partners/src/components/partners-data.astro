@@ -3,6 +3,7 @@ import type { PartnerCategoryFilter, PublicPartner } from '../types/partner'
 import { getPublicPartners } from '../services/get-public-partners'
 import PartnerCard from './partner-card.astro'
 import PartnersFilters from './partners-filters.astro'
+import PartnerDialog from './partner-dialog.astro'
 
 let partners: PublicPartner[] = []
 let partnersError = false
@@ -62,6 +63,7 @@ const categories = Array.from(
     <div data-partners-grid class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {partners.map((partner) => <PartnerCard partner={partner} />)}
     </div>
+    <PartnerDialog />
   </>
 )}
 {!partnersError && partners.length > 0 && (
