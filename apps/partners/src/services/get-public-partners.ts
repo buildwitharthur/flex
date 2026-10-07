@@ -1,21 +1,19 @@
 import type { PublicPartner } from '../types/partner'
 
 type PublicPartnersResponse = {
-  partners: PublicPartner[]
+    partners: PublicPartner[]
 }
 
 export async function getPublicPartners(
-  apiUrl: string,
+    apiUrl: string,
 ): Promise<PublicPartner[]> {
-  const response = await fetch(
-    `${apiUrl.replace(/\/$/, '')}/partners/public`,
-  )
+    const response = await fetch(`${apiUrl.replace(/\/$/, '')}/partners/public`)
 
-  if (!response.ok) {
-    throw new Error(`Failed to fetch partners: ${response.status}`)
-  }
+    if (!response.ok) {
+        throw new Error(`Failed to fetch partners: ${response.status}`)
+    }
 
-  const data = await response.json() as PublicPartnersResponse
+    const data = (await response.json()) as PublicPartnersResponse
 
-  return data.partners
+    return data.partners
 }
