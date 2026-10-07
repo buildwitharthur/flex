@@ -1,5 +1,6 @@
 ---
 import Button from './ui/button.astro'
+import { ArrowRight } from 'lucide-astro'
 ---
 
 <section
@@ -47,17 +48,7 @@ import Button from './ui/button.astro'
           size="lg"
         >
           Vem ser Flex
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            aria-hidden="true"
-          >
-            <path d="M5 12h14M13 6l6 6-6 6"></path>
-          </svg>
+          <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
         </Button>
 
         <Button href="#parceiros" variant="secondary" size="lg">

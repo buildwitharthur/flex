@@ -1,3 +1,7 @@
+---
+import { MessageCircleMore } from 'lucide-astro'
+---
+
 <div data-flex-bot>
   <button
     type="button"
@@ -5,20 +9,7 @@
     aria-label="Abrir atendimento"
     class="fixed right-4 bottom-4 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-ink text-cream-50 transition-colors hover:bg-coral sm:right-6 sm:bottom-6"
   >
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H8l-4 2 1.2-3.6A7.5 7.5 0 1 1 20 11.5Z" />
-      <path d="M8 12h.01M12 12h.01M16 12h.01" />
-    </svg>
+    <MessageCircleMore size={24} strokeWidth={1.8} aria-hidden="true" />
   </button>
 
   <section

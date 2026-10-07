@@ -1,5 +1,6 @@
 ---
 import type { PublicPartner } from '../types/partner'
+import { ArrowRight } from 'lucide-astro'
 
 interface Props {
   partner: PublicPartner
@@ -51,17 +52,7 @@ const { partner } = Astro.props
       class="flex items-center gap-1 text-xs uppercase tracking-wider text-ink/40 transition-colors group-hover:text-coral"
     >
       ver mais
-      <svg
-        width="12"
-        height="12"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.5"
-        aria-hidden="true"
-      >
-        <path d="M5 12h14M13 6l6 6-6 6"></path>
-      </svg>
+      <ArrowRight size={12} strokeWidth={2.5} aria-hidden="true" />
     </span>
   </div>
 </article>

@@ -3,6 +3,7 @@ import type { PartnerCategoryFilter, PublicPartner } from '../types/partner'
 import PartnerCard from './partner-card.astro'
 import Input from './ui/input.astro'
 import Select from './ui/select.astro'
+import { Search } from 'lucide-astro'
 
 interface Props {
   partners: PublicPartner[]
@@ -70,19 +71,12 @@ const partnerCountLabel = totalPartners === 1
         <div class="mb-6 mt-12 grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto]">
           <div class="relative">
             <label class="sr-only" for="partners-search">Buscar parceiros</label>
-            <svg
+            <Search
               class="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-ink/40"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
+              size={18}
+              strokeWidth={2}
               aria-hidden="true"
-            >
-              <circle cx="11" cy="11" r="7"></circle>
-              <path d="m21 21-4.3-4.3"></path>
-            </svg>
+            />
             <Input
               id="partners-search"
               type="search"

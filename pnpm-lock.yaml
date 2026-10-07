@@ -89,6 +89,9 @@ importers:
       astro:
         specifier: ^7.3.6
         version: 7.3.6(@types/node@22.20.4)(@vercel/functions@3.9.11)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)
+      lucide-astro:
+        specifier: ^0.556.0
+        version: 0.556.0(astro@7.3.6(@types/node@22.20.4)(@vercel/functions@3.9.11)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1))
       tailwind-merge:
         specifier: ^3.7.0
         version: 3.7.0
@@ -2994,6 +2997,12 @@ packages:
   lru.min@1.1.5:
     resolution: {integrity: sha512-5J9ysMYUpYIg9RF2vJpy9SinEmSviFSe0GyPpCQ4L5QSkLAgeLXlTAOu2ZwWUU5m+0SBl6gUU1R1ZQB3aKypfA==}
     engines: {bun: '>=1.0.0', deno: '>=1.30.0', node: '>=8.0.0'}
+
+  lucide-astro@0.556.0:
+    resolution: {integrity: sha512-ugMjPb45AMfkLCaduNSbyy5NQEKvB1TxVVMmUS4S6L807PMESnX0Qp+DIKHjbyjJmPXOyLRbrzvR3YikTK7brg==}
+    deprecated: 'Deprecated: Use `@lucide/astro`'
+    peerDependencies:
+      astro: '>=2.7.1'
 
   lucide-react@1.49.0:
     resolution: {integrity: sha512-ApfaNM4/7jBrVopqLJ84Jz8TMQ1Q1JeZ1PmKh25aeS3E1FTVcMkSh1bEQB7dfzdIrwXRP8p3z4AJjTIHHb5IIA==}
@@ -6760,6 +6769,10 @@ snapshots:
       yallist: 3.1.1
 
   lru.min@1.1.5: {}
+
+  lucide-astro@0.556.0(astro@7.3.6(@types/node@22.20.4)(@vercel/functions@3.9.11)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)):
+    dependencies:
+      astro: 7.3.6(@types/node@22.20.4)(@vercel/functions@3.9.11)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)
 
   lucide-react@1.49.0(@types/react@19.3.0)(react@19.3.0):
     dependencies:
