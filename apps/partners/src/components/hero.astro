@@ -1,3 +1,7 @@
+---
+import Button from './ui/button.astro'
+---
+
 <section
   class="relative flex min-h-screen flex-col justify-center overflow-hidden pt-40 pb-20"
 >
@@ -36,11 +40,11 @@
       </p>
 
       <div class="reveal reveal-delay-3 mt-10 flex flex-wrap gap-4">
-        <a
+        <Button
           href="https://www.flexclube.com.br"
           target="_blank"
           rel="noopener noreferrer"
-          class="btn-primary text-base"
+          size="lg"
         >
           Vem ser Flex
           <svg
@@ -54,11 +58,11 @@
           >
             <path d="M5 12h14M13 6l6 6-6 6"></path>
           </svg>
-        </a>
+        </Button>
 
-        <a href="#parceiros" class="btn-secondary text-base">
+        <Button href="#parceiros" variant="secondary" size="lg">
           Explorar parceiros
-        </a>
+        </Button>
       </div>
     </div>
   </div>

@@ -1,6 +1,8 @@
 ---
 import type { PartnerCategoryFilter, PublicPartner } from '../types/partner'
 import PartnerCard from './partner-card.astro'
+import Input from './ui/input.astro'
+import Select from './ui/select.astro'
 
 interface Props {
   partners: PublicPartner[]
@@ -81,25 +83,25 @@ const partnerCountLabel = totalPartners === 1
               <circle cx="11" cy="11" r="7"></circle>
               <path d="m21 21-4.3-4.3"></path>
             </svg>
-            <input
+            <Input
               id="partners-search"
               type="search"
               autocomplete="off"
               placeholder="Buscar por nome, categoria ou desconto..."
-              class="w-full rounded-full border border-ink/10 bg-cream-50 py-4 pl-12 pr-5 text-base text-ink placeholder:text-ink/40 transition-colors focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15"
+              variant="search"
+              class="pl-12 pr-5"
             />
           </div>
 
           <div>
             <label class="sr-only" for="partners-sort">Ordenar parceiros</label>
-            <select
+            <Select
               id="partners-sort"
-              class="min-w-[190px] w-full cursor-pointer rounded-full border border-ink/10 bg-cream-50 px-5 py-4 text-base text-ink focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15"
             >
               <option value="featured">Em destaque</option>
               <option value="discount">Maior desconto</option>
               <option value="name">Ordem alfabética</option>
-            </select>
+            </Select>
           </div>
         </div>
 

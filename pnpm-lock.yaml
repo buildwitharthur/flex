@@ -89,6 +89,9 @@ importers:
       astro:
         specifier: ^7.3.6
         version: 7.3.6(@types/node@22.20.4)(@vercel/functions@3.9.11)(jiti@2.7.0)(tsx@4.23.15)(yaml@2.9.1)
+      tailwind-merge:
+        specifier: ^3.7.0
+        version: 3.7.0
       zod:
         specifier: ^4.6.5
         version: 4.6.5

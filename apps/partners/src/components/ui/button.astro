@@ -1,0 +1,57 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import { twMerge } from 'tailwind-merge'
+
+type Props = HTMLAttributes<'button'> & HTMLAttributes<'a'> & {
+  variant?: 'primary' | 'secondary'
+  size?: 'sm' | 'md' | 'lg'
+  href?: string
+}
+
+const {
+  variant = 'primary',
+  size = 'md',
+  href,
+  class: className,
+  ...props
+} = Astro.props
+
+const variants = {
+  primary: 'bg-ink text-cream-50 transition-all hover:scale-[1.02] hover:bg-coral active:scale-[0.98]',
+  secondary: 'border border-ink/20 bg-transparent text-ink transition-all hover:bg-ink hover:text-cream-50',
+}
+const sizes = {
+  sm: 'px-5 py-2.5 text-sm',
+  md: 'px-6 py-3.5',
+  lg: 'px-6 py-3.5 text-base',
+}
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      {...props}
+      class={twMerge(
+        'inline-flex items-center justify-center gap-2 rounded-full font-medium tracking-tight motion-reduce:transition-none',
+        variants[variant],
+        sizes[size],
+        className,
+      )}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button
+      {...props}
+      class={twMerge(
+        'inline-flex items-center justify-center gap-2 rounded-full font-medium tracking-tight motion-reduce:transition-none',
+        variants[variant],
+        sizes[size],
+        className,
+      )}
+    >
+      <slot />
+    </button>
+  )
+}

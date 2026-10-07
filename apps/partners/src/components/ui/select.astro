@@ -1,0 +1,18 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import { twMerge } from 'tailwind-merge'
+
+type Props = HTMLAttributes<'select'>
+
+const { class: className, ...props } = Astro.props
+---
+
+<select
+  {...props}
+  class={twMerge(
+    'min-w-[190px] w-full cursor-pointer rounded-full border border-ink/10 bg-cream-50 px-5 py-4 text-base text-ink focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15',
+    className,
+  )}
+>
+  <slot />
+</select>
