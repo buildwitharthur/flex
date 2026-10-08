@@ -25,9 +25,9 @@ type ContactsDataProps = {
     onPageChange: (page: number) => void
 }
 
-const CONTACT_TYPE_LABELS: Record<ContactType, string> = {
-    PARTNER: 'Quero ser Parceiro',
-    MEMBER: 'Quero ser Flex',
+const CONTACT_SOURCE_LABELS: Record<ContactSource, string> = {
+    WEBSITE: 'Site',
+    MANUAL: 'Manual',
 }
 
 const CONTACT_STAGE_LABELS: Record<ContactStage, string> = {
@@ -88,7 +88,7 @@ export function ContactsData({
                         <TableHeader>
                             <TableRow className="hover:bg-transparent">
                                 <TableHead>Contato</TableHead>
-                                <TableHead>Tipo</TableHead>
+                                <TableHead>Origem</TableHead>
                                 <TableHead>Etapa</TableHead>
                                 <TableHead>Telefone</TableHead>
                                 <TableHead>Criado em</TableHead>
@@ -97,8 +97,6 @@ export function ContactsData({
 
                         <TableBody>
                             {contacts.map((contact) => {
-                                const subtitle =
-                                    contact.company || contact.email
                                 const createdAt = new Date(contact.createdAt)
 
                                 return (
@@ -107,9 +105,9 @@ export function ContactsData({
                                             <div className="truncate font-semibold text-foreground">
                                                 {contact.name}
                                             </div>
-                                            {subtitle ? (
+                                            {contact.email ? (
                                                 <div className="truncate text-[0.8125rem] text-muted-foreground">
-                                                    {subtitle}
+                                                    {contact.email}
                                                 </div>
                                             ) : null}
                                         </TableCell>
@@ -119,8 +117,8 @@ export function ContactsData({
                                                 dot={false}
                                             >
                                                 {
-                                                    CONTACT_TYPE_LABELS[
-                                                        contact.type
+                                                    CONTACT_SOURCE_LABELS[
+                                                        contact.source
                                                     ]
                                                 }
                                             </Badge>

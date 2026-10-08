@@ -35,9 +35,6 @@ export function ContactsList() {
                 contact.name
                     .toLocaleLowerCase('pt-BR')
                     .includes(normalizedSearch) ||
-                contact.company
-                    ?.toLocaleLowerCase('pt-BR')
-                    .includes(normalizedSearch) ||
                 contact.email
                     ?.toLocaleLowerCase('pt-BR')
                     .includes(normalizedSearch) ||

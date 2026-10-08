@@ -16,7 +16,7 @@ function ContactsPage() {
         <div className="space-y-6">
             <PageHeader
                 title="Todos os contatos"
-                description="Consulte e gerencie todos os contatos recebidos pelo Flex."
+                description="Consulte e gerencie todos os contatos recebidos pelo Clube Flex."
             >
                 <ExportContactsButton />
             </PageHeader>

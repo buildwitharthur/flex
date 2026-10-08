@@ -21,7 +21,7 @@ function NewPartnerPage() {
 
             <PageHeader
                 title="Novo parceiro"
-                description="Cadastre as informações que serão utilizadas no catálogo do Flex Clube."
+                description="Cadastre as informações que serão utilizadas no catálogo do Clube Flex."
             />
 
             <CreatePartner />

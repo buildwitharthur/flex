@@ -2,9 +2,7 @@ import { axiosClient } from '../lib/axios-client'
 
 type UpdateContactRequest = {
     id: string
-    type?: ContactType
     name?: string
-    company?: string | null
     email?: string | null
     phone?: string
     stage?: ContactStage

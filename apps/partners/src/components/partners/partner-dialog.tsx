@@ -24,9 +24,6 @@ export default function PartnerDialog({ partner, onClose }: Props) {
     }, [partner])
 
     const description = partner?.description ?? ''
-    const specialties = description.match(/^(Especialidades:)\s*([\s\S]*)$/i)
-    const descriptionLabel = specialties?.[1] ?? ''
-    const descriptionText = specialties?.[2] ?? description
 
     const phones = splitPhones(partner?.phone)
     const whatsapp = whatsappLink(partner?.whatsapp)
@@ -151,15 +148,10 @@ export default function PartnerDialog({ partner, onClose }: Props) {
                     </div>
                 )}
 
-                {Boolean(description.trim()) && (
-                    <div className="mb-8 leading-relaxed text-ink/70">
-                        {descriptionLabel && (
-                            <p className="mb-7">{descriptionLabel}</p>
-                        )}
-                        <p className="whitespace-pre-line break-words">
-                            {descriptionText}
-                        </p>
-                    </div>
+                {description && (
+                    <p className="whitespace-pre-line wrap-break-word mb-8 leading-relaxed text-ink/70">
+                        {description}
+                    </p>
                 )}
 
                 {partner?.couponCode && (

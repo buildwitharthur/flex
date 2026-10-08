@@ -19,7 +19,7 @@ function PartnersPage() {
         <div className="space-y-6">
             <PageHeader
                 title="Parceiros"
-                description="Gerencie os parceiros disponíveis no Flex Clube."
+                description="Gerencie os parceiros disponíveis no Clube Flex."
             >
                 <Button
                     onClick={() => void navigate({ to: '/app/partners/new' })}

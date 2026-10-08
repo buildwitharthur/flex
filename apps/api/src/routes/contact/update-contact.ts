@@ -12,9 +12,7 @@ const contactParamsSchema = z.strictObject({
 
 const updateContactSchema = z
     .strictObject({
-        type: z.enum(['PARTNER', 'MEMBER']).optional(),
         name: requiredTextSchema.optional(),
-        company: nullableTextSchema,
         email: nullableTextSchema,
         phone: requiredTextSchema.optional(),
         stage: z
@@ -56,14 +54,12 @@ export const updateContact: RequestHandler = async (request, response) => {
         })
     }
 
-    const { type, name, company, email, phone, stage } = result.data
+    const { name, email, phone, stage } = result.data
 
     const contact = await prisma.contact.update({
         where: { id },
         data: {
-            ...(type !== undefined ? { type } : {}),
             ...(name !== undefined ? { name } : {}),
-            ...(company !== undefined ? { company } : {}),
             ...(email !== undefined ? { email } : {}),
             ...(phone !== undefined ? { phone } : {}),
             ...(stage !== undefined ? { stage } : {}),

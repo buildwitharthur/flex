@@ -33,7 +33,7 @@ export function AppSidebar({ collapsed }: AppSidebarProps) {
                         <img
                             className="size-7 object-contain"
                             src="/brand/flex-simbolo.svg"
-                            alt="Flex"
+                            alt="Clube Flex"
                         />
                     ) : (
                         <div className="flex items-center gap-1 whitespace-nowrap">

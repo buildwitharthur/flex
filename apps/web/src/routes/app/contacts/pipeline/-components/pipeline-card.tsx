@@ -35,10 +35,7 @@ function normalizePhone(phone: string) {
 }
 
 function openWhatsApp(contact: Contact) {
-    const message =
-        contact.type === 'PARTNER'
-            ? `Olá, ${contact.name}! Tudo bem? Aqui é do Flex. Recebemos seu interesse em ser parceiro e estou entrando em contato para dar continuidade.`
-            : `Olá, ${contact.name}! Tudo bem? Aqui é da Flex. Recebemos seu contato e estou entrando em contato para dar continuidade.`
+    const message = `Olá, ${contact.name}! Tudo bem? Aqui é do Clube Flex. Recebemos seu contato e estou entrando em contato para dar continuidade.`
     const url = `https://wa.me/${normalizePhone(contact.phone)}?text=${encodeURIComponent(message)}`
 
     window.open(url, '_blank', 'noopener,noreferrer')
@@ -53,9 +50,9 @@ async function copyPhone(phone: string) {
     }
 }
 
-const contactTypeLabel: Record<ContactType, string> = {
-    PARTNER: 'Quero ser Parceiro',
-    MEMBER: 'Quero ser Flex',
+const contactSourceLabel: Record<ContactSource, string> = {
+    WEBSITE: 'Site',
+    MANUAL: 'Manual',
 }
 
 const RECENT_LIMIT_IN_MINUTES = 60
@@ -181,7 +178,7 @@ function PipelineCardContent({
             )}
 
             <p className="truncate text-[13px] leading-4.5 text-muted-foreground">
-                {contact.company ?? contactTypeLabel[contact.type]}
+                {contactSourceLabel[contact.source]}
             </p>
 
             <div className="mt-0.5 flex items-baseline justify-between gap-2 text-xs leading-4 text-muted-foreground">

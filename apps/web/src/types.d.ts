@@ -47,7 +47,7 @@ type User = {
     updatedAt: string
 }
 
-type ContactType ='PARTNER' | 'MEMBER'
+type ContactSource = 'WEBSITE' | 'MANUAL'
 
 type ContactStage =
     | 'NEW'
@@ -58,11 +58,10 @@ type ContactStage =
 
 type Contact = {
     id: string
-    type: ContactType
     name: string
-    company: string | null
     email: string | null
     phone: string
+    source: ContactSource
     stage: ContactStage
     createdAt: string
     updatedAt: string
