@@ -7,11 +7,11 @@ import Benefits from '../components/benefits.astro'
 import PartnersSection from '../components/partners-section.astro'
 import HowItWorks from '../components/how-it-works.astro'
 import Footer from '../components/footer.astro'
-import FlexBot from '../components/flex-bot.astro'
+import FlexBot from '../components/flex-bot/flex-bot'
 ---
 
 <BaseLayout
-  title="Flex Clube"
+  title="Flex Clube de Descontos"
   description="Benefícios e parceiros para aproveitar mais todos os dias."
 >
   <main class="grain-bg bg-cream-50 text-ink">
@@ -23,5 +23,5 @@ import FlexBot from '../components/flex-bot.astro'
     <HowItWorks />
     <Footer />
   </main>
-  <FlexBot />
+  <FlexBot client:load />
 </BaseLayout>

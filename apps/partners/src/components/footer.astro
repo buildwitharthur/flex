@@ -1,5 +1,6 @@
 ---
 import { Phone } from 'lucide-astro'
+import { COMMERCIAL_EMAIL, WHATSAPP_URL } from '../lib/contact'
 
 const currentYear = new Date().getFullYear()
 ---
@@ -66,8 +67,7 @@ const currentYear = new Date().getFullYear()
           <li>
             <button
               type="button"
-              data-partner-lead-trigger
-              aria-haspopup="dialog"
+              data-open-flex-partner
               class="transition-colors hover:text-coral"
             >
               Seja parceiro
@@ -97,7 +97,7 @@ const currentYear = new Date().getFullYear()
           </li>
           <li>
             <a
-              href="https://wa.me/552127029080"
+              href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               class="flex items-center gap-2 transition-colors hover:text-coral"
@@ -118,10 +118,10 @@ const currentYear = new Date().getFullYear()
           </li>
           <li>
             <a
-              href="mailto:comercial@flexcard.org.br"
+              href={`mailto:${COMMERCIAL_EMAIL}`}
               class="break-words transition-colors hover:text-coral"
             >
-              comercial@flexcard.org.br
+              {COMMERCIAL_EMAIL}
             </a>
           </li>
           <li class="pt-2 text-sm">
