@@ -5,9 +5,14 @@ type PublicPartnersResponse = {
 }
 
 export async function getPublicPartners(
-    apiUrl: string,
+    apiUrl: string | undefined,
 ): Promise<PublicPartner[]> {
-    const response = await fetch(`${apiUrl.replace(/\/$/, '')}/partners/public`)
+    if (!apiUrl) {
+        throw new Error('API_URL is not configured')
+    }
+
+    const baseUrl = apiUrl.replace(/\/+$/, '')
+    const response = await fetch(`${baseUrl}/partners/public`)
 
     if (!response.ok) {
         throw new Error(`Failed to fetch partners: ${response.status}`)

@@ -76,7 +76,10 @@ export default function Partners({ partners }: Props) {
           partner.name,
           partner.category.name,
           partner.description,
+          partner.shortDescription,
           partner.discount,
+          partner.address,
+          partner.phone,
         ].join(' ')).includes(normalizedQuery),
       )
     }

@@ -37,8 +37,8 @@ function normalizePhone(phone: string) {
 function openWhatsApp(contact: Contact) {
     const message =
         contact.type === 'PARTNER'
-            ? `Olá, ${contact.name}! Tudo bem? Aqui é da Flex Clube. Recebemos seu interesse em ser parceiro e estou entrando em contato para dar continuidade.`
-            : `Olá, ${contact.name}! Tudo bem? Aqui é da Flex Clube. Recebemos seu contato e estou entrando em contato para dar continuidade.`
+            ? `Olá, ${contact.name}! Tudo bem? Aqui é do Flex. Recebemos seu interesse em ser parceiro e estou entrando em contato para dar continuidade.`
+            : `Olá, ${contact.name}! Tudo bem? Aqui é da Flex. Recebemos seu contato e estou entrando em contato para dar continuidade.`
     const url = `https://wa.me/${normalizePhone(contact.phone)}?text=${encodeURIComponent(message)}`
 
     window.open(url, '_blank', 'noopener,noreferrer')
