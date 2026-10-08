@@ -36,7 +36,6 @@ app.use(
 app.use(express.json())
 app.use(cookies)
 app.use(rateLimitPlugin)
-app.use(errorHandler)
 
 app.use(loginRouter)
 app.use(logoutRouter)
@@ -50,6 +49,8 @@ app.use('/admin/users', adminUsersRouter)
 app.get('/health', (_request, response) => {
     response.json({ status: 'ok' })
 })
+
+app.use(errorHandler)
 
 app.listen(port, () => {
     console.log(`API listening on port ${port}`)

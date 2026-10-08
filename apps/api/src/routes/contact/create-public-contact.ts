@@ -1,13 +1,12 @@
 import type { RequestHandler } from 'express'
 import { z } from 'zod'
 
-import { ContactSource, ContactStage } from '../../generated/prisma/enums.js'
+import { Prisma } from '../../generated/prisma/client.js'
+import { ContactSource } from '../../generated/prisma/enums.js'
 import { prisma } from '../../lib/prisma/index.js'
 
 const publicContactSchema = z.strictObject({
     name: z.string().trim().min(1).max(120),
-    company: z.string().trim().min(1).max(160).optional(),
-    source: z.enum(ContactSource).default('WEBSITE'),
     phone: z
         .string()
         .trim()
@@ -31,9 +30,19 @@ export const createPublicContact: RequestHandler = async (
         })
     }
 
+    const existingContact = await prisma.contact.findUnique({
+        where: { phone: result.data.phone },
+        select: { id: true },
+    })
+
+    if (existingContact) {
+        return response.status(200).json({ success: true })
+    }
+
     await prisma.contact.create({
         data: {
             ...result.data,
+            source: ContactSource.WEBSITE,
         },
     })
 
