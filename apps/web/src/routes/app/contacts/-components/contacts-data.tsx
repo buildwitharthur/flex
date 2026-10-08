@@ -15,6 +15,7 @@ import {
     TableRow,
     TableScroll,
 } from '#/components/ui/table'
+import { ContactAction } from './contact-action'
 
 type ContactsDataProps = {
     contacts: Contact[]
@@ -92,6 +93,9 @@ export function ContactsData({
                                 <TableHead>Etapa</TableHead>
                                 <TableHead>Telefone</TableHead>
                                 <TableHead>Criado em</TableHead>
+                                <TableHead className="text-right">
+                                    Ações
+                                </TableHead>
                             </TableRow>
                         </TableHeader>
 
@@ -153,6 +157,9 @@ export function ContactsData({
                                                     createdAt,
                                                 )}
                                             </div>
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <ContactAction contact={contact} />
                                         </TableCell>
                                     </TableRow>
                                 )
