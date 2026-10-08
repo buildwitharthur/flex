@@ -772,11 +772,10 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 export const ContactScalarFieldEnum = {
   id: 'id',
-  type: 'type',
   name: 'name',
-  company: 'company',
   email: 'email',
   phone: 'phone',
+  source: 'source',
   stage: 'stage',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -901,16 +900,16 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'ContactType'
+ * Reference to a field of type 'ContactSource'
  */
-export type EnumContactTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContactType'>
+export type EnumContactSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContactSource'>
     
 
 
 /**
- * Reference to a field of type 'ContactType[]'
+ * Reference to a field of type 'ContactSource[]'
  */
-export type ListEnumContactTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContactType[]'>
+export type ListEnumContactSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContactSource[]'>
     
 
 

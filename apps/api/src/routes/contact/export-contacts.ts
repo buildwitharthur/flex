@@ -1,12 +1,15 @@
 import { stringify } from 'csv-stringify/sync'
 import type { RequestHandler } from 'express'
 
-import type { ContactStage, ContactType } from '../../generated/prisma/enums.js'
+import type {
+    ContactSource,
+    ContactStage,
+} from '../../generated/prisma/enums.js'
 import { prisma } from '../../lib/prisma/index.js'
 
-const CONTACT_TYPE_LABELS: Record<ContactType, string> = {
-    PARTNER: 'Quero ser Parceiro',
-    MEMBER: 'Quero ser Flex',
+const CONTACT_SOURCE_LABELS: Record<ContactSource, string> = {
+    WEBSITE: 'Site',
+    MANUAL: 'Manual',
 }
 
 const CONTACT_STAGE_LABELS: Record<ContactStage, string> = {
@@ -31,8 +34,7 @@ export const exportContacts: RequestHandler = async (_request, response) => {
 
     const rows = contacts.map((contact) => ({
         name: contact.name,
-        type: CONTACT_TYPE_LABELS[contact.type],
-        company: contact.company ?? '',
+        source: CONTACT_SOURCE_LABELS[contact.source],
         email: contact.email ?? '',
         phone: contact.phone,
         stage: CONTACT_STAGE_LABELS[contact.stage],
@@ -44,8 +46,7 @@ export const exportContacts: RequestHandler = async (_request, response) => {
         header: true,
         columns: [
             { key: 'name', header: 'Nome' },
-            { key: 'type', header: 'Tipo' },
-            { key: 'company', header: 'Empresa' },
+            { key: 'source', header: 'Fonte' },
             { key: 'email', header: 'Email' },
             { key: 'phone', header: 'Telefone' },
             { key: 'stage', header: 'Etapa' },

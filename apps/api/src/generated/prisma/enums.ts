@@ -17,12 +17,12 @@ export const UserRole = {
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
-export const ContactType = {
-  PARTNER: 'PARTNER',
-  MEMBER: 'MEMBER'
+export const ContactSource = {
+  WEBSITE: 'WEBSITE',
+  MANUAL: 'MANUAL'
 } as const
 
-export type ContactType = (typeof ContactType)[keyof typeof ContactType]
+export type ContactSource = (typeof ContactSource)[keyof typeof ContactSource]
 
 
 export const ContactStage = {

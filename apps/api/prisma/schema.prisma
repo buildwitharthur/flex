@@ -26,9 +26,9 @@ model User {
   @@map("users")
 }
 
-enum ContactType {
-  PARTNER
-  MEMBER
+enum ContactSource {
+  WEBSITE
+  MANUAL
 }
 
 enum ContactStage {
@@ -40,17 +40,16 @@ enum ContactStage {
 }
 
 model Contact {
-  id        String       @id @default(cuid())
-  type      ContactType
+  id        String        @id @default(cuid())
   name      String
-  company   String?
   email     String?
-  phone     String
-  stage     ContactStage @default(NEW)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  phone     String        @unique
+  source    ContactSource  
+  stage     ContactStage  @default(NEW)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
-  @@index([type])
+  @@index([source])
   @@index([stage])
   @@index([createdAt])
   @@map("contacts")

@@ -26,11 +26,10 @@ export type AggregateContact = {
 
 export type ContactMinAggregateOutputType = {
   id: string | null
-  type: $Enums.ContactType | null
   name: string | null
-  company: string | null
   email: string | null
   phone: string | null
+  source: $Enums.ContactSource | null
   stage: $Enums.ContactStage | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -38,11 +37,10 @@ export type ContactMinAggregateOutputType = {
 
 export type ContactMaxAggregateOutputType = {
   id: string | null
-  type: $Enums.ContactType | null
   name: string | null
-  company: string | null
   email: string | null
   phone: string | null
+  source: $Enums.ContactSource | null
   stage: $Enums.ContactStage | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -50,11 +48,10 @@ export type ContactMaxAggregateOutputType = {
 
 export type ContactCountAggregateOutputType = {
   id: number
-  type: number
   name: number
-  company: number
   email: number
   phone: number
+  source: number
   stage: number
   createdAt: number
   updatedAt: number
@@ -64,11 +61,10 @@ export type ContactCountAggregateOutputType = {
 
 export type ContactMinAggregateInputType = {
   id?: true
-  type?: true
   name?: true
-  company?: true
   email?: true
   phone?: true
+  source?: true
   stage?: true
   createdAt?: true
   updatedAt?: true
@@ -76,11 +72,10 @@ export type ContactMinAggregateInputType = {
 
 export type ContactMaxAggregateInputType = {
   id?: true
-  type?: true
   name?: true
-  company?: true
   email?: true
   phone?: true
+  source?: true
   stage?: true
   createdAt?: true
   updatedAt?: true
@@ -88,11 +83,10 @@ export type ContactMaxAggregateInputType = {
 
 export type ContactCountAggregateInputType = {
   id?: true
-  type?: true
   name?: true
-  company?: true
   email?: true
   phone?: true
+  source?: true
   stage?: true
   createdAt?: true
   updatedAt?: true
@@ -173,11 +167,10 @@ export type ContactGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type ContactGroupByOutputType = {
   id: string
-  type: $Enums.ContactType
   name: string
-  company: string | null
   email: string | null
   phone: string
+  source: $Enums.ContactSource
   stage: $Enums.ContactStage
   createdAt: Date
   updatedAt: Date
@@ -206,11 +199,10 @@ export type ContactWhereInput = {
   OR?: Prisma.ContactWhereInput[]
   NOT?: Prisma.ContactWhereInput | Prisma.ContactWhereInput[]
   id?: Prisma.StringFilter<"Contact"> | string
-  type?: Prisma.EnumContactTypeFilter<"Contact"> | $Enums.ContactType
   name?: Prisma.StringFilter<"Contact"> | string
-  company?: Prisma.StringNullableFilter<"Contact"> | string | null
   email?: Prisma.StringNullableFilter<"Contact"> | string | null
   phone?: Prisma.StringFilter<"Contact"> | string
+  source?: Prisma.EnumContactSourceFilter<"Contact"> | $Enums.ContactSource
   stage?: Prisma.EnumContactStageFilter<"Contact"> | $Enums.ContactStage
   createdAt?: Prisma.DateTimeFilter<"Contact"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Contact"> | Date | string
@@ -218,11 +210,10 @@ export type ContactWhereInput = {
 
 export type ContactOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  company?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrder
+  source?: Prisma.SortOrder
   stage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -230,26 +221,24 @@ export type ContactOrderByWithRelationInput = {
 
 export type ContactWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  phone?: string
   AND?: Prisma.ContactWhereInput | Prisma.ContactWhereInput[]
   OR?: Prisma.ContactWhereInput[]
   NOT?: Prisma.ContactWhereInput | Prisma.ContactWhereInput[]
-  type?: Prisma.EnumContactTypeFilter<"Contact"> | $Enums.ContactType
   name?: Prisma.StringFilter<"Contact"> | string
-  company?: Prisma.StringNullableFilter<"Contact"> | string | null
   email?: Prisma.StringNullableFilter<"Contact"> | string | null
-  phone?: Prisma.StringFilter<"Contact"> | string
+  source?: Prisma.EnumContactSourceFilter<"Contact"> | $Enums.ContactSource
   stage?: Prisma.EnumContactStageFilter<"Contact"> | $Enums.ContactStage
   createdAt?: Prisma.DateTimeFilter<"Contact"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Contact"> | Date | string
-}, "id">
+}, "id" | "phone">
 
 export type ContactOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  company?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrder
+  source?: Prisma.SortOrder
   stage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -263,11 +252,10 @@ export type ContactScalarWhereWithAggregatesInput = {
   OR?: Prisma.ContactScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ContactScalarWhereWithAggregatesInput | Prisma.ContactScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Contact"> | string
-  type?: Prisma.EnumContactTypeWithAggregatesFilter<"Contact"> | $Enums.ContactType
   name?: Prisma.StringWithAggregatesFilter<"Contact"> | string
-  company?: Prisma.StringNullableWithAggregatesFilter<"Contact"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"Contact"> | string | null
   phone?: Prisma.StringWithAggregatesFilter<"Contact"> | string
+  source?: Prisma.EnumContactSourceWithAggregatesFilter<"Contact"> | $Enums.ContactSource
   stage?: Prisma.EnumContactStageWithAggregatesFilter<"Contact"> | $Enums.ContactStage
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Contact"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Contact"> | Date | string
@@ -275,11 +263,10 @@ export type ContactScalarWhereWithAggregatesInput = {
 
 export type ContactCreateInput = {
   id?: string
-  type: $Enums.ContactType
   name: string
-  company?: string | null
   email?: string | null
   phone: string
+  source: $Enums.ContactSource
   stage?: $Enums.ContactStage
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -287,11 +274,10 @@ export type ContactCreateInput = {
 
 export type ContactUncheckedCreateInput = {
   id?: string
-  type: $Enums.ContactType
   name: string
-  company?: string | null
   email?: string | null
   phone: string
+  source: $Enums.ContactSource
   stage?: $Enums.ContactStage
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -299,11 +285,10 @@ export type ContactUncheckedCreateInput = {
 
 export type ContactUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumContactTypeFieldUpdateOperationsInput | $Enums.ContactType
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
+  source?: Prisma.EnumContactSourceFieldUpdateOperationsInput | $Enums.ContactSource
   stage?: Prisma.EnumContactStageFieldUpdateOperationsInput | $Enums.ContactStage
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -311,11 +296,10 @@ export type ContactUpdateInput = {
 
 export type ContactUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumContactTypeFieldUpdateOperationsInput | $Enums.ContactType
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
+  source?: Prisma.EnumContactSourceFieldUpdateOperationsInput | $Enums.ContactSource
   stage?: Prisma.EnumContactStageFieldUpdateOperationsInput | $Enums.ContactStage
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -323,11 +307,10 @@ export type ContactUncheckedUpdateInput = {
 
 export type ContactCreateManyInput = {
   id?: string
-  type: $Enums.ContactType
   name: string
-  company?: string | null
   email?: string | null
   phone: string
+  source: $Enums.ContactSource
   stage?: $Enums.ContactStage
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -335,11 +318,10 @@ export type ContactCreateManyInput = {
 
 export type ContactUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumContactTypeFieldUpdateOperationsInput | $Enums.ContactType
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
+  source?: Prisma.EnumContactSourceFieldUpdateOperationsInput | $Enums.ContactSource
   stage?: Prisma.EnumContactStageFieldUpdateOperationsInput | $Enums.ContactStage
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -347,11 +329,10 @@ export type ContactUpdateManyMutationInput = {
 
 export type ContactUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.EnumContactTypeFieldUpdateOperationsInput | $Enums.ContactType
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.StringFieldUpdateOperationsInput | string
+  source?: Prisma.EnumContactSourceFieldUpdateOperationsInput | $Enums.ContactSource
   stage?: Prisma.EnumContactStageFieldUpdateOperationsInput | $Enums.ContactStage
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -359,11 +340,10 @@ export type ContactUncheckedUpdateManyInput = {
 
 export type ContactCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  company?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  source?: Prisma.SortOrder
   stage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -371,11 +351,10 @@ export type ContactCountOrderByAggregateInput = {
 
 export type ContactMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  company?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  source?: Prisma.SortOrder
   stage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -383,18 +362,17 @@ export type ContactMaxOrderByAggregateInput = {
 
 export type ContactMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  company?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  source?: Prisma.SortOrder
   stage?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
-export type EnumContactTypeFieldUpdateOperationsInput = {
-  set?: $Enums.ContactType
+export type EnumContactSourceFieldUpdateOperationsInput = {
+  set?: $Enums.ContactSource
 }
 
 export type EnumContactStageFieldUpdateOperationsInput = {
@@ -405,11 +383,10 @@ export type EnumContactStageFieldUpdateOperationsInput = {
 
 export type ContactSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  type?: boolean
   name?: boolean
-  company?: boolean
   email?: boolean
   phone?: boolean
+  source?: boolean
   stage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -417,11 +394,10 @@ export type ContactSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 
 export type ContactSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  type?: boolean
   name?: boolean
-  company?: boolean
   email?: boolean
   phone?: boolean
+  source?: boolean
   stage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -429,11 +405,10 @@ export type ContactSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 
 export type ContactSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  type?: boolean
   name?: boolean
-  company?: boolean
   email?: boolean
   phone?: boolean
+  source?: boolean
   stage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -441,28 +416,26 @@ export type ContactSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 
 export type ContactSelectScalar = {
   id?: boolean
-  type?: boolean
   name?: boolean
-  company?: boolean
   email?: boolean
   phone?: boolean
+  source?: boolean
   stage?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ContactOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "name" | "company" | "email" | "phone" | "stage" | "createdAt" | "updatedAt", ExtArgs["result"]["contact"]>
+export type ContactOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "phone" | "source" | "stage" | "createdAt" | "updatedAt", ExtArgs["result"]["contact"]>
 
 export type $ContactPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Contact"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    type: $Enums.ContactType
     name: string
-    company: string | null
     email: string | null
     phone: string
+    source: $Enums.ContactSource
     stage: $Enums.ContactStage
     createdAt: Date
     updatedAt: Date
@@ -890,11 +863,10 @@ export interface Prisma__ContactClient<T, Null = never, ExtArgs extends runtime.
  */
 export interface ContactFieldRefs {
   readonly id: Prisma.FieldRef<"Contact", 'String'>
-  readonly type: Prisma.FieldRef<"Contact", 'ContactType'>
   readonly name: Prisma.FieldRef<"Contact", 'String'>
-  readonly company: Prisma.FieldRef<"Contact", 'String'>
   readonly email: Prisma.FieldRef<"Contact", 'String'>
   readonly phone: Prisma.FieldRef<"Contact", 'String'>
+  readonly source: Prisma.FieldRef<"Contact", 'ContactSource'>
   readonly stage: Prisma.FieldRef<"Contact", 'ContactStage'>
   readonly createdAt: Prisma.FieldRef<"Contact", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Contact", 'DateTime'>

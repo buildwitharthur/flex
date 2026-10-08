@@ -140,7 +140,9 @@ function PipelineCardContent({
                         align="end"
                         onPointerDown={(event) => event.stopPropagation()}
                     >
-                        <DropdownMenuItem onSelect={() => openWhatsApp(contact)}>
+                        <DropdownMenuItem
+                            onSelect={() => openWhatsApp(contact)}
+                        >
                             <MessageCircle aria-hidden="true" />
                             Abrir no WhatsApp
                         </DropdownMenuItem>
